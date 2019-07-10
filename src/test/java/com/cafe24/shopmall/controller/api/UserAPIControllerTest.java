@@ -85,6 +85,9 @@ public class UserAPIControllerTest {
 		
 		ResultActions resultActions = mockMvc.perform(post("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(map)));
 		
-		resultActions.andExpect(status().isOk());
+		resultActions.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result", is("success")))
+		.andExpect(jsonPath("$.data",is(true)))
+		;
 	}
 }

@@ -21,5 +21,13 @@ public class UserService {
 		userVo.setCode(1L);
 		return userVo;
 	}
+
+	public Boolean login(String id, String password) {
+//		UserVo vo = dao.selectUserByIdPw(id,password);
+//		return vo == null;
+		String userId = "tgif2014";
+		String userPassword = "sujin10";
+		return userId.equals(id) && userPassword.equals(password);
+	}
 	
 }

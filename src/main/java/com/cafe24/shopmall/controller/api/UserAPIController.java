@@ -62,7 +62,7 @@ public class UserAPIController {
 	//로그인 요청
 	@RequestMapping(value="/login",method = RequestMethod.POST)
 	public JSONResult userLogin(@RequestBody Map<String,Object> map) {
-		
-		return JSONResult.success(null);
+		Boolean isExist = userService.login((String)map.get("id"),(String)map.get("password"));
+		return JSONResult.success(isExist);
 	}
 }
