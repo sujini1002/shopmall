@@ -118,7 +118,7 @@ public class ExampleTest {
 		assertThat("ABC",either(containsString("A")).or(containsString("B")));
 
 		//assertThat : everyItem
-		assertThat(Arrays.asList("Apple","Application","Apolo"),everyItem(startsWith("Ap")));
+		assertThat(Arrays.asList("Apple","Application","Apology"),everyItem(startsWith("Ap")));
 		
 		//assertThat : hasItem
 		assertThat(Arrays.asList("Red","Banana","Apple"),hasItem(startsWith("Ap")));
