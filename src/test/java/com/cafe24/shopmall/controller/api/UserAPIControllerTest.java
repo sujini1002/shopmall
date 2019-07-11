@@ -3,7 +3,6 @@ package com.cafe24.shopmall.controller.api;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-//import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -44,11 +43,7 @@ public class UserAPIControllerTest {
 		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 	}
 	
-	//회원 가입 페이지 요청
-	@Test
-	public void testUserJoinForm() throws Exception {
-		mockMvc.perform(get("/api/user/join")).andExpect(status().isOk()).andDo(print());
-	}
+	
 	//이메일 중복 체크 (사용불가능)
 	@Test
 	public void testUserCheckIdTrue() throws Exception {
@@ -63,7 +58,7 @@ public class UserAPIControllerTest {
 	public void testUserJoin() throws Exception {
 		UserVo userVo = new UserVo("tgif2014","강수진","sujni10","010-5180-3170","aufclakstp@naver.com");
 		
-		ResultActions resultActions = mockMvc.perform(post("/api/user/join").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(userVo)));
+		ResultActions resultActions = mockMvc.perform(post("/api/user").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(userVo)));
 		resultActions.andExpect(status().is2xxSuccessful()).andDo(print())
 		.andExpect(jsonPath("$.result",is("success")))
 		.andExpect(jsonPath("$.data.id",is(userVo.getId())))
@@ -71,12 +66,7 @@ public class UserAPIControllerTest {
 		;
 	}
 	
-	//회원 로그인 페이지
-	@Test
-	public void testUserLoginForm() throws Exception {
-		mockMvc.perform(get("/api/user/login")).andExpect(status().isOk()).andDo(print());
-	}
-	
+	//회원 로그인 요청
 	@Test
 	public void testUserLogin() throws Exception {
 		Map<String,Object> map = new HashMap<String,Object>();
@@ -90,4 +80,22 @@ public class UserAPIControllerTest {
 		.andExpect(jsonPath("$.data",is(true)))
 		;
 	}
+	
+	//회원 정보가져오기
+	@Test
+	public void testUserInfo() throws Exception {
+		Long code = 1L;
+		ResultActions resultActions = mockMvc.perform(get("/api/user/{no}",code)).andDo(print());
+		
+		resultActions.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result",is("success")))
+		.andExpect(jsonPath("$.data.code",is(code.intValue())))
+		;
+	}
+	
+	//회원 정보수정
+	public void testUserModify() {
+		
+	}
+	
 }

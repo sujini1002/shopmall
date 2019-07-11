@@ -17,6 +17,15 @@ public class UserVo {
 		this.email = email;
 	}
 	
+	public UserVo(Long code,String id, String name, String password, String phone, String email) {
+		this.code = code;
+		this.id = id;
+		this.name = name;
+		this.password = password;
+		this.phone = phone;
+		this.email = email;
+	}
+	
 	public Long getCode() {
 		return code;
 	}
