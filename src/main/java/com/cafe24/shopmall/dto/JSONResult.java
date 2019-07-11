@@ -9,9 +9,11 @@ public class JSONResult {
 		return new JSONResult("success", null, data);
 	}
 	
-	public static JSONResult fail(String message) {
-		return new JSONResult("fail",message, null);
+	public static JSONResult fail(String message, Object data) {
+		return new JSONResult("fail",message, data);
 	}
+	
+	
 	
 	//생성자를 블라인드
 	private JSONResult(String result,String message,Object data) {

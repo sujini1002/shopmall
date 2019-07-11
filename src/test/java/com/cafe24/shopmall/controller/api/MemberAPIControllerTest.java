@@ -26,13 +26,13 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.cafe24.shopmall.config.AppConfig;
 import com.cafe24.shopmall.config.TestWebConfig;
-import com.cafe24.shopmall.vo.UserVo;
+import com.cafe24.shopmall.vo.MemberVo;
 import com.google.gson.Gson;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes= {AppConfig.class, TestWebConfig.class})
 @WebAppConfiguration
-public class UserAPIControllerTest {
+public class MemberAPIControllerTest {
 	
 	private MockMvc mockMvc;
 	
@@ -47,8 +47,8 @@ public class UserAPIControllerTest {
 	
 	//이메일 중복 체크 (사용불가능)
 	@Test
-	public void testUserCheckIdTrue() throws Exception {
-		ResultActions resultActions = mockMvc.perform(get("/api/user/checkid/{id}","tgif2014").contentType(MediaType.APPLICATION_JSON));
+	public void testMemberCheckIdTrue() throws Exception {
+		ResultActions resultActions = mockMvc.perform(get("/api/member/checkid/{id}","tgif2014").contentType(MediaType.APPLICATION_JSON));
 		resultActions.andExpect(status().isOk()).andDo(print())
 		.andExpect(jsonPath("$.result",is("success")))
 		.andExpect(jsonPath("$.data",is(true)));
@@ -56,25 +56,25 @@ public class UserAPIControllerTest {
 	}
 	//회원가입 요청
 	@Test
-	public void testUserJoin() throws Exception {
-		UserVo userVo = new UserVo("tgif2014","강수진","sujni10","010-5180-3170","aufclakstp@naver.com");
+	public void testMemberJoin() throws Exception {
+		MemberVo memberVo = new MemberVo("tgif2013","강수진","sujni102","010-5180-3170","aufclakstp@naver.com");
 		
-		ResultActions resultActions = mockMvc.perform(post("/api/user").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(userVo)));
+		ResultActions resultActions = mockMvc.perform(post("/api/member").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(memberVo)));
 		resultActions.andExpect(status().is2xxSuccessful()).andDo(print())
 		.andExpect(jsonPath("$.result",is("success")))
-		.andExpect(jsonPath("$.data.id",is(userVo.getId())))
-		.andExpect(jsonPath("$.data.name",is(userVo.getName())))
+		.andExpect(jsonPath("$.data.id",is(memberVo.getId())))
+		.andExpect(jsonPath("$.data.name",is(memberVo.getName())))
 		;
 	}
 	
 	//회원 로그인 요청
 	@Test
-	public void testUserLogin() throws Exception {
+	public void testMemberLogin() throws Exception {
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("id", "tgif2014");
 		map.put("password", "sujin10");
 		
-		ResultActions resultActions = mockMvc.perform(post("/api/user/login").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(map)));
+		ResultActions resultActions = mockMvc.perform(post("/api/member/login").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(map)));
 		
 		resultActions.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result", is("success")))
@@ -84,9 +84,9 @@ public class UserAPIControllerTest {
 	
 	//회원 정보가져오기
 	@Test
-	public void testUserInfo() throws Exception {
+	public void testMemberInfo() throws Exception {
 		Long code = 1L;
-		ResultActions resultActions = mockMvc.perform(get("/api/user/{no}",code)).andDo(print());
+		ResultActions resultActions = mockMvc.perform(get("/api/member/{no}",code)).andDo(print());
 		
 		resultActions.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result",is("success")))
@@ -97,9 +97,9 @@ public class UserAPIControllerTest {
 	//회원 정보수정
 	@Test
 	public void testUserModify() throws Exception {
-		UserVo vo = new UserVo(1L, "tgif2014", "수지니♥", "jini10", "010-5489-4164", "tgif2014@gmail.com");
+		MemberVo vo = new MemberVo(1L, "tgif2014", "수지니♥", "jini10", "010-5489-4164", "tgif2014@gmail.com");
 		
-		ResultActions resultActions = mockMvc.perform(put("/api/user").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
+		ResultActions resultActions = mockMvc.perform(put("/api/member").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo))).andDo(print());
 		
 		resultActions.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result",is("success")))

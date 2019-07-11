@@ -1,15 +1,35 @@
 package com.cafe24.shopmall.vo;
 
-public class UserVo {
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+
+public class MemberVo {
+	
+	
 	private Long code;
+	
+	@Pattern(regexp="^[a-zA-Z0-9_]{6,15}$",message="영문자,숫자,'_'로만 이루어진 6~15글자를 입력하세요") 
 	private String id;
+	
+	@NotEmpty
+	@Length(min=1, max=20)
 	private String name;
+	
+	@Pattern(regexp= "^(?=.*\\d)(?=.*[~`!@#$%\\^&*()-])(?=.*[a-z])(?=.*[A-Z]).{8,16}$",message="영문소문자,영문대문자,숫자,특수문자를 조합하여 8~16글자를 입력하세요") 
 	private String password;
+	
+	@Pattern(regexp="^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$", message="000-0000(또는000)-0000 형식으로 입력하세요.")
 	private String phone;
+	
+	@NotEmpty
+	@Email
 	private String email;
 	
-	public UserVo() {}
-	public UserVo(String id, String name, String password, String phone, String email) {
+	public MemberVo() {}
+	public MemberVo(String id, String name, String password, String phone, String email) {
 		this.id = id;
 		this.name = name;
 		this.password = password;
@@ -17,7 +37,7 @@ public class UserVo {
 		this.email = email;
 	}
 	
-	public UserVo(Long code,String id, String name, String password, String phone, String email) {
+	public MemberVo(Long code,String id, String name, String password, String phone, String email) {
 		this.code = code;
 		this.id = id;
 		this.name = name;

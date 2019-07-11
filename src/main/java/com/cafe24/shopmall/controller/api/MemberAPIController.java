@@ -1,8 +1,14 @@
 package com.cafe24.shopmall.controller.api;
 
+import java.util.List;
 import java.util.Map;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,25 +18,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cafe24.shopmall.dto.JSONResult;
-import com.cafe24.shopmall.service.UserService;
-import com.cafe24.shopmall.vo.UserVo;
+import com.cafe24.shopmall.service.MemberService;
+import com.cafe24.shopmall.vo.MemberVo;
 
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 @RestController("userAPIController")
-@RequestMapping("/api/user")
-public class UserAPIController {
+@RequestMapping("/api/member")
+public class MemberAPIController {
 	
 	@Autowired
-	private UserService userService;
+	private MemberService memberService;
 	
 	//회원 가입 페이지
 	@ApiOperation(value="회원 가입 페이지")
 	@GetMapping(value="/join")
 	public String userjoinform() {
-		return "user/join";
+		return "member/join";
 	}
 	
 	//이메일 중복 체크
@@ -40,17 +46,23 @@ public class UserAPIController {
 	})
 	@GetMapping(value="/checkid/{id}")
 	public JSONResult usercheckId(@PathVariable(value="id")String id) {
-		Boolean result = userService.existId(id);
+	
+		Boolean result = memberService.existId(id);
 		return JSONResult.success(result);
 	}
 	//회원 가입 요청
 	@ApiOperation(value="회원 가입")
 	@ApiImplicitParams({
-		@ApiImplicitParam(name="userVo",value="회원 입력 사항",required=true,dataType="UserVo")
+		@ApiImplicitParam(name="memberVo",value="회원 입력 사항",required=true,dataType="UserVo")
 	})
 	@PostMapping(value="")
-	public JSONResult userJoin(@RequestBody UserVo userVo) {
-		UserVo vo = userService.userAdd(userVo);
+	public JSONResult userJoin(@RequestBody @Valid MemberVo userVo, BindingResult error) {
+		if(error.hasErrors()) {
+			List<ObjectError> errors = error.getAllErrors();
+			FieldError er =(FieldError) errors.get(0);
+			return JSONResult.fail("입력한 값이 다릅니다.",errors);
+		}
+		MemberVo vo = memberService.userAdd(userVo);
 		return JSONResult.success(vo);
 	}
 	
@@ -58,27 +70,27 @@ public class UserAPIController {
 	@ApiOperation(value="로그인 페이지 요청")
 	@GetMapping(value="/login")
 	public String userLonginForm() {
-		return "redirect:/";
+		return "member/login";
 	}
 	
 	//로그인 요청
 	@PostMapping(value="/login")
 	public JSONResult userLogin(@RequestBody Map<String,Object> map) {
-		Boolean isExist = userService.login((String)map.get("id"),(String)map.get("password"));
+		Boolean isExist = memberService.login((String)map.get("id"),(String)map.get("password"));
 		return JSONResult.success(isExist);
 	}
 	
 	// 회원 정보 가져오기(수정 페이지에서 사용)
 	@GetMapping(value="/{no}")
 	public JSONResult getUserInfo(@PathVariable(value="no")Long no) {
-		UserVo user = userService.getUserInfo(no);
-		return JSONResult.success(user);
+		MemberVo member = memberService.getMemberInfo(no);
+		return JSONResult.success(member);
 	}
 	
 	// 회원 정보 수정
 	@PutMapping(value="")
-	public JSONResult modify(@RequestBody UserVo vo) {
-		UserVo result = userService.modifyUser(vo);
+	public JSONResult modify(@RequestBody MemberVo vo) {
+		MemberVo result = memberService.modifyMember(vo);
 		return JSONResult.success(result);
 	}
 }
