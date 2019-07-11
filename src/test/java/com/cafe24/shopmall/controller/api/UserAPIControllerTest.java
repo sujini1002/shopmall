@@ -3,6 +3,7 @@ package com.cafe24.shopmall.controller.api;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -94,8 +95,21 @@ public class UserAPIControllerTest {
 	}
 	
 	//회원 정보수정
-	public void testUserModify() {
+	@Test
+	public void testUserModify() throws Exception {
+		UserVo vo = new UserVo(1L, "tgif2014", "수지니♥", "jini10", "010-5489-4164", "tgif2014@gmail.com");
 		
+		ResultActions resultActions = mockMvc.perform(put("/api/user").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
+		
+		resultActions.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result",is("success")))
+		.andExpect(jsonPath("$.data.code",is(vo.getCode().intValue())))
+		.andExpect(jsonPath("$.data.id",is(vo.getId())))
+		.andExpect(jsonPath("$.data.name",is(vo.getName())))
+		.andExpect(jsonPath("$.data.password",is(vo.getPassword())))
+		.andExpect(jsonPath("$.data.phone",is(vo.getPhone())))
+		.andExpect(jsonPath("$.data.email",is(vo.getEmail())))
+		;
 	}
 	
 }

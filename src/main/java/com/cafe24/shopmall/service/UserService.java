@@ -50,5 +50,16 @@ public class UserService {
 		}
 		return result;
 	}
+
+	public UserVo modifyUser(UserVo vo) {
+		UserVo result = null;
+		for(UserVo temp : userList) {
+			if(temp.getCode()==vo.getCode()) {
+				result = vo;
+				break;
+			}
+		}
+		return result;
+	}
 	
 }
