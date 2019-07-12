@@ -45,7 +45,7 @@ public class MemberAPIControllerTest {
 	}
 	
 	
-	//이메일 중복 체크 (사용불가능)
+	//이메일 중복 체크
 	@Test
 	public void testMemberCheckIdTrue() throws Exception {
 		ResultActions resultActions = mockMvc.perform(get("/api/member/checkid/{id}","tgif2014").contentType(MediaType.APPLICATION_JSON));

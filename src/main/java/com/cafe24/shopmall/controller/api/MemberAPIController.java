@@ -1,11 +1,13 @@
 package com.cafe24.shopmall.controller.api;
 
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
@@ -56,14 +58,18 @@ public class MemberAPIController {
 		@ApiImplicitParam(name="memberVo",value="회원 입력 사항",required=true,dataType="UserVo")
 	})
 	@PostMapping(value="")
-	public JSONResult userJoin(@RequestBody @Valid MemberVo userVo, BindingResult error) {
+	public ResponseEntity<JSONResult> userJoin(@RequestBody @Valid MemberVo userVo, BindingResult error) {
 		if(error.hasErrors()) {
-			List<ObjectError> errors = error.getAllErrors();
-			FieldError er =(FieldError) errors.get(0);
-			return JSONResult.fail("입력한 값이 다릅니다.",errors);
+			Map<String,String> errorMessages = new HashMap<String, String>();
+			//아이디,이름,비밀번호,휴대전화,이메일
+			for(ObjectError index : error.getAllErrors()) {
+				FieldError fe = (FieldError)index;
+				errorMessages.put(fe.getField(), fe.getDefaultMessage());
+			}
+			return new ResponseEntity<JSONResult>(JSONResult.success(errorMessages),HttpStatus.BAD_REQUEST);
 		}
 		MemberVo vo = memberService.userAdd(userVo);
-		return JSONResult.success(vo);
+		return new ResponseEntity<JSONResult>(JSONResult.success(vo), HttpStatus.OK);
 	}
 	
 	//로그인 페이지 요청
