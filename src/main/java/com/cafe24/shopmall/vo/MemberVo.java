@@ -2,9 +2,6 @@ package com.cafe24.shopmall.vo;
 
 import javax.validation.constraints.Pattern;
 
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
-
 public class MemberVo {
 	
 	

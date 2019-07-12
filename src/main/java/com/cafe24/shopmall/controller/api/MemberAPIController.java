@@ -66,7 +66,7 @@ public class MemberAPIController {
 				FieldError fe = (FieldError)index;
 				errorMessages.put(fe.getField(), fe.getDefaultMessage());
 			}
-			return new ResponseEntity<JSONResult>(JSONResult.success(errorMessages),HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<JSONResult>(JSONResult.fail("입력형식이 유효하지 않습니다.",errorMessages),HttpStatus.BAD_REQUEST);
 		}
 		MemberVo vo = memberService.userAdd(userVo);
 		return new ResponseEntity<JSONResult>(JSONResult.success(vo), HttpStatus.OK);
@@ -81,9 +81,14 @@ public class MemberAPIController {
 	
 	//로그인 요청
 	@PostMapping(value="/login")
-	public JSONResult userLogin(@RequestBody Map<String,Object> map) {
+	public ResponseEntity<JSONResult> userLogin(@RequestBody Map<String,Object> map) {
+		
+		if(((String)map.get("id")).equals("") || ((String)map.get("password")).equals("")) {
+			return new ResponseEntity<JSONResult>(JSONResult.fail("아이디와 비밀번호를 입력하시오.", false), HttpStatus.BAD_REQUEST);
+		}
+		
 		Boolean isExist = memberService.login((String)map.get("id"),(String)map.get("password"));
-		return JSONResult.success(isExist);
+		return new ResponseEntity<JSONResult>(JSONResult.success(isExist),HttpStatus.OK);
 	}
 	
 	// 회원 정보 가져오기(수정 페이지에서 사용)

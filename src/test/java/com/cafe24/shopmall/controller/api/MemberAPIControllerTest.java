@@ -57,7 +57,7 @@ public class MemberAPIControllerTest {
 	//회원가입 요청
 	@Test
 	public void testMemberJoin() throws Exception {
-		MemberVo memberVo = new MemberVo("tgif2013","강수진","sujni102","010-5180-3170","aufclakstp@naver.com");
+		MemberVo memberVo = new MemberVo("tgif2013","강수진","sujni102!S","010-5180-3170","aufclakstp@naver.com");
 		
 		ResultActions resultActions = mockMvc.perform(post("/api/member").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(memberVo)));
 		resultActions.andExpect(status().is2xxSuccessful()).andDo(print())
@@ -72,7 +72,7 @@ public class MemberAPIControllerTest {
 	public void testMemberLogin() throws Exception {
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("id", "tgif2014");
-		map.put("password", "sujin10");
+		map.put("password", "Sujin10!");
 		
 		ResultActions resultActions = mockMvc.perform(post("/api/member/login").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(map)));
 		
@@ -97,7 +97,7 @@ public class MemberAPIControllerTest {
 	//회원 정보수정
 	@Test
 	public void testUserModify() throws Exception {
-		MemberVo vo = new MemberVo(1L, "tgif2014", "수지니♥", "jini10", "010-5489-4164", "tgif2014@gmail.com");
+		MemberVo vo = new MemberVo(2L, "tgif2013", "수지니♥", "jini10", "010-5489-4164", "tgif2014@gmail.com");
 		
 		ResultActions resultActions = mockMvc.perform(put("/api/member").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo))).andDo(print());
 		
