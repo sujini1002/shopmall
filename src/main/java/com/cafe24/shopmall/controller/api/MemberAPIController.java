@@ -44,7 +44,7 @@ public class MemberAPIController {
 	//이메일 중복 체크
 	@ApiOperation(value="아이디 중복 체크", notes="아이디 중복 체크 API")
 	@ApiImplicitParams({
-		@ApiImplicitParam(name="id",value="입력한 아이디",required=true,dataType="String")
+		@ApiImplicitParam(name="id",value="입력한 아이디",required=true,dataType="String",defaultValue="")
 	})
 	@GetMapping(value="/checkid/{id}")
 	public JSONResult usercheckId(@PathVariable(value="id")String id) {
@@ -53,12 +53,19 @@ public class MemberAPIController {
 		return JSONResult.success(result);
 	}
 	//회원 가입 요청
-	@ApiOperation(value="회원 가입")
+	@ApiOperation(value="회원 가입",notes="회원 가입 하기")
 	@ApiImplicitParams({
-		@ApiImplicitParam(name="memberVo",value="회원 입력 사항",required=true,dataType="UserVo")
+		@ApiImplicitParam(name="id",value="아이디",required=true,paramType="query",defaultValue="0"),
+		@ApiImplicitParam(name="name",value="이름",required=true,paramType="query",defaultValue=""),
+		@ApiImplicitParam(name="password",value="비밀번호",required=true,paramType="query",defaultValue=""),
+		@ApiImplicitParam(name="phone",value="전화번호",required=true,paramType="query",defaultValue=""),
+		@ApiImplicitParam(name="email",value="이메일",required=true,paramType="query",defaultValue=""),
+		@ApiImplicitParam(name="postId",value="우편번호",required=false,paramType="query",defaultValue=""),
+		@ApiImplicitParam(name="deliverFirst",value="배송지 기본",required=false,paramType="query",defaultValue=""),
+		@ApiImplicitParam(name="deliverLast",value="배송지 상세",required=false,paramType="query",defaultValue="")
 	})
 	@PostMapping(value="")
-	public ResponseEntity<JSONResult> userJoin(@RequestBody @Valid MemberVo userVo, BindingResult error) {
+	public ResponseEntity<JSONResult> userJoin(@RequestBody @Valid MemberVo memberVo, BindingResult error) {
 		if(error.hasErrors()) {
 			Map<String,String> errorMessages = new HashMap<String, String>();
 			//아이디,이름,비밀번호,휴대전화,이메일
@@ -68,7 +75,7 @@ public class MemberAPIController {
 			}
 			return new ResponseEntity<JSONResult>(JSONResult.fail("입력형식이 유효하지 않습니다.",errorMessages),HttpStatus.BAD_REQUEST);
 		}
-		MemberVo vo = memberService.userAdd(userVo);
+		MemberVo vo = memberService.userAdd(memberVo);
 		return new ResponseEntity<JSONResult>(JSONResult.success(vo), HttpStatus.OK);
 	}
 	
@@ -80,6 +87,11 @@ public class MemberAPIController {
 	}
 	
 	//로그인 요청
+	@ApiOperation(value="로그인",notes="로그인")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="id",value="아이디",required=true,dataType="String",defaultValue=""),
+		@ApiImplicitParam(name="password",value="비밀번호",required=true,dataType="String",defaultValue="")
+	})
 	@PostMapping(value="/login")
 	public ResponseEntity<JSONResult> userLogin(@RequestBody Map<String,Object> map) {
 		
@@ -92,13 +104,29 @@ public class MemberAPIController {
 	}
 	
 	// 회원 정보 가져오기(수정 페이지에서 사용)
+	@ApiOperation(value="회원 정보 가져오기",notes="회원 정보 가져오기")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="code",value="회원 코드",required=true,dataType="String",defaultValue="")
+	})
 	@GetMapping(value="/{no}")
-	public JSONResult getUserInfo(@PathVariable(value="no")Long no) {
-		MemberVo member = memberService.getMemberInfo(no);
+	public JSONResult getUserInfo(@PathVariable(value="no")Long code) {
+		MemberVo member = memberService.getMemberInfo(code);
 		return JSONResult.success(member);
 	}
 	
 	// 회원 정보 수정
+	@ApiOperation(value="회원정보 수정",notes="회원정보 수정")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="code",value="회원 코드",required=true,paramType="query",defaultValue="0"),
+		@ApiImplicitParam(name="id",value="아이디",required=true,paramType="query",defaultValue=""),
+		@ApiImplicitParam(name="name",value="이름",required=true,paramType="query",defaultValue=""),
+		@ApiImplicitParam(name="password",value="비밀번호",required=true,paramType="query",defaultValue=""),
+		@ApiImplicitParam(name="phone",value="전화번호",required=true,paramType="query",defaultValue=""),
+		@ApiImplicitParam(name="email",value="이메일",required=true,paramType="query",defaultValue=""),
+		@ApiImplicitParam(name="postId",value="우편번호",required=false,paramType="query",defaultValue=""),
+		@ApiImplicitParam(name="deliverFirst",value="배송지 기본",required=false,paramType="query",defaultValue=""),
+		@ApiImplicitParam(name="deliverLast",value="배송지 상세",required=false,paramType="query",defaultValue="")
+	})
 	@PutMapping(value="")
 	public ResponseEntity<JSONResult> modify(@RequestBody @Valid MemberVo vo,BindingResult error) {
 		
