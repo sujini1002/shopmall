@@ -23,12 +23,14 @@ import com.cafe24.shopmall.dto.JSONResult;
 import com.cafe24.shopmall.service.MemberService;
 import com.cafe24.shopmall.vo.MemberVo;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 @RestController("userAPIController")
 @RequestMapping("/api/member")
+@Api(value="ShopMall", description="Member")
 public class MemberAPIController {
 	
 	@Autowired
