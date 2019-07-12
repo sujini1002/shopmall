@@ -173,16 +173,38 @@ public class MemberScenario {
 		;
 	}
 	
-	// 회원정보 수정 실패
-	
-	
-	// 회원정보 수정 성공
+	/**
+	 * 회원정보 수정 실패 경우 : 
+	 * 1. 휴대전화 번호가 형식에 맞지 않거나 빈 값일 때
+	 * 2. 이메일 형식이 형식에 맞지 않거나 빈 값일 때
+	 * 3. 비밀번호 값이 형식에 맞지 않을 때
+	 * - 비고 : 비밀번호가 빈 값이면 변경하지 않는 걸로 간주한다.
+	 */
 	@Test
-	public void testUserModify() throws Exception {
-		MemberVo vo = new MemberVo(2L, "tgif2013", "수지니♥", "jini10", "010-5489-4164", "tgif2014@gmail.com");
+	public void testUserModifyFail() throws Exception {
+		MemberVo vo = new MemberVo(2L, "tgif2013", "수지니#", "", "01-5489-4164", "tgif2014@gmail.");
 			
 		ResultActions resultActions = mockMvc.perform(put("/api/member").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo))).andDo(print());
 			
+		resultActions.andExpect(status().is4xxClientError())
+		.andExpect(jsonPath("$.result",is("fail")))
+		.andExpect(jsonPath("$.data.code").doesNotExist())
+		.andExpect(jsonPath("$.data.id").doesNotExist())
+		.andExpect(jsonPath("$.data.name").exists())
+		.andExpect(jsonPath("$.data.password").doesNotExist())
+		.andExpect(jsonPath("$.data.phone").exists())
+		.andExpect(jsonPath("$.data.email").exists())
+		;
+	}
+	
+	// 회원정보 수정 성공
+	@Test
+	public void testUserModifySuccess() throws Exception {
+		MemberVo vo = new MemberVo(2L, "tgif2013", "수지니", "Sjini10!", "010-5489-4164", "tgif2014@gmail.com");
+			
+		ResultActions resultActions = mockMvc.perform(put("/api/member").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo))).andDo(print());
+			
+		
 		resultActions.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result",is("success")))
 		.andExpect(jsonPath("$.data.code",is(vo.getCode().intValue())))
