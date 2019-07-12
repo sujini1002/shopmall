@@ -14,7 +14,7 @@ public class MemberService {
 	
 	private MemberService() {
 		memberList = new ArrayList<MemberVo>();
-		memberList.add(new MemberVo(1L,"tgif2014","강수진","Sujin10!","010-5555-1234","aufclakstp@naver.com"));
+		memberList.add(new MemberVo(1L,"tgif2014","강수진","Sujin10!","010-5555-1234","aufclakstp@naver.com","02846","서울시 강남구 서초대로23길 11","비트교육센터 4층"));
 		memberList.add(new MemberVo(2L,"tgif2013","강수진","Sujin10!","010-5555-1234","aufclakstp@naver.com"));
 		
 	}

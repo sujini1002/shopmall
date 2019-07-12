@@ -47,7 +47,7 @@ public class MemberScenario {
 	// 회원가입 잘못된 입력 값 테스트
 	@Test
 	public void testJoinError() throws Exception {
-		MemberVo memberVo = new MemberVo("tgif2014", "강수#진", "Sujni102", "01-5555-3777", "aufclakstp@naver.");
+		MemberVo memberVo = new MemberVo("tgif2014", "강수#진", "Sujni102", "01-5555-3777", "aufclakstp@naver.","02가234","","");
 
 		ResultActions resultActions = mockMvc.perform(
 				post("/api/member").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(memberVo)))
@@ -59,27 +59,13 @@ public class MemberScenario {
 				.andExpect(jsonPath("$.data.name").exists())
 				.andExpect(jsonPath("$.data.password").exists())
 				.andExpect(jsonPath("$.data.phone").exists())
-				.andExpect(jsonPath("$.data.email").exists());
+				.andExpect(jsonPath("$.data.email").exists())
+				.andExpect(jsonPath("$.data.postId").exists())
+				.andExpect(jsonPath("$.data.deliverFirst").doesNotExist())
+				.andExpect(jsonPath("$.data.deliverLast").doesNotExist())
+				;
 	}
-
-	// 정상적인 회원 가입
-	@Test
-	public void testJoinSuccess() throws Exception {
-		MemberVo memberVo = new MemberVo("tgif2014", "강수진", "Sujni102!", "010-5555-3777", "auclakst@naver.com");
-
-		ResultActions resultActions = mockMvc.perform(
-				post("/api/member").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(memberVo)))
-				.andDo(print());
-
-		resultActions.andExpect(status().isOk())
-				.andExpect(jsonPath("$.result", is("success")))
-				.andExpect(jsonPath("$.data.code").exists())
-				.andExpect(jsonPath("$.data.id", is(memberVo.getId())))
-				.andExpect(jsonPath("$.data.name", is(memberVo.getName())))
-				.andExpect(jsonPath("$.data.password", is(memberVo.getPassword())))
-				.andExpect(jsonPath("$.data.phone", is(memberVo.getPhone())))
-				.andExpect(jsonPath("$.data.email", is(memberVo.getEmail())));
-	}
+	
 
 	// 이메일 중복 확인(중복일 때)
 	@Test
@@ -93,7 +79,7 @@ public class MemberScenario {
 		;
 	}
 
-	// 이메일 중복 확인(중복일 때)
+	// 이메일 중복 확인(사용가능)
 	@Test
 	public void testCheckEmailNotExist() throws Exception {
 		ResultActions resultActions = mockMvc
@@ -103,6 +89,29 @@ public class MemberScenario {
 		.andExpect(jsonPath("$.result", is("success")))
 		.andExpect(jsonPath("$.data", is(false)));
 		;
+	}
+
+	// 정상적인 회원 가입
+	@Test
+	public void testJoinSuccess() throws Exception {
+		MemberVo memberVo = new MemberVo("tgif2014", "강수진", "Sujni102!", "010-5555-3777", "auclakst@naver.com","02464","서울시 강남구 서초구23","");
+
+		ResultActions resultActions = mockMvc.perform(
+				post("/api/member").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(memberVo)))
+				.andDo(print());
+
+		resultActions.andExpect(status().isOk())
+				.andExpect(jsonPath("$.result", is("success")))
+				.andExpect(jsonPath("$.data.code").exists())
+				.andExpect(jsonPath("$.data.id", is(memberVo.getId())))
+				.andExpect(jsonPath("$.data.name", is(memberVo.getName())))
+				.andExpect(jsonPath("$.data.password", is(memberVo.getPassword())))
+				.andExpect(jsonPath("$.data.phone", is(memberVo.getPhone())))
+				.andExpect(jsonPath("$.data.email", is(memberVo.getEmail())))
+				.andExpect(jsonPath("$.data.postId",is(memberVo.getPostId())))
+				.andExpect(jsonPath("$.data.deliverFirst",is(memberVo.getDeliverFirst())))
+				.andExpect(jsonPath("$.data.deliverLast",is(memberVo.getDeliverLast())))
+				;
 	}
 	
 	// 로그인 형식 실패
@@ -119,6 +128,7 @@ public class MemberScenario {
 		.andExpect(jsonPath("$.data",is(false)))
 		;
 	}
+	
 	// 로그인 아이디 비밀번호 인증 실패
 	@Test
 	public void testMemberLoginFail() throws Exception {
@@ -178,11 +188,14 @@ public class MemberScenario {
 	 * 1. 휴대전화 번호가 형식에 맞지 않거나 빈 값일 때
 	 * 2. 이메일 형식이 형식에 맞지 않거나 빈 값일 때
 	 * 3. 비밀번호 값이 형식에 맞지 않을 때
+	 * 4. 우편번호 값이 형식에 맞지 않을 때
 	 * - 비고 : 비밀번호가 빈 값이면 변경하지 않는 걸로 간주한다.
+	 * - 비고 : 우편번호는 빈 값을 허용한다.
 	 */
+	// 회원 정보 수정  형식 실패
 	@Test
-	public void testUserModifyFail() throws Exception {
-		MemberVo vo = new MemberVo(2L, "tgif2013", "수지니#", "", "01-5489-4164", "tgif2014@gmail.");
+	public void testUserModifyFailPattern() throws Exception {
+		MemberVo vo = new MemberVo(2L, "tgif2013", "수지니#", "", "01-5489-4164", "tgif2014@gmail.","23$32","","");
 			
 		ResultActions resultActions = mockMvc.perform(put("/api/member").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo))).andDo(print());
 			
@@ -194,13 +207,29 @@ public class MemberScenario {
 		.andExpect(jsonPath("$.data.password").doesNotExist())
 		.andExpect(jsonPath("$.data.phone").exists())
 		.andExpect(jsonPath("$.data.email").exists())
+		.andExpect(jsonPath("$.data.postId").exists())
+		.andExpect(jsonPath("$.data.deliverFirst").doesNotExist())
+		.andExpect(jsonPath("$.data.deliverLast").doesNotExist())
+		;
+	}
+	
+	// 회원 정보 수정  형식 실패(회원정보가 없는 경우)
+	@Test
+	public void testUserModifyFail() throws Exception {
+		MemberVo vo = new MemberVo(21L, "tgif2016", "수지니", "Sjini10!", "010-5489-4164", "tgif2014@gmail.com");
+		
+		ResultActions resultActions = mockMvc.perform(put("/api/member").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo))).andDo(print());
+			
+		resultActions.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result",is("success")))
+		.andExpect(jsonPath("$.data").doesNotExist())
 		;
 	}
 	
 	// 회원정보 수정 성공
 	@Test
 	public void testUserModifySuccess() throws Exception {
-		MemberVo vo = new MemberVo(2L, "tgif2013", "수지니", "Sjini10!", "010-5489-4164", "tgif2014@gmail.com");
+		MemberVo vo = new MemberVo(2L, "tgif2013", "수지니", "Sjini10!", "010-5489-4164", "tgif2014@gmail.com","02468","서울시 강남구 테헤란로54","비트교육센터 3층");
 			
 		ResultActions resultActions = mockMvc.perform(put("/api/member").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo))).andDo(print());
 			
@@ -213,6 +242,9 @@ public class MemberScenario {
 		.andExpect(jsonPath("$.data.password",is(vo.getPassword())))
 		.andExpect(jsonPath("$.data.phone",is(vo.getPhone())))
 		.andExpect(jsonPath("$.data.email",is(vo.getEmail())))
+		.andExpect(jsonPath("$.data.postId",is(vo.getPostId())))
+		.andExpect(jsonPath("$.data.deliverFirst",is(vo.getDeliverFirst())))
+		.andExpect(jsonPath("$.data.deliverLast",is(vo.getDeliverLast())))
 		;
 	}
 }

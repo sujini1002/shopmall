@@ -35,14 +35,14 @@ public class MemberAPIController {
 	private MemberService memberService;
 	
 	//회원 가입 페이지
-	@ApiOperation(value="회원 가입 페이지")
+	@ApiOperation(value="회원 가입 페이지", notes="회원 가입 페이지 API")
 	@GetMapping(value="/join")
 	public String userjoinform() {
 		return "member/join";
 	}
 	
 	//이메일 중복 체크
-	@ApiOperation(value="아이디 중복 체크")
+	@ApiOperation(value="아이디 중복 체크", notes="아이디 중복 체크 API")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name="id",value="입력한 아이디",required=true,dataType="String")
 	})

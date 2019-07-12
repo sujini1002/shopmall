@@ -54,16 +54,25 @@ public class MemberAPIControllerTest {
 		.andExpect(jsonPath("$.data",is(true)));
 		;
 	}
-	//회원가입 요청
+	/**
+	 * 회원가입 요청
+	 * - 우편번호와 배송지는 빈값으로 들어와도 예외처리 되지 않는다.
+	 */
 	@Test
 	public void testMemberJoin() throws Exception {
-		MemberVo memberVo = new MemberVo("tgif2013","강수진","sujni102!S","010-5180-3170","aufclakstp@naver.com");
+		MemberVo memberVo = new MemberVo("tgif2013","강수진","sujni102!S","010-3423-5677","aufclakstp@naver.com",null,null,null);
 		
 		ResultActions resultActions = mockMvc.perform(post("/api/member").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(memberVo)));
 		resultActions.andExpect(status().is2xxSuccessful()).andDo(print())
 		.andExpect(jsonPath("$.result",is("success")))
 		.andExpect(jsonPath("$.data.id",is(memberVo.getId())))
 		.andExpect(jsonPath("$.data.name",is(memberVo.getName())))
+		.andExpect(jsonPath("$.data.password",is(memberVo.getPassword())))
+		.andExpect(jsonPath("$.data.phone",is(memberVo.getPhone())))
+		.andExpect(jsonPath("$.data.email",is(memberVo.getEmail())))
+		.andExpect(jsonPath("$.data.postId").doesNotExist())
+		.andExpect(jsonPath("$.data.deliverFirst").doesNotExist())
+		.andExpect(jsonPath("$.data.deliverLast").doesNotExist())
 		;
 	}
 	
@@ -97,7 +106,7 @@ public class MemberAPIControllerTest {
 	//회원 정보수정
 	@Test
 	public void testUserModify() throws Exception {
-		MemberVo vo = new MemberVo(2L, "tgif2013", "수지니♥", "jini10", "010-5489-4164", "tgif2014@gmail.com");
+		MemberVo vo = new MemberVo(2L, "tgif2013", "수지니", "Sjini10%", "010-5489-4164", "tgif2014@gmail.com","02546","서울시 관악구 보라매대로23","교육센터 5층");
 		
 		ResultActions resultActions = mockMvc.perform(put("/api/member").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo))).andDo(print());
 		
@@ -109,6 +118,9 @@ public class MemberAPIControllerTest {
 		.andExpect(jsonPath("$.data.password",is(vo.getPassword())))
 		.andExpect(jsonPath("$.data.phone",is(vo.getPhone())))
 		.andExpect(jsonPath("$.data.email",is(vo.getEmail())))
+		.andExpect(jsonPath("$.data.postId",is(vo.getPostId())))
+		.andExpect(jsonPath("$.data.deliverFirst",is(vo.getDeliverFirst())))
+		.andExpect(jsonPath("$.data.deliverLast",is(vo.getDeliverLast())))
 		;
 	}
 	
