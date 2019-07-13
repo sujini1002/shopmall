@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -105,7 +106,7 @@ public class MemberAPIControllerTest {
 	
 	//회원 정보수정
 	@Test
-	public void testUserModify() throws Exception {
+	public void testMemberModify() throws Exception {
 		MemberVo vo = new MemberVo(2L, "tgif2013", "수지니", "Sjini10%", "010-5489-4164", "tgif2014@gmail.com","02546","서울시 관악구 보라매대로23","교육센터 5층");
 		
 		ResultActions resultActions = mockMvc.perform(put("/api/member").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo))).andDo(print());
@@ -122,6 +123,22 @@ public class MemberAPIControllerTest {
 		.andExpect(jsonPath("$.data.deliverFirst",is(vo.getDeliverFirst())))
 		.andExpect(jsonPath("$.data.deliverLast",is(vo.getDeliverLast())))
 		;
+	}
+	
+	//회원 탈퇴
+	@Test
+	public void testMemberDelete() throws Exception {
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("code", 3L);
+		map.put("password", "gilDong$$");
+		
+		ResultActions resultActions = mockMvc.perform(delete("/api/member").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(map))).andDo(print());
+		
+		resultActions.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result", is("success")))
+		.andExpect(jsonPath("$.data",is(true)))
+		;
+		
 	}
 	
 }

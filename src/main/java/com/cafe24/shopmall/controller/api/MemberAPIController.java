@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,7 +47,7 @@ public class MemberAPIController {
 	//이메일 중복 체크
 	@ApiOperation(value="아이디 중복 체크", notes="아이디 중복 체크 API")
 	@ApiImplicitParams({
-		@ApiImplicitParam(name="id",value="입력한 아이디",required=true,dataType="String",defaultValue="")
+		@ApiImplicitParam(name="id",value="입력한 아이디",required=true,dataType="query",defaultValue="")
 	})
 	@GetMapping(value="/checkid/{id}")
 	public JSONResult usercheckId(@PathVariable(value="id")String id) {
@@ -91,8 +92,8 @@ public class MemberAPIController {
 	//로그인 요청
 	@ApiOperation(value="로그인",notes="로그인")
 	@ApiImplicitParams({
-		@ApiImplicitParam(name="id",value="아이디",required=true,dataType="String",defaultValue=""),
-		@ApiImplicitParam(name="password",value="비밀번호",required=true,dataType="String",defaultValue="")
+		@ApiImplicitParam(name="id",value="아이디",required=true,dataType="query",defaultValue=""),
+		@ApiImplicitParam(name="password",value="비밀번호",required=true,dataType="query",defaultValue="")
 	})
 	@PostMapping(value="/login")
 	public ResponseEntity<JSONResult> userLogin(@RequestBody Map<String,Object> map) {
@@ -147,4 +148,28 @@ public class MemberAPIController {
 		MemberVo result = memberService.modifyMember(vo);
 		return new ResponseEntity<JSONResult>(JSONResult.success(result),HttpStatus.OK);
 	}
+	
+	// 회원 탈퇴 페이지
+	@ApiOperation(value="회원 탈퇴 페이지", notes="회원 탈퇴 페이지 API")
+	@GetMapping(value="/delete")
+	public String deleteForm() {
+		return "member/deleteForm";
+	}
+	
+	//회원 탈퇴
+	@ApiOperation(value="회원 탈퇴", notes="회원 탈퇴 API")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="code",value="회원 코드",required=true,dataType="query",defaultValue=""),
+		@ApiImplicitParam(name="password",value="비밀번호",required=true,dataType="query",defaultValue="")
+	})
+	@DeleteMapping(value="")
+	public ResponseEntity<JSONResult> delete(@RequestBody Map<String,Object> map){
+		
+		if((Long)map.get("code") == null|| ((String)map.get("password")).equals("")) {
+			return new ResponseEntity<JSONResult>(JSONResult.fail("아이디와 비밀번호를 입력하시오.", false), HttpStatus.BAD_REQUEST);
+		}
+		Boolean isSuccess = memberService.delete(map);
+		return new ResponseEntity<JSONResult>(JSONResult.success(isSuccess),HttpStatus.OK);
+	}
+	
 }

@@ -1,6 +1,7 @@
 package com.cafe24.shopmall.scenario;
 
 import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -194,7 +195,7 @@ public class MemberScenario {
 	 */
 	// 회원 정보 수정  형식 실패
 	@Test
-	public void testUserModifyFailPattern() throws Exception {
+	public void testMemberModifyFailPattern() throws Exception {
 		MemberVo vo = new MemberVo(2L, "tgif2013", "수지니#", "", "01-5489-4164", "tgif2014@gmail.","23$32","","");
 			
 		ResultActions resultActions = mockMvc.perform(put("/api/member").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo))).andDo(print());
@@ -215,7 +216,7 @@ public class MemberScenario {
 	
 	// 회원 정보 수정  형식 실패(회원정보가 없는 경우)
 	@Test
-	public void testUserModifyFail() throws Exception {
+	public void testMemberModifyFail() throws Exception {
 		MemberVo vo = new MemberVo(21L, "tgif2016", "수지니", "Sjini10!", "010-5489-4164", "tgif2014@gmail.com");
 		
 		ResultActions resultActions = mockMvc.perform(put("/api/member").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo))).andDo(print());
@@ -228,7 +229,7 @@ public class MemberScenario {
 	
 	// 회원정보 수정 성공
 	@Test
-	public void testUserModifySuccess() throws Exception {
+	public void testMemberModifySuccess() throws Exception {
 		MemberVo vo = new MemberVo(2L, "tgif2013", "수지니", "Sjini10!", "010-5489-4164", "tgif2014@gmail.com","02468","서울시 강남구 테헤란로54","비트교육센터 3층");
 			
 		ResultActions resultActions = mockMvc.perform(put("/api/member").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo))).andDo(print());
@@ -245,6 +246,50 @@ public class MemberScenario {
 		.andExpect(jsonPath("$.data.postId",is(vo.getPostId())))
 		.andExpect(jsonPath("$.data.deliverFirst",is(vo.getDeliverFirst())))
 		.andExpect(jsonPath("$.data.deliverLast",is(vo.getDeliverLast())))
+		;
+	}
+	
+	//회원 탈퇴 형식 실패
+	@Test
+	public void testMemberDeleteFailPattern() throws Exception {
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("code", null);
+		map.put("password", null);
+		
+		ResultActions resultActions = mockMvc.perform(delete("/api/member").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(map))).andDo(print());
+		
+		resultActions.andExpect(status().is4xxClientError())
+		.andExpect(jsonPath("$.result", is("fail")))
+		.andExpect(jsonPath("$.data",is(false)))
+		;
+	}
+	//회원 탈퇴 (회원 인증 실패)
+	@Test
+	public void testMemberDeleteFailAuth() throws Exception {
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("code", 4L);
+		map.put("password", "sjjin##W");
+		
+		ResultActions resultActions = mockMvc.perform(delete("/api/member").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(map))).andDo(print());
+		
+		resultActions.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result", is("success")))
+		.andExpect(jsonPath("$.data",is(false)))
+		;
+	}
+	
+	//회원 성공
+	@Test
+	public void testMemberDeleteSuccess() throws Exception {
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("code", 3L);
+		map.put("password", "gilDong$$");
+		
+		ResultActions resultActions = mockMvc.perform(delete("/api/member").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(map))).andDo(print());
+		
+		resultActions.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result", is("success")))
+		.andExpect(jsonPath("$.data",is(true)))
 		;
 	}
 }
