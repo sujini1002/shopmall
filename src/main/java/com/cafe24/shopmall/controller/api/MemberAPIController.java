@@ -2,6 +2,7 @@ package com.cafe24.shopmall.controller.api;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import javax.validation.Valid;
 
@@ -50,10 +51,14 @@ public class MemberAPIController {
 		@ApiImplicitParam(name="id",value="입력한 아이디",required=true,dataType="query",defaultValue="")
 	})
 	@GetMapping(value="/checkid/{id}")
-	public JSONResult usercheckId(@PathVariable(value="id")String id) {
+	public ResponseEntity<JSONResult> usercheckId(@PathVariable(value="id")String id) {
+		
+		if("".equals(id)|| Pattern.matches("\"^[a-zA-Z0-9_]{6,15}$\"", id)) {
+			return new ResponseEntity<JSONResult>(JSONResult.fail("id","영문자,숫자,'_'로만 이루어진 6~15글자를 입력하시오."),HttpStatus.BAD_REQUEST);
+		}
 	
 		Boolean result = memberService.existId(id);
-		return JSONResult.success(result);
+		return new ResponseEntity<JSONResult>(JSONResult.success(result), HttpStatus.OK);
 	}
 	//회원 가입 요청
 	@ApiOperation(value="회원 가입",notes="회원 가입 하기")

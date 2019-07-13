@@ -44,7 +44,55 @@ public class MemberScenario {
 	public void setUp() {
 		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 	}
+	
+	// 이메일 null 값일 때
+	@Test
+	public void testCheckEmailExistFailNull() throws Exception {
+		ResultActions resultActions = mockMvc
+				.perform(get("/api/member/checkid/{id}", "").contentType(MediaType.APPLICATION_JSON));
+		
+		resultActions.andExpect(status().is4xxClientError()).andDo(print())
+		.andExpect(jsonPath("$.result", is("fail")))
+		.andExpect(jsonPath("$.message", is("id")))
+		;
+	}
+	
+	// 이메일 잘못된 형식일 때
+	@Test
+	public void testCheckEmailExistFailPattern() throws Exception {
+		ResultActions resultActions = mockMvc
+				.perform(get("/api/member/checkid/{id}", "tgif%$@나?").contentType(MediaType.APPLICATION_JSON));
+		
+		resultActions.andExpect(status().is4xxClientError()).andDo(print())
+		.andExpect(jsonPath("$.result", is("fail")))
+		.andExpect(jsonPath("$.message", is("id")))
+		;
+	}
 
+	// 이메일 중복 확인(중복일 때)
+	@Test
+	public void testCheckEmailExist() throws Exception {
+		ResultActions resultActions = mockMvc
+				.perform(get("/api/member/checkid/{id}", "tgif2014").contentType(MediaType.APPLICATION_JSON));
+		
+		resultActions.andExpect(status().isOk()).andDo(print())
+		.andExpect(jsonPath("$.result", is("success")))
+		.andExpect(jsonPath("$.data", is(true)))
+		;
+	}
+
+	// 이메일 중복 확인(사용가능)
+	@Test
+	public void testCheckEmailNotExist() throws Exception {
+		ResultActions resultActions = mockMvc
+				.perform(get("/api/member/checkid/{id}", "aufclakstp").contentType(MediaType.APPLICATION_JSON));
+		
+		resultActions.andExpect(status().isOk()).andDo(print())
+		.andExpect(jsonPath("$.result", is("success")))
+		.andExpect(jsonPath("$.data", is(false)));
+		;
+	}
+	
 	// 회원가입 잘못된 입력 값 테스트
 	@Test
 	public void testJoinError() throws Exception {
@@ -65,31 +113,6 @@ public class MemberScenario {
 				.andExpect(jsonPath("$.data.deliverFirst").doesNotExist())
 				.andExpect(jsonPath("$.data.deliverLast").doesNotExist())
 				;
-	}
-	
-
-	// 이메일 중복 확인(중복일 때)
-	@Test
-	public void testCheckEmailExist() throws Exception {
-		ResultActions resultActions = mockMvc
-				.perform(get("/api/member/checkid/{id}", "tgif2014").contentType(MediaType.APPLICATION_JSON));
-		
-		resultActions.andExpect(status().isOk()).andDo(print())
-		.andExpect(jsonPath("$.result", is("success")))
-		.andExpect(jsonPath("$.data", is(true)));
-		;
-	}
-
-	// 이메일 중복 확인(사용가능)
-	@Test
-	public void testCheckEmailNotExist() throws Exception {
-		ResultActions resultActions = mockMvc
-				.perform(get("/api/member/checkid/{id}", "aufclakstp").contentType(MediaType.APPLICATION_JSON));
-		
-		resultActions.andExpect(status().isOk()).andDo(print())
-		.andExpect(jsonPath("$.result", is("success")))
-		.andExpect(jsonPath("$.data", is(false)));
-		;
 	}
 
 	// 정상적인 회원 가입
