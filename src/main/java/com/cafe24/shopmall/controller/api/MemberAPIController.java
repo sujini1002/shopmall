@@ -2,7 +2,6 @@ package com.cafe24.shopmall.controller.api;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import javax.validation.Valid;
 
@@ -53,10 +52,6 @@ public class MemberAPIController {
 	@GetMapping(value="/checkid/{id}")
 	public ResponseEntity<JSONResult> usercheckId(@PathVariable(value="id")String id) {
 		
-		if("".equals(id)|| Pattern.matches("\"^[a-zA-Z0-9_]{6,15}$\"", id)) {
-			return new ResponseEntity<JSONResult>(JSONResult.fail("id","영문자,숫자,'_'로만 이루어진 6~15글자를 입력하시오."),HttpStatus.BAD_REQUEST);
-		}
-	
 		Boolean result = memberService.existId(id);
 		return new ResponseEntity<JSONResult>(JSONResult.success(result), HttpStatus.OK);
 	}
@@ -169,11 +164,13 @@ public class MemberAPIController {
 	})
 	@DeleteMapping(value="")
 	public ResponseEntity<JSONResult> delete(@RequestBody Map<String,Object> map){
+		Long code =  map.get("code")==null?null:((Integer)map.get("code")).longValue();
+		String password = map.get("password")==null?null:map.get("password").toString();
 		
-		if((Long)map.get("code") == null|| ((String)map.get("password")).equals("")) {
+		if(code == null || "".equals(password)) {
 			return new ResponseEntity<JSONResult>(JSONResult.fail("아이디와 비밀번호를 입력하시오.", false), HttpStatus.BAD_REQUEST);
 		}
-		Boolean isSuccess = memberService.delete(map);
+		Boolean isSuccess = memberService.delete(code,password);
 		return new ResponseEntity<JSONResult>(JSONResult.success(isSuccess),HttpStatus.OK);
 	}
 	

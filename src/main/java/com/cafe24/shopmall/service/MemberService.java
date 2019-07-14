@@ -2,7 +2,6 @@ package com.cafe24.shopmall.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -66,9 +65,9 @@ public class MemberService {
 		return result;
 	}
 
-	public Boolean delete(Map<String, Object> map) {
+	public Boolean delete(Long code, String password) {
 		for(MemberVo vo : memberList) {
-			if(vo.getCode() == (Long)map.get("code") && vo.getPassword().equals(map.get("password"))) {
+			if(vo.getCode() == code && vo.getPassword().equals(password)) {
 				return true;
 			}
 		}
