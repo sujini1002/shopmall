@@ -17,7 +17,7 @@ public class MyBatisConfig {
 		
 		SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
 		sqlSessionFactoryBean.setDataSource(dataSource);
-		sqlSessionFactoryBean.setConfigLocation(applicationContext.getResource("classpath:com/cafe24/config/app/mybatis/configuration.xml"));
+		sqlSessionFactoryBean.setConfigLocation(applicationContext.getResource("classpath:mybatis/configuration.xml"));
 		
 		return sqlSessionFactoryBean.getObject();
 	}
