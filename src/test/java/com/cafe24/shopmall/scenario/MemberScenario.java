@@ -86,7 +86,7 @@ public class MemberScenario {
 	// 회원가입 잘못된 입력 값 테스트
 	@Test
 	public void testJoinError() throws Exception {
-		MemberVo memberVo = new MemberVo("tgif2014", "강수#진", "Sujni102", "01-5555-3777", "aufclakstp@naver.","02가234","","");
+		MemberVo memberVo = new MemberVo("tgi@#$f20$14", "강수#진", "Sujni102", "01-5555-3777", "aufclakstp@naver.","02가234","","");
 
 		ResultActions resultActions = mockMvc.perform(
 				post("/api/member").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(memberVo)))
@@ -94,7 +94,7 @@ public class MemberScenario {
 
 		resultActions.andExpect(status().is4xxClientError())
 				.andExpect(jsonPath("$.result", is("fail")))
-				.andExpect(jsonPath("$.data.id").doesNotExist())
+				.andExpect(jsonPath("$.data.id").exists())
 				.andExpect(jsonPath("$.data.name").exists())
 				.andExpect(jsonPath("$.data.password").exists())
 				.andExpect(jsonPath("$.data.phone").exists())

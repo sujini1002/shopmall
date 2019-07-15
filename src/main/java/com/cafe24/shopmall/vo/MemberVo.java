@@ -2,17 +2,21 @@ package com.cafe24.shopmall.vo;
 
 import javax.validation.constraints.Pattern;
 
+import com.cafe24.shopmall.validator.constraints.ValidID;
+import com.cafe24.shopmall.validator.constraints.ValidPassword;
+
 public class MemberVo {
 
 	private Long code;
 
-	@Pattern(regexp = "^[a-zA-Z0-9_]{6,15}$", message = "영문자,숫자,'_'로만 이루어진 6~15글자를 입력하시오.")
+	@ValidID
 	private String id;
 
 	@Pattern(regexp = "^[\uAC00-\uD7A3xfe0-9a-zA-Z\\s]{1,20}$", message = "이름에 특수문자를 제외한 1~20글자만 입력하시오.")
 	private String name;
 
-	@Pattern(regexp = "^(?=.*\\d)(?=.*[~`!@#$%\\^&*()-])(?=.*[a-z])(?=.*[A-Z]).{8,16}$", message = "영문소문자,영문대문자,숫자,특수문자를 조합하여 8~16글자를 입력하시오.")
+//	@Pattern(regexp = "^(?=.*\\d)(?=.*[~`!@#$%\\^&*()-])(?=.*[a-z])(?=.*[A-Z]).{8,16}$", message = "영문소문자,영문대문자,숫자,특수문자를 조합하여 8~16글자를 입력하시오.")
+	@ValidPassword
 	private String password;
 
 	@Pattern(regexp = "^01(?:0|1|[6-9])-(?:\\d{3}|\\d{4})-\\d{4}$", message = "01[6,7,8,9]-0000(또는000)-0000 형식으로 입력하시오.")
