@@ -26,7 +26,8 @@
 		</plugins>
 	</build>
 	<modules>
-		<module>shopmall-backend</module>
+	<module>shomall-backend</module>
+	<module>shopmall-backend</module>
 	</modules>
 	
 </project>
