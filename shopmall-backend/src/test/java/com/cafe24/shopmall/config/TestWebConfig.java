@@ -11,7 +11,7 @@ import com.cafe24.config.web.SwaggerConfig;
 
 @Configuration
 @EnableAspectJAutoProxy
-@ComponentScan({"com.cafe24.mysite.controller","com.cafe24.shopmall.controller.api"})
+@ComponentScan({"com.cafe24.shopmall.controller"})
 @Import({TestMVCConfig.class,SwaggerConfig.class,MessageConfig.class})
 public class TestWebConfig {
 	

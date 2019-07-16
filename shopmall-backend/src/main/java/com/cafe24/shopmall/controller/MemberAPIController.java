@@ -78,8 +78,8 @@ public class MemberAPIController {
 			}
 			return new ResponseEntity<JSONResult>(JSONResult.fail("입력형식이 유효하지 않습니다.",errorMessages),HttpStatus.BAD_REQUEST);
 		}
-		MemberVo vo = memberService.userAdd(memberVo);
-		return new ResponseEntity<JSONResult>(JSONResult.success(vo), HttpStatus.OK);
+		Map<String,Long> result = memberService.userAdd(memberVo);
+		return new ResponseEntity<JSONResult>(JSONResult.success(result), HttpStatus.OK);
 	}
 	
 	//로그인 페이지 요청

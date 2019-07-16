@@ -17,12 +17,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.cafe24.shopmall.config.AppConfig;
@@ -33,6 +35,7 @@ import com.google.gson.Gson;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes= {AppConfig.class, TestWebConfig.class})
 @WebAppConfiguration
+@Transactional
 public class MemberAPIControllerTest {
 	
 	private MockMvc mockMvc;
@@ -52,28 +55,23 @@ public class MemberAPIControllerTest {
 		ResultActions resultActions = mockMvc.perform(get("/api/member/checkid/{id}","tgif2014").contentType(MediaType.APPLICATION_JSON));
 		resultActions.andExpect(status().isOk()).andDo(print())
 		.andExpect(jsonPath("$.result",is("success")))
-		.andExpect(jsonPath("$.data",is(true)));
+		.andExpect(jsonPath("$.data",is(false)));
 		;
 	}
 	/**
 	 * 회원가입 요청
 	 * - 우편번호와 배송지는 빈값으로 들어와도 예외처리 되지 않는다.
 	 */
+	@Rollback(true)
 	@Test
 	public void testMemberJoin() throws Exception {
-		MemberVo memberVo = new MemberVo("tgif2013","강수진","sujni102!S","010-3423-5677","aufclakstp@naver.com",null,null,null);
+		MemberVo memberVo = new MemberVo("tgif2013","강수진","sujni102!S","010-3423-5677","aufclakstp@naver.com","","","");
 		
 		ResultActions resultActions = mockMvc.perform(post("/api/member").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(memberVo)));
 		resultActions.andExpect(status().is2xxSuccessful()).andDo(print())
 		.andExpect(jsonPath("$.result",is("success")))
-		.andExpect(jsonPath("$.data.id",is(memberVo.getId())))
-		.andExpect(jsonPath("$.data.name",is(memberVo.getName())))
-		.andExpect(jsonPath("$.data.password",is(memberVo.getPassword())))
-		.andExpect(jsonPath("$.data.phone",is(memberVo.getPhone())))
-		.andExpect(jsonPath("$.data.email",is(memberVo.getEmail())))
-		.andExpect(jsonPath("$.data.postId").doesNotExist())
-		.andExpect(jsonPath("$.data.deliverFirst").doesNotExist())
-		.andExpect(jsonPath("$.data.deliverLast").doesNotExist())
+		.andExpect(jsonPath("$.data.memberCode").exists())
+		.andExpect(jsonPath("$.data.deliverCode").doesNotExist())
 		;
 	}
 	

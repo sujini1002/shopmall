@@ -33,6 +33,9 @@ public class MemberVo {
 
 	private String deliverFirst;
 	private String deliverLast;
+	
+	private Long deliverCode;
+	private String deliver;
 
 	public MemberVo() {
 	}
@@ -150,11 +153,26 @@ public class MemberVo {
 	public void setDeliverLast(String deliverLast) {
 		this.deliverLast = deliverLast;
 	}
+	public Long getDeliverCode() {
+		return deliverCode;
+	}
+
+	public void setDeliverCode(Long deliverCode) {
+		this.deliverCode = deliverCode;
+	}
+
+	public String getDeliver() {
+		return deliver;
+	}
+
+	public void setDeliver(String deliver) {
+		this.deliver = deliver;
+	}
 
 	@Override
 	public String toString() {
 		return "MemberVo [code=" + code + ", id=" + id + ", name=" + name + ", password=" + password + ", phone="
 				+ phone + ", email=" + email + ", postId=" + postId + ", deliverFirst=" + deliverFirst
-				+ ", deliverLast=" + deliverLast + "]";
+				+ ", deliverLast=" + deliverLast + ", deliverCode=" + deliverCode + ", deliver=" + deliver + "]";
 	}
 }
