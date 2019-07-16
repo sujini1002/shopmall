@@ -1,0 +1,18 @@
+-- ---------------postgresql에서 insert후 sequence 값 출력하기---------------------------------
+  - DAO에서 member.getCode()로 가져올 수 있음!
+-------------- postgresql insert 할때 "id" 컬럼을 찾을 수 없습니다 오류 ( " -> ' )------------------
+-- ----------------multipart를 기존의 레퍼지토리에 올리 때 발생했던 오류------------------------
+-------------------- - Buliding work 무한반복 로딩----------------------------- 
+1. 이클립스를 먼저 종료.
+2. 다음 폴더를 안전한 장소로 이동.
+eclipse-workspace / .metadata / .plugins / org.eclipse.core.resources / .projects
+3. 이클립스를 다시 시작한 후 다시 종료.
+4. 2번에서 이동한 .projects 폴더를 다시 원위치에 덮어씌우기.
+5. 그러면 multipart 프로젝트의 modules 내용이 날아가버린다.
+6. mulitpart 프로젝트 삭제후 github에서 clone하여 import 하여 진행 했다.
+결론 : github에 자주자주 커밋하자!!!!!
+
+---------------------------- gitignore 하기전 ignore 대상이 올라 갔을 때 해결한 방법-----------------------------
+  -- eclipse에서 
+	1.  프로젝트 오른쪽 마우스 - team -  advanced  - untrack 
+	2. 다시 커밋 하면 완료!
