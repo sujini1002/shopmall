@@ -18,12 +18,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.cafe24.shopmall.config.TestAppConfig;
@@ -34,6 +36,7 @@ import com.google.gson.Gson;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { TestAppConfig.class, TestWebConfig.class })
 @WebAppConfiguration
+@Transactional
 public class MemberScenario {
 
 	private MockMvc mockMvc;
@@ -46,24 +49,11 @@ public class MemberScenario {
 		mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
 	}
 	
-	// 이메일 잘못된 형식일 때
-	@Ignore
-	@Test
-	public void testCheckEmailExistFailPattern() throws Exception {
-		ResultActions resultActions = mockMvc
-				.perform(get("/api/member/checkid/{id}", "tgif%$@나?").contentType(MediaType.APPLICATION_JSON));
-		
-		resultActions.andExpect(status().is4xxClientError()).andDo(print())
-		.andExpect(jsonPath("$.result", is("fail")))
-		.andExpect(jsonPath("$.data", is("id")))
-		;
-	}
-
 	// 이메일 중복 확인(중복일 때)
 	@Test
 	public void testCheckEmailExist() throws Exception {
 		ResultActions resultActions = mockMvc
-				.perform(get("/api/member/checkid/{id}", "tgif2014").contentType(MediaType.APPLICATION_JSON));
+				.perform(get("/api/member/checkid/{id}", "tgif2013").contentType(MediaType.APPLICATION_JSON));
 		
 		resultActions.andExpect(status().isOk()).andDo(print())
 		.andExpect(jsonPath("$.result", is("success")))
@@ -73,13 +63,11 @@ public class MemberScenario {
 
 	// 이메일 중복 확인(사용가능)
 	@Test
-	public void testCheckEmailNotExist() throws Exception {
-		ResultActions resultActions = mockMvc
-				.perform(get("/api/member/checkid/{id}", "aufclakstp").contentType(MediaType.APPLICATION_JSON));
-		
+	public void testMemberCheckIdTrue() throws Exception {
+		ResultActions resultActions = mockMvc.perform(get("/api/member/checkid/{id}","tgif2014").contentType(MediaType.APPLICATION_JSON));
 		resultActions.andExpect(status().isOk()).andDo(print())
-		.andExpect(jsonPath("$.result", is("success")))
-		.andExpect(jsonPath("$.data", is(false)));
+		.andExpect(jsonPath("$.result",is("success")))
+		.andExpect(jsonPath("$.data",is(false)));
 		;
 	}
 	
@@ -106,33 +94,28 @@ public class MemberScenario {
 	}
 
 	// 정상적인 회원 가입
+	/**
+	 * 회원가입 요청
+	 * - 우편번호와 배송지는 빈값으로 들어와도 예외처리 되지 않는다.
+	 */
+	@Rollback(true)
 	@Test
-	public void testJoinSuccess() throws Exception {
-		MemberVo memberVo = new MemberVo("tgif2014", "강수진", "Sujni102!", "010-5555-3777", "auclakst@naver.com","02464","서울시 강남구 서초구23","");
-
-		ResultActions resultActions = mockMvc.perform(
-				post("/api/member").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(memberVo)))
-				.andDo(print());
-
-		resultActions.andExpect(status().isOk())
-				.andExpect(jsonPath("$.result", is("success")))
-				.andExpect(jsonPath("$.data.code").exists())
-				.andExpect(jsonPath("$.data.id", is(memberVo.getId())))
-				.andExpect(jsonPath("$.data.name", is(memberVo.getName())))
-				.andExpect(jsonPath("$.data.password", is(memberVo.getPassword())))
-				.andExpect(jsonPath("$.data.phone", is(memberVo.getPhone())))
-				.andExpect(jsonPath("$.data.email", is(memberVo.getEmail())))
-				.andExpect(jsonPath("$.data.postId",is(memberVo.getPostId())))
-				.andExpect(jsonPath("$.data.deliverFirst",is(memberVo.getDeliverFirst())))
-				.andExpect(jsonPath("$.data.deliverLast",is(memberVo.getDeliverLast())))
-				;
+	public void testMemberJoin() throws Exception {
+		MemberVo memberVo = new MemberVo("aufclaktp","수지니","sujni102!S","010-3423-5677","aufclakstp@naver.com","","","");
+		
+		ResultActions resultActions = mockMvc.perform(post("/api/member").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(memberVo)));
+		resultActions.andExpect(status().is2xxSuccessful()).andDo(print())
+		.andExpect(jsonPath("$.result",is("success")))
+		.andExpect(jsonPath("$.data.memberCode").exists())
+		.andExpect(jsonPath("$.data.deliverCode").doesNotExist())
+		;
 	}
 	
 	// 로그인 형식 실패
 	@Test
 	public void testMemberLoginFailPattern() throws Exception {
 		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("id", "tgif이공일사");
+		map.put("id", "");
 		map.put("password", "");
 		
 		ResultActions resultActions = mockMvc.perform(post("/api/member/login").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(map)));
@@ -160,16 +143,16 @@ public class MemberScenario {
 	
 	// 로그인 성공
 	@Test
-	public void testMemberLoginSuccess() throws Exception {
+	public void testMemberLogin() throws Exception {
 		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("id", "tgif2014");
-		map.put("password", "Sujin10!");
+		map.put("id", "tgif2013");
+		map.put("password", "sujni102!S");
 		
 		ResultActions resultActions = mockMvc.perform(post("/api/member/login").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(map)));
 		
-		resultActions.andExpect(status().isOk())
+		resultActions.andExpect(status().isOk()).andDo(print())
 		.andExpect(jsonPath("$.result", is("success")))
-		.andExpect(jsonPath("$.data",is(true)))
+		.andExpect(jsonPath("$.data",is("MEMBER")))
 		;
 	}
 	

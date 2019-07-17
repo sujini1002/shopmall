@@ -36,7 +36,7 @@
 			]]>
 		</selectKey>
 		<![CDATA[
-			insert into member values(
+			insert into delivers values(
 						nextval('seq_delivers'),
 						#{code},
 						'',
@@ -44,4 +44,12 @@
 					)
 		]]>
 	</insert>
+	
+	<select id="selectUserByIdPw" parameterType="map" resultType="string">
+	<![CDATA[
+		select role
+		from member
+		where id = #{id} and password = #{password}
+	]]>
+	</select>
 </mapper>

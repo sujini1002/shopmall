@@ -102,8 +102,8 @@ public class MemberAPIController {
 			return new ResponseEntity<JSONResult>(JSONResult.fail("아이디와 비밀번호를 입력하시오.", false), HttpStatus.BAD_REQUEST);
 		}
 		
-		Boolean isExist = memberService.login((String)map.get("id"),(String)map.get("password"));
-		return new ResponseEntity<JSONResult>(JSONResult.success(isExist),HttpStatus.OK);
+		String result = memberService.login((String)map.get("id"),(String)map.get("password"));
+		return new ResponseEntity<JSONResult>(JSONResult.success(result),HttpStatus.OK);
 	}
 	
 	// 회원 정보 가져오기(수정 페이지에서 사용)

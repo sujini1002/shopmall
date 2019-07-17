@@ -33,22 +33,22 @@ public class MemberService {
 		Long memberCode = memberDao.insertMember(memberVo);
 		result.put("memberCode", memberCode);
 		
-		if( !"".equals(memberVo.getPostId()) && !"".equals(memberVo.getDeliverFirst()) && !"".equals(memberVo.getDeliverLast())) {
+		// 배송지 테이블에 저장
+		if(memberVo.getPostId() !=null && !"".equals(memberVo.getPostId()) && memberVo.getDeliverFirst() !=null && !"".equals(memberVo.getDeliverFirst()) 
+				&& memberVo.getDeliverLast() !=null && !"".equals(memberVo.getDeliverLast())) {
 			memberVo.setCode(memberCode);
 			memberVo.setDeliver("("+memberVo.getPostId()+") "+ memberVo.getDeliverFirst() + memberVo.getDeliverLast());
-			
 			Long deliverCode = memberDao.insertDeliver(memberVo);
 			result.put("deliverCode", deliverCode);
 		}
 		return  result;
 	}
 
-	public Boolean login(String id, String password) {
+	public String login(String id, String password) {
 //		UserVo vo = dao.selectUserByIdPw(id,password);
 //		return vo == null;
-		MemberVo vo = memberList.get(0);
 		
-		return vo.getId().equals(id) && vo.getPassword().equals(password);
+		return memberDao.selectUserByIdPw(id,password);
 	}
 
 	public MemberVo getMemberInfo(Long no) {
