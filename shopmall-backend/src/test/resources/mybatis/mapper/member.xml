@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="member">
+	<select id="selectById" parameterType="string" resultType="long">
+		<![CDATA[
+			select count(*)
+			from member
+			where id = #{_parameter}
+		]]>
+	</select>
+	<insert id="insertMember" parameterType="membervo">
+		<selectKey keyProperty="code" resultType="Long" order="AFTER"><!-- 본 쿼리가 끝난 후 실행  -->
+			<![CDATA[
+				 SELECT currval('seq_member');
+			]]>
+		</selectKey>
+		<![CDATA[
+			insert into member values(
+						nextval('seq_member'),
+						#{id},
+						#{name},
+						#{password},
+						#{phone},
+						#{email},
+						FALSE,
+						cast('MEMBER' as enum_member_role)
+					)
+		]]>
+	</insert>
+	
+	<insert id="insertDeliver" parameterType="membervo">
+		<selectKey keyProperty="deliverCode" resultType="Long" order="AFTER"><!-- 본 쿼리가 끝난 후 실행  -->
+			<![CDATA[
+				 SELECT currval('seq_delivers');
+			]]>
+		</selectKey>
+		<![CDATA[
+			insert into member values(
+						nextval('seq_delivers'),
+						#{code},
+						'',
+						#{deliver}
+					)
+		]]>
+	</insert>
+</mapper>

@@ -26,13 +26,13 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.cafe24.shopmall.config.AppConfig;
+import com.cafe24.shopmall.config.TestAppConfig;
 import com.cafe24.shopmall.config.TestWebConfig;
 import com.cafe24.shopmall.vo.MemberVo;
 import com.google.gson.Gson;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = { AppConfig.class, TestWebConfig.class })
+@ContextConfiguration(classes = { TestAppConfig.class, TestWebConfig.class })
 @WebAppConfiguration
 public class MemberScenario {
 
