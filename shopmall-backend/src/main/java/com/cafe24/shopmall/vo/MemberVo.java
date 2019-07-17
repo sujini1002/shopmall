@@ -29,13 +29,12 @@ public class MemberVo {
 	private String email;
 	
 	@Pattern(regexp = "^[0-9-]{0,7}$", message = "숫자,'-'로만 이루어진 값만 입력하시오. ")
-	private String postId;
-
-	private String deliverFirst;
-	private String deliverLast;
+	private String postid;
 	
-	private Long deliverCode;
-	private String deliver;
+	private String base_deliver;
+	private String detail_deliver;
+	
+	
 
 	public MemberVo() {
 	}
@@ -57,31 +56,32 @@ public class MemberVo {
 		this.email = email;
 	}
 
-	public MemberVo(String id, String name, String password, String phone, String email, String postId,
-			String deliverFirst, String deliverLast) {
+	public MemberVo(String id, String name, String password, String phone, String email, String postid,
+			String base_deliver, String detail_deliver) {
 		this.id = id;
 		this.name = name;
 		this.password = password;
 		this.phone = phone;
 		this.email = email;
-		this.postId = postId;
-		this.deliverFirst = deliverFirst;
-		this.deliverLast = deliverLast;
+		this.postid = postid;
+		this.base_deliver = base_deliver;
+		this.detail_deliver = detail_deliver;
 	}
 
-	public MemberVo(Long code,String id, String name, String password, String phone, String email, String postId,
-			String deliverFirst, String deliverLast) {
+	public MemberVo(Long code,String id, String name, String password, String phone, String email, String postid,
+			String base_deliver, String detail_deliver) {
 		this.code = code;
 		this.id = id;
 		this.name = name;
 		this.password = password;
 		this.phone = phone;
 		this.email = email;
-		this.postId = postId;
-		this.deliverFirst = deliverFirst;
-		this.deliverLast = deliverLast;
+		this.postid = postid;
+		this.base_deliver = base_deliver;
+		this.detail_deliver = detail_deliver;
 	}
 
+	
 	public Long getCode() {
 		return code;
 	}
@@ -130,49 +130,31 @@ public class MemberVo {
 		this.email = email;
 	}
 
-	public String getPostId() {
-		return postId;
+	public String getPostid() {
+		return postid;
 	}
 
-	public void setPostId(String postId) {
-		this.postId = postId;
+	public String getBase_deliver() {
+		return base_deliver;
 	}
 
-	public String getDeliverFirst() {
-		return deliverFirst;
+	public void setBase_deliver(String base_deliver) {
+		this.base_deliver = base_deliver;
 	}
 
-	public void setDeliverFirst(String deliverFirst) {
-		this.deliverFirst = deliverFirst;
+	public String getDetail_deliver() {
+		return detail_deliver;
 	}
 
-	public String getDeliverLast() {
-		return deliverLast;
-	}
-
-	public void setDeliverLast(String deliverLast) {
-		this.deliverLast = deliverLast;
-	}
-	public Long getDeliverCode() {
-		return deliverCode;
-	}
-
-	public void setDeliverCode(Long deliverCode) {
-		this.deliverCode = deliverCode;
-	}
-
-	public String getDeliver() {
-		return deliver;
-	}
-
-	public void setDeliver(String deliver) {
-		this.deliver = deliver;
+	public void setDetail_deliver(String detail_deliver) {
+		this.detail_deliver = detail_deliver;
 	}
 
 	@Override
 	public String toString() {
 		return "MemberVo [code=" + code + ", id=" + id + ", name=" + name + ", password=" + password + ", phone="
-				+ phone + ", email=" + email + ", postId=" + postId + ", deliverFirst=" + deliverFirst
-				+ ", deliverLast=" + deliverLast + ", deliverCode=" + deliverCode + ", deliver=" + deliver + "]";
+				+ phone + ", email=" + email + ", postid=" + postid + ", base_deliver="
+				+ base_deliver + ", detail_deliver=" + detail_deliver + "]";
 	}
+	
 }

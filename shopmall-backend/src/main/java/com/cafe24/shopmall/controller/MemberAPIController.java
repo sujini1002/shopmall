@@ -78,7 +78,7 @@ public class MemberAPIController {
 			}
 			return new ResponseEntity<JSONResult>(JSONResult.fail("입력형식이 유효하지 않습니다.",errorMessages),HttpStatus.BAD_REQUEST);
 		}
-		Map<String,Long> result = memberService.userAdd(memberVo);
+		Long result = memberService.userAdd(memberVo);
 		return new ResponseEntity<JSONResult>(JSONResult.success(result), HttpStatus.OK);
 	}
 	
@@ -132,7 +132,6 @@ public class MemberAPIController {
 	})
 	@PutMapping(value="")
 	public ResponseEntity<JSONResult> modify(@RequestBody @Valid MemberVo vo,BindingResult error) {
-		
 		if(error.hasErrors()) {
 			Map<String,String> errorMessages = new HashMap<String, String>();
 			//아이디,이름,비밀번호,휴대전화,이메일
@@ -167,7 +166,7 @@ public class MemberAPIController {
 		Long code =  map.get("code")==null?null:((Integer)map.get("code")).longValue();
 		String password = map.get("password")==null?null:map.get("password").toString();
 		
-		if(code == null || "".equals(password)) {
+		if(code == null || "".equals(password) || password == null) {
 			return new ResponseEntity<JSONResult>(JSONResult.fail("아이디와 비밀번호를 입력하시오.", false), HttpStatus.BAD_REQUEST);
 		}
 		Boolean isSuccess = memberService.delete(code,password);

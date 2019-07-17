@@ -23,33 +23,50 @@
 						#{password},
 						#{phone},
 						#{email},
+						#{postid},
+						#{base_deliver},
+						#{detail_deliver},
 						FALSE,
 						cast('MEMBER' as enum_member_role)
 					)
 		]]>
 	</insert>
 	
-	<insert id="insertDeliver" parameterType="membervo">
-		<selectKey keyProperty="deliverCode" resultType="Long" order="AFTER"><!-- 본 쿼리가 끝난 후 실행  -->
-			<![CDATA[
-				 SELECT currval('seq_delivers');
-			]]>
-		</selectKey>
-		<![CDATA[
-			insert into delivers values(
-						nextval('seq_delivers'),
-						#{code},
-						'',
-						#{deliver}
-					)
-		]]>
-	</insert>
-	
 	<select id="selectUserByIdPw" parameterType="map" resultType="string">
-	<![CDATA[
-		select role
-		from member
-		where id = #{id} and password = #{password}
-	]]>
+		<![CDATA[
+			select role
+			from member
+			where id = #{id} and password = #{password}
+		]]>
 	</select>
+	
+	<select id="selectMemberByCode" parameterType="Long" resultType="membervo">
+		<![CDATA[
+			select code, id, name, phone, email, postid, base_deliver, detail_deliver
+			from member
+			where code = #{_parameter};
+		]]>
+	</select>
+	
+	<update id="updateMember" parameterType="membervo">
+		<![CDATA[
+			update member
+			set name = #{name},
+			password = #{password},
+			postid=#{postid},
+			base_deliver=#{base_deliver},
+			detail_deliver=#{detail_deliver},
+			email = #{email},
+			phone = #{phone}
+			where id= #{id} and code = #{code}
+		]]>
+	</update>
+	
+	<update id="deleteMember" parameterType="map">
+		<![CDATA[
+			update member
+			set isdrop = TRUE
+			where code = #{code} and password = #{password}
+		]]>
+	</update>
 </mapper>

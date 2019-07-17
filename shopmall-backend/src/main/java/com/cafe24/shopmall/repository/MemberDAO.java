@@ -34,13 +34,6 @@ public class MemberDAO {
 		return memberVo.getCode();
 	}
 	/**
-	 * deliver 테이블에 행 추가 
-	 */
-	public Long insertDeliver(MemberVo memberVo) {
-		sqlSession.insert("member.insertDeliver",memberVo);
-		return memberVo.getDeliverCode();
-	}
-	/**
 	 * 로그인 
 	 */
 	public String selectUserByIdPw(String id, String password) {
@@ -51,4 +44,22 @@ public class MemberDAO {
 		String result = sqlSession.selectOne("member.selectUserByIdPw", param);
 		return result;
 	}
+	
+	/**
+	 * 회원 정보가져오기
+	 */
+	public MemberVo getMemberInfo(Long no) {
+		return sqlSession.selectOne("member.selectMemberByCode", no);
+	}
+
+	public Boolean updateMember(MemberVo memberVo) {
+		int result = sqlSession.update("member.updateMember", memberVo);
+		return result==1;
+	}
+
+	public Boolean deleteMember(Map<String, Object> param) {
+		int result = sqlSession.update("member.deleteMember", param);
+		return result == 1;
+	}
+
 }

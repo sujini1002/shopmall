@@ -24,62 +24,42 @@ public class MemberService {
 	}
 	/**
 	 * -- 회원 가입
-	 * 1. 우편번호 또는 배송지가 없으면 member 테이블만 저장
-	 * 2. 존재한다면 member 저장 후 delivers 테이블에 member의 code 값을 가져가서 저장 시킴 
 	 */
-	public Map<String,Long> userAdd(MemberVo memberVo) {
-		Map<String,Long> result = new HashMap<String,Long>();
-		
+	public Long userAdd(MemberVo memberVo) {
 		Long memberCode = memberDao.insertMember(memberVo);
-		result.put("memberCode", memberCode);
-		
-		// 배송지 테이블에 저장
-		if(memberVo.getPostId() !=null && !"".equals(memberVo.getPostId()) && memberVo.getDeliverFirst() !=null && !"".equals(memberVo.getDeliverFirst()) 
-				&& memberVo.getDeliverLast() !=null && !"".equals(memberVo.getDeliverLast())) {
-			memberVo.setCode(memberCode);
-			memberVo.setDeliver("("+memberVo.getPostId()+") "+ memberVo.getDeliverFirst() + memberVo.getDeliverLast());
-			Long deliverCode = memberDao.insertDeliver(memberVo);
-			result.put("deliverCode", deliverCode);
-		}
-		return  result;
+		return  memberCode;
 	}
-
+	/**
+	 *  회원 로그인
+	 */
 	public String login(String id, String password) {
-//		UserVo vo = dao.selectUserByIdPw(id,password);
-//		return vo == null;
-		
 		return memberDao.selectUserByIdPw(id,password);
 	}
-
+	/**
+	 *  회원정보 수정시에 기존 회원정보를 가져오는 메서드 이다.
+	 */
 	public MemberVo getMemberInfo(Long no) {
-		MemberVo result = null;
-		for(MemberVo vo : memberList) {
-			if(vo.getCode()==no) {
-				result = vo;
-				break;
-			}
-		}
-		return result;
+		return memberDao.getMemberInfo(no);
 	}
-
-	public MemberVo modifyMember(MemberVo vo) {
-		MemberVo result = null;
-		for(MemberVo temp : memberList) {
-			if(temp.getCode()==vo.getCode()) {
-				result = vo;
-				break;
-			}
-		}
-		return result;
+	
+	/**
+	 * 회원 정보 수정하는 메서드 
+	 * 1. 비밀번호 null 값이면 변경하지 않는다.
+	 */
+	public MemberVo modifyMember(MemberVo memberVo) {
+		//회원 정보 수정
+		memberDao.updateMember(memberVo);
+		
+		return memberDao.getMemberInfo(memberVo.getCode());
 	}
 
 	public Boolean delete(Long code, String password) {
-		for(MemberVo vo : memberList) {
-			if(vo.getCode() == code && vo.getPassword().equals(password)) {
-				return true;
-			}
-		}
-		return false;
+		
+		Map<String,Object> param = new HashMap<String,Object>();
+		param.put("code", code);
+		param.put("password", password);
+		
+		return memberDao.deleteMember(param);
 	}
 	
 }
