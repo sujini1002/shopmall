@@ -138,12 +138,9 @@ public class MemberAPIController {
 			for(ObjectError index : error.getAllErrors()) {
 				FieldError fe = (FieldError)index;
 				// 비빌번호 null 값 체크
-				if("password".equals(fe.getField()) && "".equals(fe.getRejectedValue())){continue;}
 				errorMessages.put(fe.getField(), fe.getDefaultMessage());
 			}
-			if(errorMessages.size()>0) {
 				return new ResponseEntity<JSONResult>(JSONResult.fail("입력형식이 유효하지 않습니다.",errorMessages),HttpStatus.BAD_REQUEST);
-			}
 		}
 		
 		MemberVo result = memberService.modifyMember(vo);

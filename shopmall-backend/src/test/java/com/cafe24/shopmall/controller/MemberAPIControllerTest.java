@@ -222,7 +222,7 @@ public class MemberAPIControllerTest {
 		.andExpect(jsonPath("$.data.code").doesNotExist())
 		.andExpect(jsonPath("$.data.id").doesNotExist())
 		.andExpect(jsonPath("$.data.name").exists())
-		.andExpect(jsonPath("$.data.password").doesNotExist())
+		.andExpect(jsonPath("$.data.password").exists())
 		.andExpect(jsonPath("$.data.phone").exists())
 		.andExpect(jsonPath("$.data.email").exists())
 		.andExpect(jsonPath("$.data.postid").exists())
@@ -265,27 +265,6 @@ public class MemberAPIControllerTest {
 		.andExpect(jsonPath("$.data.detail_deliver",is(vo.getDetail_deliver())))
 		;
 	}
-	
-	@Test
-	public void testMemberModifyNoPassword() throws Exception {
-		MemberVo vo = new MemberVo(57L, "zzang9", "신짱구", "", "010-1234-1234", "kixxit9512@gmail.com","02614","서울시 강남구 대치도로23","비트교육센터 4층");
-			
-		ResultActions resultActions = mockMvc.perform(put("/api/member").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo))).andDo(print());
-			
-		
-		resultActions.andExpect(status().isOk())
-		.andExpect(jsonPath("$.result",is("success")))
-		.andExpect(jsonPath("$.data.code",is(vo.getCode().intValue())))
-		.andExpect(jsonPath("$.data.id",is(vo.getId())))
-		.andExpect(jsonPath("$.data.name",is(vo.getName())))
-		.andExpect(jsonPath("$.data.phone",is(vo.getPhone())))
-		.andExpect(jsonPath("$.data.email",is(vo.getEmail())))
-		.andExpect(jsonPath("$.data.postid",is(vo.getPostid())))
-		.andExpect(jsonPath("$.data.base_deliver",is(vo.getBase_deliver())))
-		.andExpect(jsonPath("$.data.detail_deliver",is(vo.getDetail_deliver())))
-		;
-	}
-	
 	//회원 탈퇴 null 값
 	@Test
 	public void testMemberDeleteFailNull() throws Exception {
