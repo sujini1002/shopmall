@@ -52,7 +52,13 @@
 		<![CDATA[
 			update member
 			set name = #{name},
-			password = #{password},
+		]]>
+		<if test='password != ""'>
+			<![CDATA[
+				password=#{password},
+			]]>
+		</if>
+		<![CDATA[
 			postid=#{postid},
 			base_deliver=#{base_deliver},
 			detail_deliver=#{detail_deliver},

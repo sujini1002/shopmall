@@ -141,7 +141,9 @@ public class MemberAPIController {
 				if("password".equals(fe.getField()) && "".equals(fe.getRejectedValue())){continue;}
 				errorMessages.put(fe.getField(), fe.getDefaultMessage());
 			}
-			return new ResponseEntity<JSONResult>(JSONResult.fail("입력형식이 유효하지 않습니다.",errorMessages),HttpStatus.BAD_REQUEST);
+			if(errorMessages.size()>0) {
+				return new ResponseEntity<JSONResult>(JSONResult.fail("입력형식이 유효하지 않습니다.",errorMessages),HttpStatus.BAD_REQUEST);
+			}
 		}
 		
 		MemberVo result = memberService.modifyMember(vo);

@@ -98,6 +98,7 @@ public class MemberAPIControllerTest {
 	 * 회원가입 요청
 	 * - 우편번호와 배송지는 빈값으로 들어와도 예외처리 되지 않는다.
 	 */
+//	@Ignore
 	@Rollback(true)
 	@Test
 	public void testMemberJoin() throws Exception {
@@ -110,6 +111,7 @@ public class MemberAPIControllerTest {
 		;
 	}
 	
+//	@Ignore
 	@Rollback(true)
 	@Test
 	public void testMemberJoinWithDelivers() throws Exception {
@@ -243,9 +245,30 @@ public class MemberAPIControllerTest {
 	}
 	
 	// 회원정보 수정 성공
+	@Ignore
 	@Test
 	public void testMemberModifySuccess() throws Exception {
 		MemberVo vo = new MemberVo(57L, "zzang9", "신짱아", "Enum!!324", "010-1234-1234", "kixxit9512@gmail.com","02614","서울시 강남구 대치도로23","비트교육센터 4층");
+			
+		ResultActions resultActions = mockMvc.perform(put("/api/member").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo))).andDo(print());
+			
+		
+		resultActions.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result",is("success")))
+		.andExpect(jsonPath("$.data.code",is(vo.getCode().intValue())))
+		.andExpect(jsonPath("$.data.id",is(vo.getId())))
+		.andExpect(jsonPath("$.data.name",is(vo.getName())))
+		.andExpect(jsonPath("$.data.phone",is(vo.getPhone())))
+		.andExpect(jsonPath("$.data.email",is(vo.getEmail())))
+		.andExpect(jsonPath("$.data.postid",is(vo.getPostid())))
+		.andExpect(jsonPath("$.data.base_deliver",is(vo.getBase_deliver())))
+		.andExpect(jsonPath("$.data.detail_deliver",is(vo.getDetail_deliver())))
+		;
+	}
+	
+	@Test
+	public void testMemberModifyNoPassword() throws Exception {
+		MemberVo vo = new MemberVo(57L, "zzang9", "신짱구", "", "010-1234-1234", "kixxit9512@gmail.com","02614","서울시 강남구 대치도로23","비트교육센터 4층");
 			
 		ResultActions resultActions = mockMvc.perform(put("/api/member").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo))).andDo(print());
 			
