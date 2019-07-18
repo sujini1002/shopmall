@@ -36,7 +36,7 @@
 		<![CDATA[
 			select role
 			from member
-			where id = #{id} and password = #{password}
+			where id = #{id} and password = #{password} and isdrop = FALSE
 		]]>
 	</select>
 	
