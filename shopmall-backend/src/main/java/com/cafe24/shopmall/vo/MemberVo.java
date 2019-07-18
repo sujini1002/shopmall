@@ -1,11 +1,12 @@
 package com.cafe24.shopmall.vo;
 
-import javax.validation.constraints.Pattern;
 
+import com.cafe24.shopmall.validator.constraints.ValidEmail;
 import com.cafe24.shopmall.validator.constraints.ValidID;
 import com.cafe24.shopmall.validator.constraints.ValidName;
 import com.cafe24.shopmall.validator.constraints.ValidPassword;
 import com.cafe24.shopmall.validator.constraints.ValidPhone;
+import com.cafe24.shopmall.validator.constraints.ValidPostId;
 
 public class MemberVo {
 
@@ -25,10 +26,12 @@ public class MemberVo {
 	@ValidPhone
 	private String phone;
 
-	@Pattern(regexp = "^[\\w\\~\\-\\.]+@[\\w\\~\\-]+(\\.[\\w\\~\\-]+)+$", message = "example@shopmall.com 형식으로 입력하시오.")
+//	@Pattern(regexp = "^[\\w\\~\\-\\.]+@[\\w\\~\\-]+(\\.[\\w\\~\\-]+)+$", message = "example@shopmall.com 형식으로 입력하시오.")
+	@ValidEmail
 	private String email;
 	
-	@Pattern(regexp = "^[0-9-]{0,7}$", message = "숫자,'-'로만 이루어진 값만 입력하시오. ")
+//	@Pattern(regexp = "^[0-9-]{0,7}$", message = "숫자,'-'로만 이루어진 값만 입력하시오. ")
+	@ValidPostId
 	private String postid;
 	
 	private String base_deliver;
