@@ -27,7 +27,7 @@
 						#{base_deliver},
 						#{detail_deliver},
 						FALSE,
-						cast('MEMBER' as enum_member_role)
+						cast('ROLE_USER' as enum_member_role)
 					)
 		]]>
 	</insert>

@@ -13,7 +13,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +63,7 @@ public class MemberAPIControllerTest {
 	// 이메일 중복 확인(사용가능)
 	@Test
 	public void testMemberCheckIdTrue() throws Exception {
-		ResultActions resultActions = mockMvc.perform(get("/api/member/checkid/{id}","aufclakstp").contentType(MediaType.APPLICATION_JSON));
+		ResultActions resultActions = mockMvc.perform(get("/api/member/checkid/{id}","yuri1234").contentType(MediaType.APPLICATION_JSON));
 		resultActions.andExpect(status().isOk()).andDo(print())
 		.andExpect(jsonPath("$.result",is("success")))
 		.andExpect(jsonPath("$.data",is(false)));
@@ -102,7 +101,7 @@ public class MemberAPIControllerTest {
 	@Rollback(true)
 	@Test
 	public void testMemberJoin() throws Exception {
-		MemberVo memberVo = new MemberVo("yuri1234","이유리","sujni102!S","010-2222-1111","ymca@gmail.com","","","");
+		MemberVo memberVo = new MemberVo("connan12","내이름은코난","sujni102!S","010-7777-1234","connan@gmail.com","","","");
 		
 		ResultActions resultActions = mockMvc.perform(post("/api/member").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(memberVo))).andDo(print());
 		resultActions.andExpect(status().is2xxSuccessful())
@@ -115,7 +114,7 @@ public class MemberAPIControllerTest {
 	@Rollback(true)
 	@Test
 	public void testMemberJoinWithDelivers() throws Exception {
-		MemberVo memberVo = new MemberVo("hunni1234","훈이","sujni102!S","010-4444-9999","miriheart@naver.com","02546","서울시 서초대로 23","비트교육센터 4층");
+		MemberVo memberVo = new MemberVo("rose123","홍장미","sujni102!S","010-2222-9999","roseheart@naver.com","02546","서울시 서초대로 23","비트교육센터 4층");
 		
 		ResultActions resultActions = mockMvc.perform(post("/api/member").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(memberVo))).andDo(print());
 		resultActions.andExpect(status().is2xxSuccessful()).andDo(print())
@@ -159,20 +158,20 @@ public class MemberAPIControllerTest {
 	public void testMemberLogin() throws Exception {
 		Map<String,Object> map = new HashMap<String,Object>();
 		map.put("id", "tgif2014");
-		map.put("password", "Enum1234%");
+		map.put("password", "Enomhoot%12^^");
 		
 		ResultActions resultActions = mockMvc.perform(post("/api/member/login").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(map)));
 		
 		resultActions.andExpect(status().isOk()).andDo(print())
 		.andExpect(jsonPath("$.result", is("success")))
-		.andExpect(jsonPath("$.data",is("MEMBER")))
+		.andExpect(jsonPath("$.data",is("ROLE_USER")))
 		;
 	}
 	
 	// 회원정보 가져오기 실패
 	@Test
 	public void testMemeberInfoFail() throws Exception {
-		Long code = 10L;
+		Long code = 0L;
 		ResultActions resultActions = mockMvc.perform(get("/api/member/{no}",code)).andDo(print());
 		
 		resultActions.andExpect(status().isOk())
@@ -184,7 +183,7 @@ public class MemberAPIControllerTest {
 	// 회원정보 가져오기 성공
 	@Test
 	public void testMemeberInfoSuccess() throws Exception {
-		Long code = 56L;
+		Long code = 3L;
 		ResultActions resultActions = mockMvc.perform(get("/api/member/{no}",code)).andDo(print());
 		
 		resultActions.andExpect(status().isOk())
@@ -196,8 +195,8 @@ public class MemberAPIControllerTest {
 		.andExpect(jsonPath("$.data.phone").exists())
 		.andExpect(jsonPath("$.data.email").exists())
 		.andExpect(jsonPath("$.data.postid").exists())
-		.andExpect(jsonPath("$.data.base_deliver").isEmpty())
-		.andExpect(jsonPath("$.data.detail_deliver").isEmpty())
+		.andExpect(jsonPath("$.data.base_deliver").exists())
+		.andExpect(jsonPath("$.data.detail_deliver").exists())
 		;
 	}
 	
@@ -213,7 +212,7 @@ public class MemberAPIControllerTest {
 	// 회원 정보 수정  형식 실패
 	@Test
 	public void testMemberModifyFailPattern() throws Exception {
-		MemberVo vo = new MemberVo(2L, "tgif2013", "수지니#", "", "01-5489-4164", "tgif2014@gmail.","23$32","","");
+		MemberVo vo = new MemberVo(3L, "tgif2014", "수지니#", "", "01-5489-4164", "tgif2014@gmail.","23$32","","");
 			
 		ResultActions resultActions = mockMvc.perform(put("/api/member").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo))).andDo(print());
 			
@@ -234,7 +233,7 @@ public class MemberAPIControllerTest {
 	// 회원 정보 수정  형식 실패(회원정보가 없는 경우)
 	@Test
 	public void testMemberModifyFail() throws Exception {
-		MemberVo vo = new MemberVo(2L, "aufclaktp", "수지니", "Sjini10!", "010-5489-4164", "tgif2014@gmail.com");
+		MemberVo vo = new MemberVo(0L, "aufclaktp", "수지니", "Sjini10!", "010-5489-4164", "tgif2014@gmail.com");
 		
 		ResultActions resultActions = mockMvc.perform(put("/api/member").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo))).andDo(print());
 			
@@ -245,10 +244,10 @@ public class MemberAPIControllerTest {
 	}
 	
 	// 회원정보 수정 성공
-	@Ignore
+//	@Ignore
 	@Test
 	public void testMemberModifySuccess() throws Exception {
-		MemberVo vo = new MemberVo(57L, "zzang9", "신짱아", "Enum!!324", "010-1234-1234", "kixxit9512@gmail.com","02614","서울시 강남구 대치도로23","비트교육센터 4층");
+		MemberVo vo = new MemberVo(3L, "aufclakspt", "홍길동", "Suzini!!324", "010-1234-1234", "kixxit9512@gmail.com","02614","서울시 강남구 대치도로23","비트교육센터 4층");
 			
 		ResultActions resultActions = mockMvc.perform(put("/api/member").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo))).andDo(print());
 			
@@ -283,7 +282,7 @@ public class MemberAPIControllerTest {
 	@Test
 	public void testMemberDeleteFailAuth() throws Exception {
 		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("code", 89L);
+		map.put("code", 3L);
 		map.put("password", "sjjin##W");
 		
 		ResultActions resultActions = mockMvc.perform(delete("/api/member").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(map))).andDo(print());
@@ -295,11 +294,12 @@ public class MemberAPIControllerTest {
 	}
 	
 	//회원 탈퇴 성공
+//	@Ignore
 	@Test
 	public void testMemberDeleteSuccess() throws Exception {
 		Map<String,Object> map = new HashMap<String,Object>();
-		map.put("code", 88L);
-		map.put("password", "sujni102!S");
+		map.put("code", 3L);
+		map.put("password", "Enomhoot%12^^");
 		
 		ResultActions resultActions = mockMvc.perform(delete("/api/member").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(map))).andDo(print());
 		
