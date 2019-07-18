@@ -15,22 +15,18 @@ public class MemberVo {
 	@ValidID
 	private String id;
 
-//	@Pattern(regexp = "^[\uAC00-\uD7A3xfe0-9a-zA-Z\\s]{1,20}$", message = "이름에 특수문자를 제외한 1~20글자만 입력하시오.")
 	@ValidName
 	private String name;
 
-//	@Pattern(regexp = "^(?=.*\\d)(?=.*[~`!@#$%\\^&*()-])(?=.*[a-z])(?=.*[A-Z]).{8,16}$", message = "영문소문자,영문대문자,숫자,특수문자를 조합하여 8~16글자를 입력하시오.")
 	@ValidPassword
 	private String password;
 
 	@ValidPhone
 	private String phone;
 
-//	@Pattern(regexp = "^[\\w\\~\\-\\.]+@[\\w\\~\\-]+(\\.[\\w\\~\\-]+)+$", message = "example@shopmall.com 형식으로 입력하시오.")
 	@ValidEmail
 	private String email;
 	
-//	@Pattern(regexp = "^[0-9-]{0,7}$", message = "숫자,'-'로만 이루어진 값만 입력하시오. ")
 	@ValidPostId
 	private String postid;
 	
