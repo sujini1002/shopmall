@@ -17,5 +17,19 @@
 	<select id="isExistTopNo" parameterType="Integer" resultType="Integer">
 		select count(*) from category where no = #{_parameter}
 	</select>
-
+	
+	<select id="getList" parameterType="Integer" resultType="categoryvo">
+		<![CDATA[
+			select no, catg_top_no, name
+			from category
+		]]>
+		<if test='value != 0'>
+			<![CDATA[
+				where catg_top_no = #{_parameter}
+			]]>
+		</if>
+		<![CDATA[
+			order by no
+		]]>
+	</select>
 </mapper>

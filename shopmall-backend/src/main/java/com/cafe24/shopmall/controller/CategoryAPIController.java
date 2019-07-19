@@ -1,7 +1,9 @@
 package com.cafe24.shopmall.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -11,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,6 +39,7 @@ import io.swagger.annotations.Api;
  *  		- 카테고리 명은  null 허용 X
  *  		- 하위카테고리의 상위카테고리 번호는 존재해야 한다.
  *  	- 카테고리 수정
+ *  		- 상위카테고리 번호와 카테고리 명만 수정 가능하다.
  *  	- 카테고리 삭제
  *  
  *  2. USER와 ADMIN 모두 가능한 기능
@@ -50,6 +55,7 @@ public class CategoryAPIController {
 	@Autowired
 	private CategoryService categoryService;
 	
+	
 	@PostMapping(value="/admin/category")
 	public ResponseEntity<JSONResult> add(@RequestBody @Valid CategoryVo categoryVo, BindingResult errors){
 		
@@ -64,6 +70,16 @@ public class CategoryAPIController {
 		
 		Integer no = categoryService.add(categoryVo);
 		return new ResponseEntity<JSONResult>(JSONResult.success(no),HttpStatus.OK);
+	}
+	
+	
+	@GetMapping(value= {"/category","/category/{cate_no}"})
+	public ResponseEntity<JSONResult> list(@PathVariable(value="cate_no") Optional<Integer> cate_no){
+		
+		Integer no = cate_no.isPresent()?cate_no.get():0;
+		List<CategoryVo> results = categoryService.list(no);
+		
+		return new ResponseEntity<JSONResult>(JSONResult.success(results),HttpStatus.OK);
 	}
 	
 }

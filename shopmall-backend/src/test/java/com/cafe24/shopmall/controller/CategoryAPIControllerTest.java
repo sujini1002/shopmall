@@ -1,6 +1,7 @@
 package com.cafe24.shopmall.controller;
 
 import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -123,4 +124,63 @@ public class CategoryAPIControllerTest {
 		.andExpect(jsonPath("$.data.catg_top_no").exists())
 		;
 	}
+	
+	/**
+	 *  2. 카테고리 조회
+	 *  2.1.1 전체카테고리 조회 성공
+	 */
+	@Test
+	public void testCategoryListAllSuccess() throws Exception {
+		ResultActions resultActions = mockMvc.perform(get("/api/category"));
+		
+		resultActions
+		.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result",is("success")))
+		.andExpect(jsonPath("$.data").exists())
+		.andExpect(jsonPath("$.data[0].no",is(1)))
+		.andExpect(jsonPath("$.data[0].catg_top_no").doesNotExist())
+		.andExpect(jsonPath("$.data[0].name",is("상의")))
+		;
+	}
+	
+	/**
+	 *  2. 카테고리 조회
+	 *  2.2.1 하위카테고리 조회 성공
+	 */
+	@Test
+	public void testCategoryListButtomSuccess() throws Exception {
+		ResultActions resultActions = mockMvc.perform(get("/api/category/{cate_no}",1));
+		
+		resultActions
+		.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result",is("success")))
+		.andExpect(jsonPath("$.data").exists())
+		.andExpect(jsonPath("$.data[0].no",is(11)))
+		.andExpect(jsonPath("$.data[0].catg_top_no",is(1)))
+		.andExpect(jsonPath("$.data[0].name",is("블라우스")))
+		;
+	}
+	
+	/**
+	 *  2. 카테고리 조회
+	 *  2.2.2하위카테고리 조회 실패 (없는 번호 또는 최하위 카테고리에서의 조회)
+	 */
+	@Test
+	public void testCategoryListButtomFail() throws Exception {
+		ResultActions resultActions = mockMvc.perform(get("/api/category/{cate_no}",-1));
+		
+		resultActions
+		.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result",is("success")))
+		.andExpect(jsonPath("$.data[0]").doesNotExist())
+		;
+	}
+	
+	/**
+	 * 3. 카테고리 수정
+	 * 3.1.1 
+	 */
 }

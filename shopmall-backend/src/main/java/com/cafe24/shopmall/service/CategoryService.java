@@ -1,5 +1,7 @@
 package com.cafe24.shopmall.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,11 @@ public class CategoryService {
 			categoryVo.setCatg_top_no(null);
 		}
 		return categoryDao.insert(categoryVo);
+	}
+
+	public List<CategoryVo> list(Integer no) {
+		
+		return categoryDao.getList(no);
 	}
 
 }
