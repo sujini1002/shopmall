@@ -29,7 +29,7 @@
 			]]>
 		</if>
 		<![CDATA[
-			order by no
+			order by catg_top_no desc
 		]]>
 	</select>
 	

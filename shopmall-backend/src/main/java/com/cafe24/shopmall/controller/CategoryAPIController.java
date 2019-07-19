@@ -27,6 +27,9 @@ import com.cafe24.shopmall.service.CategoryService;
 import com.cafe24.shopmall.vo.CategoryVo;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 
 /**
  *  카테고리 Controller
@@ -43,9 +46,11 @@ import io.swagger.annotations.Api;
  *  	- 카테고리 수정
  *  		- 상위카테고리 번호와 카테고리 명만 수정 가능하다.
  *  	- 카테고리 삭제
- *  
+ *			- 상위카테고리가 지워지면 하위 카테고리도 같이 지워진다. 
+ *			- 상위카테고리 확인은 jQuery의 자식 노드 찾기로 진행 예정.  
  *  2. USER와 ADMIN 모두 가능한 기능
- *  	- 카테고리 조회
+ *  	- 카테고리 조회 
+ *  		- parameter가 없으면 전체리스트를 가져온다.
  *
  */
 
@@ -57,7 +62,12 @@ public class CategoryAPIController {
 	@Autowired
 	private CategoryService categoryService;
 	
-	
+	@ApiOperation(value="카테고리 등록",notes="새로운 카테고리 등록")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="no",value="카테고리 번호",required=false,paramType="query"),
+		@ApiImplicitParam(name="catg_top_no",value="상위 카테고리 번호",required=false,paramType="query",defaultValue=""),
+		@ApiImplicitParam(name="name",value="이름",required=true,paramType="query",defaultValue=""),
+	})
 	@PostMapping(value="/admin/category")
 	public ResponseEntity<JSONResult> add(@RequestBody @Valid CategoryVo categoryVo, BindingResult errors){
 		
@@ -74,7 +84,10 @@ public class CategoryAPIController {
 		return new ResponseEntity<JSONResult>(JSONResult.success(no),HttpStatus.OK);
 	}
 	
-	
+	@ApiOperation(value="카테고리 조회",notes="카테고리 조회")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="no",value="카테고리 번호",required=false,paramType="query")
+	})
 	@GetMapping(value= {"/category","/category/{cate_no}"})
 	public ResponseEntity<JSONResult> list(@PathVariable(value="cate_no") Optional<Integer> cate_no){
 		
@@ -88,6 +101,10 @@ public class CategoryAPIController {
 		return new ResponseEntity<JSONResult>(JSONResult.success(results),HttpStatus.OK);
 	}
 	
+	@ApiOperation(value="카테고리 정보 가져오기",notes="카테고리 정보 가져오기")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="no",value="카테고리 번호",required=true,paramType="query")
+	})
 	@GetMapping(value="/admin/category/{no}")
 	public ResponseEntity<JSONResult> getCategoryInfo(@PathVariable(value="no")Integer no){
 		
@@ -100,6 +117,12 @@ public class CategoryAPIController {
 		return new ResponseEntity<JSONResult>(JSONResult.success(vo),HttpStatus.OK);
 	}
 	
+	@ApiOperation(value="카테고리 수정",notes="카테고리 수정")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="no",value="카테고리 번호",required=true,paramType="query"),
+		@ApiImplicitParam(name="catg_top_no",value="상위 카테고리 번호",required=true,paramType="query"),
+		@ApiImplicitParam(name="name",value="이름",required=true,paramType="query"),
+	})
 	@PutMapping(value="/admin/category")
 	public ResponseEntity<JSONResult> update(@RequestBody @Valid CategoryVo categoryVo, BindingResult errors){
 		
@@ -116,6 +139,10 @@ public class CategoryAPIController {
 		return new ResponseEntity<JSONResult>(JSONResult.success(result),HttpStatus.OK);
 	}
 	
+	@ApiOperation(value="카테고리 삭제",notes="카테고리 삭제 하기")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="no",value="카테고리 번호",required=true,paramType="query")
+	})
 	@DeleteMapping(value="/admin/category/{no}")
 	public ResponseEntity<JSONResult> delete(@PathVariable(value="no") Integer no){
 		

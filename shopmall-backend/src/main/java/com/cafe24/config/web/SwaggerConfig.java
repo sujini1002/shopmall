@@ -18,7 +18,7 @@ public class SwaggerConfig {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.cafe24.shopmall.controller.api"))
+                .apis(RequestHandlerSelectors.basePackage("com.cafe24.shopmall.controller"))
                 .paths(PathSelectors.any())
                 .build();
 

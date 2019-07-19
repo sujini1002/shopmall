@@ -140,9 +140,9 @@ public class CategoryAPIControllerTest {
 		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result",is("success")))
 		.andExpect(jsonPath("$.data").exists())
-		.andExpect(jsonPath("$.data[0].no",is(1)))
+		.andExpect(jsonPath("$.data[0].no").exists())
 		.andExpect(jsonPath("$.data[0].catg_top_no").doesNotExist())
-		.andExpect(jsonPath("$.data[0].name",is("상의")))
+		.andExpect(jsonPath("$.data[0].name").exists())
 		;
 	}
 	
@@ -159,9 +159,9 @@ public class CategoryAPIControllerTest {
 		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result",is("success")))
 		.andExpect(jsonPath("$.data").exists())
-		.andExpect(jsonPath("$.data[0].no",is(11)))
-		.andExpect(jsonPath("$.data[0].catg_top_no",is(1)))
-		.andExpect(jsonPath("$.data[0].name",is("블라우스")))
+		.andExpect(jsonPath("$.data[0].no").exists())
+		.andExpect(jsonPath("$.data[0].catg_top_no").exists())
+		.andExpect(jsonPath("$.data[0].name").exists())
 		;
 	}
 	
@@ -187,7 +187,7 @@ public class CategoryAPIControllerTest {
 	 */
 	@Test
 	public void testCategoryInfoSuccess() throws Exception {
-		Integer no = 11;
+		Integer no = 1;
 		ResultActions resultActions = mockMvc.perform(get("/api/admin/category/{cate_no}",no));
 		
 		resultActions
@@ -195,7 +195,7 @@ public class CategoryAPIControllerTest {
 		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result",is("success")))
 		.andExpect(jsonPath("$.data.no",is(no)))
-		.andExpect(jsonPath("$.data.catg_top_no").exists())
+		.andExpect(jsonPath("$.data.catg_top_no").doesNotExist())
 		.andExpect(jsonPath("$.data.name").exists())
 		;
 	}
@@ -225,9 +225,9 @@ public class CategoryAPIControllerTest {
 	@Test
 	public void testCategoryUpdateSuccess() throws Exception {
 		CategoryVo vo = new CategoryVo();
-		vo.setNo(32);
-		vo.setCatg_top_no(27);
-		vo.setName("린넨티셔츠");
+		vo.setNo(51);
+		vo.setCatg_top_no(46);
+		vo.setName("린넨바지");
 		
 		ResultActions resultActions = mockMvc.perform(put("/api/admin/category").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
 		
@@ -249,7 +249,7 @@ public class CategoryAPIControllerTest {
 	@Test
 	public void testCategoryUpdateFail() throws Exception {
 		CategoryVo vo = new CategoryVo();
-		vo.setNo(32);
+		vo.setNo(50);
 		vo.setCatg_top_no(0);
 		vo.setName("린넨티셔츠");
 		
