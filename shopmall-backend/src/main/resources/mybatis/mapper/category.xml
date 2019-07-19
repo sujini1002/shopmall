@@ -32,4 +32,21 @@
 			order by no
 		]]>
 	</select>
+	
+	<select id="getInfo" parameterType="Integer" resultType="categoryvo">
+		<![CDATA[
+			select no, catg_top_no, name
+			from category
+			where no = #{_parameter}
+		]]>
+	</select>
+	
+	<update id="update" parameterType="categoryvo">
+		<![CDATA[
+			update category
+			set catg_top_no = #{catg_top_no},
+				name = #{name}
+			where no = #{no}
+		]]>
+	</update>
 </mapper>

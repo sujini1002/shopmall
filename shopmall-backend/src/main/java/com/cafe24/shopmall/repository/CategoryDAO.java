@@ -29,4 +29,12 @@ public class CategoryDAO {
 		return sqlSession.selectList("category.getList", no);
 	}
 
+	public CategoryVo getInfo(Integer no) {
+		return sqlSession.selectOne("category.getInfo", no);
+	}
+
+	public Integer update(CategoryVo categoryVo) {
+		return sqlSession.update("category.update", categoryVo);
+	}
+
 }

@@ -16,6 +16,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -79,7 +80,39 @@ public class CategoryAPIController {
 		Integer no = cate_no.isPresent()?cate_no.get():0;
 		List<CategoryVo> results = categoryService.list(no);
 		
+		if(results.size()==0) {
+			return new ResponseEntity<JSONResult>(JSONResult.fail("입력 값이 올바르지 않습니다.",null),HttpStatus.BAD_REQUEST);
+		}
+		
 		return new ResponseEntity<JSONResult>(JSONResult.success(results),HttpStatus.OK);
+	}
+	
+	@GetMapping(value="/admin/category/{no}")
+	public ResponseEntity<JSONResult> getCategoryInfo(@PathVariable(value="no")Integer no){
+		
+		CategoryVo vo = categoryService.getCategoryInfo(no);
+		
+		if(vo == null) {
+			return new ResponseEntity<JSONResult>(JSONResult.fail("입력 값이 올바르지 않습니다.",null),HttpStatus.BAD_REQUEST);
+		}
+		
+		return new ResponseEntity<JSONResult>(JSONResult.success(vo),HttpStatus.OK);
+	}
+	
+	@PutMapping(value="/admin/category")
+	public ResponseEntity<JSONResult> update(@RequestBody @Valid CategoryVo categoryVo, BindingResult errors){
+		
+		if(errors.hasErrors()) {
+			Map<String,String> errorMessages = new HashMap<String, String>();
+			for(ObjectError index : errors.getAllErrors()) {
+				FieldError fe = (FieldError)index;
+				errorMessages.put(fe.getField(), fe.getDefaultMessage());
+			}
+			return new ResponseEntity<JSONResult>(JSONResult.fail("입력 값이 올바르지 않습니다.",errorMessages),HttpStatus.BAD_REQUEST);
+		}
+		CategoryVo result = categoryService.update(categoryVo);
+		
+		return new ResponseEntity<JSONResult>(JSONResult.success(result),HttpStatus.OK);
 	}
 	
 }

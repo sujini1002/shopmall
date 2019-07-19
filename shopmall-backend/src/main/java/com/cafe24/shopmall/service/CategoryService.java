@@ -27,4 +27,15 @@ public class CategoryService {
 		return categoryDao.getList(no);
 	}
 
+	public CategoryVo getCategoryInfo(Integer no) {
+		return categoryDao.getInfo(no);
+	}
+
+	public CategoryVo update(CategoryVo categoryVo) {
+		
+		categoryDao.update(categoryVo);
+		
+		return categoryDao.getInfo(categoryVo.getNo());
+	}
+
 }
