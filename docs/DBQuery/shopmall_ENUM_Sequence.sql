@@ -1,6 +1,6 @@
-create type enum_order_status as enum('ÀÔ±ÝÀü','ÀÔ±Ý¿Ï·á','°áÁ¦¿Ï·á','»óÇ°ÁØºñÁß','ºÎºÐÃâ°í¿Ï·á','Ãâ°í¿Ï·á','ºÎºÐ¹è¼ÛÁß','¹è¼ÛÁß','¹è¼Û¿Ï·á','Ãë¼Ò','ºÎºÐÃë¼Ò');
-create type enum_ordpro_status as enum('ÀÔ±ÝÀü','ÀÔ±Ý¿Ï·á','°áÁ¦¿Ï·á','»óÇ°ÁØºñÁß','Ãâ°í¿Ï·á','¹è¼ÛÁß','¹è¼Û¿Ï·á','Ãë¼Ò');
-create type enum_member_role as enum('MEMBER','ADMIN');
+create type enum_order_status as enum('ï¿½Ô±ï¿½ï¿½ï¿½','ï¿½Ô±Ý¿Ï·ï¿½','ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½','ï¿½ï¿½Ç°ï¿½Øºï¿½ï¿½ï¿½','ï¿½Îºï¿½ï¿½ï¿½ï¿½Ï·ï¿½','ï¿½ï¿½ï¿½Ï·ï¿½','ï¿½ÎºÐ¹ï¿½ï¿½ï¿½ï¿½','ï¿½ï¿½ï¿½ï¿½ï¿½','ï¿½ï¿½Û¿Ï·ï¿½','ï¿½ï¿½ï¿½','ï¿½Îºï¿½ï¿½ï¿½ï¿½');
+create type enum_ordpro_status as enum('ï¿½Ô±ï¿½ï¿½ï¿½','ï¿½Ô±Ý¿Ï·ï¿½','ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½','ï¿½ï¿½Ç°ï¿½Øºï¿½ï¿½ï¿½','ï¿½ï¿½ï¿½Ï·ï¿½','ï¿½ï¿½ï¿½ï¿½ï¿½','ï¿½ï¿½Û¿Ï·ï¿½','ï¿½ï¿½ï¿½');
+create type enum_member_role as enum('ROLE_USER','ROLE_ADMIN');
 
 create sequence seq_member start 1;
 create sequence seq_product start 1;

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
 <configuration>
 	
 	<typeAliases>
@@ -9,10 +10,12 @@
 		<typeAlias alias="optionvo" type="com.cafe24.shopmall.vo.OptionVo"/>
 		<typeAlias alias="optiondetailvo" type="com.cafe24.shopmall.vo.OptionDetailVo"/>
 		<typeAlias alias="prodinventoryvo" type="com.cafe24.shopmall.vo.ProdInventoryVo"/>
+		<typeAlias alias="categoryvo" type="com.cafe24.shopmall.vo.CategoryVo"/>
 	</typeAliases>
 	
 	<mappers>
 		<mapper resource="mybatis/mapper/member.xml"/>
 		<mapper resource="mybatis/mapper/product.xml"/>
+		<mapper resource="mybatis/mapper/category.xml"/>
 	</mappers>
 </configuration>

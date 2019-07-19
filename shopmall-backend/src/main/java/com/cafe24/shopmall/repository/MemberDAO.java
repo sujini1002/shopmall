@@ -1,7 +1,6 @@
 package com.cafe24.shopmall.repository;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -13,7 +12,6 @@ import com.cafe24.shopmall.vo.MemberVo;
 @Repository
 public class MemberDAO {
 	
-	public List<MemberVo> memberList;
 	
 	@Autowired
 	private SqlSession sqlSession;

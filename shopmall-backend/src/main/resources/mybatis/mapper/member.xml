@@ -10,7 +10,7 @@
 		]]>
 	</select>
 	<insert id="insertMember" parameterType="membervo">
-		<selectKey keyProperty="code" resultType="Long" order="AFTER"><!-- 본 쿼리가 끝난 후 실행  -->
+		<selectKey keyProperty="code" resultType="Long" order="AFTER">
 			<![CDATA[
 				 SELECT currval('seq_member');
 			]]>

@@ -1,15 +1,9 @@
 package com.cafe24.shopmall.controller;
 
-import java.util.HashMap;
-import java.util.Map;
 
-import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,8 +41,7 @@ import io.swagger.annotations.Api;
 public class ProductAPIController {
 	
 	//상품등록
-	@RequestMapping(value="/admin/product")
-	@PostMapping
+	@PostMapping(value="/admin/product")
 	public ResponseEntity<JSONResult> add(@RequestBody ProductVo productVo){
 		
 		return new ResponseEntity<JSONResult>(JSONResult.success(null), HttpStatus.OK);
