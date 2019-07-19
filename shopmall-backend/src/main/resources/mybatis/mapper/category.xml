@@ -49,4 +49,13 @@
 			where no = #{no}
 		]]>
 	</update>
+	
+	<delete id="delete" parameterType="Integer">
+		<![CDATA[
+			delete from category 
+			where no = #{_parameter} 
+			or catg_top_no = #{_parameter}
+			or catg_top_no in (select no from category where catg_top_no = #{_parameter})
+		]]>
+	</delete>
 </mapper>

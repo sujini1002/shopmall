@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -115,4 +116,15 @@ public class CategoryAPIController {
 		return new ResponseEntity<JSONResult>(JSONResult.success(result),HttpStatus.OK);
 	}
 	
+	@DeleteMapping(value="/admin/category/{no}")
+	public ResponseEntity<JSONResult> delete(@PathVariable(value="no") Integer no){
+		
+		Boolean result = categoryService.delete(no);
+		
+		if(result == false) {
+			return new ResponseEntity<JSONResult>(JSONResult.fail("입력 값이 바르지 않습니다.",null),HttpStatus.BAD_REQUEST);
+		}
+		
+		return new ResponseEntity<JSONResult>(JSONResult.success(result),HttpStatus.OK);
+	}
 }

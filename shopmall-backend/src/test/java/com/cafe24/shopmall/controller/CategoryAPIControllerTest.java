@@ -4,6 +4,7 @@ import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -242,7 +243,7 @@ public class CategoryAPIControllerTest {
 	
 	/**
 	 * 3. 카테고리 수정
-	 * 3.2.1 카테고리 수정 실패(상위 카테고리가 없는 번호)
+	 * 3.2.2 카테고리 수정 실패(상위 카테고리가 없는 번호)
 	 */
 	@Rollback(true)
 	@Test
@@ -259,6 +260,42 @@ public class CategoryAPIControllerTest {
 		.andExpect(status().isBadRequest())
 		.andExpect(jsonPath("$.result",is("fail")))
 		.andExpect(jsonPath("$.data.catg_top_no").exists())
+		;
+	}
+	
+	/**
+	 *  4.1 카테고리 삭제 성공
+	 *  
+	 */
+	@Rollback(true)
+	@Test
+	public void testCategoryDeleteSuccess() throws Exception {
+		Integer no = 46;
+		ResultActions resultActions = mockMvc.perform(delete("/api/admin/category/{no}",no));
+		
+		resultActions
+		.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result",is("success")))
+		.andExpect(jsonPath("$.data",is(true)))
+		;
+	}
+	
+	/**
+	 *  4.1 카테고리 삭제 실패 ( 없는 번호)
+	 *  
+	 */
+	@Rollback(true)
+	@Test
+	public void testCategoryDeleteFail() throws Exception {
+		Integer no = 0;
+		ResultActions resultActions = mockMvc.perform(delete("/api/admin/category/{no}",no));
+		
+		resultActions
+		.andDo(print())
+		.andExpect(status().isBadRequest())
+		.andExpect(jsonPath("$.result",is("fail")))
+		.andExpect(jsonPath("$.data").doesNotExist())
 		;
 	}
 }

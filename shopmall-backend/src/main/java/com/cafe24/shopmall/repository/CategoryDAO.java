@@ -37,4 +37,9 @@ public class CategoryDAO {
 		return sqlSession.update("category.update", categoryVo);
 	}
 
+	public Boolean delete(Integer no) {
+		int cnt = sqlSession.delete("category.delete",no);
+		return cnt > 0;
+	}
+
 }

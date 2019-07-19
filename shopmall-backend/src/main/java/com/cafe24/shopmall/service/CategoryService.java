@@ -38,4 +38,8 @@ public class CategoryService {
 		return categoryDao.getInfo(categoryVo.getNo());
 	}
 
+	public Boolean delete(Integer no) {
+		return categoryDao.delete(no);
+	}
+
 }
