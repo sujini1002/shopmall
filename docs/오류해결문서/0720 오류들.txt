@@ -1,0 +1,42 @@
+﻿- ./configure --prefix=/usr/local/cafe24/pgsql --with-python --with-openssl --enable-nls=ko
+설정 오류
+
+패키지가 없어서 생기는 오류
+
+-- postgresql에 필요한 패키지들
+yum -y install gcc
+yum -y install gcc-c++
+yum -y install make
+yum -y install autoconf
+yum -y install readline
+yum -y install readline-devel
+yum -y install zlib
+yum -y install zlib-devel
+yum -y install openssl
+yum -y install openssl-devel
+yum -y install gettext
+yum -y install gettext-devel
+yum -y install python
+yum -y install python-devel
+yum -y install wget
+
+- postgresql 설치 시에 /pgsql/data가 데이터 클러스터를 생성할 수 없는 오류
+
+"pg_ctl: 지정한 "/usr/local/cafe24/pgsql/data" 디렉터리는 데이터베이스 클러스트 디렉터리가 아님"
+
+http://postgresql.kr/docs/9.6/creating-cluster.html 이사트를 참고하여
+
+postgreSQL 사용자의 계정으로만 클러스터로 만들 수 있다는 것을 알고
+postgresl 사용자로 로그인 하여 
+initdb -D /usr/local/pgsql/data를 실행 하여 해결 하였다.
+
+- dbeaver에서 postgresql 접속을 거부한다. ( 외부에서 접속 허용하는 방법)
+
+/cafe24/pgsql/data/postgresql.conf 에서
+(주석풀고!!) listen_addresses = '*' 변경
+
+-- 변경한뒤 postgresql 서버 재시작
+
+
+-- 객체안에 리스트의들의 요소 Valid 오류
+리스트 요소 위에 @Valid 추가하면 된다.
