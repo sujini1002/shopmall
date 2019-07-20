@@ -1,5 +1,8 @@
 package com.cafe24.shopmall.vo;
 
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * 옵션 
@@ -7,8 +10,12 @@ package com.cafe24.shopmall.vo;
  *
  */
 public class OptionVo {
+	
 	private Long no;
 	private Long Prd_no;
+	
+	@NotEmpty
+	@NotNull
 	private String name;
 	
 	public Long getNo() {

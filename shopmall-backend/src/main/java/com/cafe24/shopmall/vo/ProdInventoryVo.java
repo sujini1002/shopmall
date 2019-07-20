@@ -1,5 +1,8 @@
 package com.cafe24.shopmall.vo;
 
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  *	상품 재고
@@ -9,9 +12,18 @@ package com.cafe24.shopmall.vo;
 public class ProdInventoryVo {
 	private Long no;
 	private Long prd_no;
+	
+	@NotEmpty
+	@NotNull
 	private String opt_value;
+	
+	@NotNull
 	private Integer inventory;
+	
+	@NotNull
 	private Boolean isdisplay;
+	
+	@NotNull
 	private Boolean issale;
 	
 	public Long getNo() {

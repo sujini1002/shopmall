@@ -2,11 +2,14 @@ package com.cafe24.shopmall.vo;
 
 import java.util.List;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.cafe24.shopmall.validator.constraints.ValidOption;
-import com.cafe24.shopmall.validator.constraints.ValidProdImg;
-import com.cafe24.shopmall.validator.constraints.ValidProdInventroy;
+import com.cafe24.shopmall.validator.constraints.ValidCheckCategoryNo;
+import com.cafe24.shopmall.validator.constraints.ValidList;
+
 
 public class ProductVo {
 	/**
@@ -23,22 +26,51 @@ public class ProductVo {
 	 */
 	private Long no;
 	
+	@NotNull
 	@NotEmpty
 	private String title;
 	
-	@NotEmpty
+	@NotNull
 	private Integer price;
+	
 	private String detail;
+	
 	private String prod_date;
+	
+	@ValidCheckCategoryNo
 	private Integer	cate_no;
 	
-//	@ValidProdImg
+	@ValidList
+	@Valid
 	private List<ProdImgVo> prodImgList;
-//	@ValidOption
+	
+	@ValidList
+	@Valid
 	private List<OptionVo> optionList;
+	
+	@Valid
 	private List<OptionDetailVo> optionDetailList;
-//	@ValidProdInventroy
+	
+	@ValidList
+	@Valid
 	private List<ProdInventoryVo> prodIventoryList;
+	
+	public ProductVo() {}
+	
+	public ProductVo(Long no, String title, Integer price, String detail, String prod_date, Integer cate_no,
+			List<ProdImgVo> prodImgList, List<OptionVo> optionList, List<OptionDetailVo> optionDetailList,
+			List<ProdInventoryVo> prodIventoryList) {
+		this.no = no;
+		this.title = title;
+		this.price = price;
+		this.detail = detail;
+		this.prod_date = prod_date;
+		this.cate_no = cate_no;
+		this.prodImgList = prodImgList;
+		this.optionList = optionList;
+		this.optionDetailList = optionDetailList;
+		this.prodIventoryList = prodIventoryList;
+	}
 	
 	public Long getNo() {
 		return no;

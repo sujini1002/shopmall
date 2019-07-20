@@ -225,9 +225,9 @@ public class CategoryAPIControllerTest {
 	@Test
 	public void testCategoryUpdateSuccess() throws Exception {
 		CategoryVo vo = new CategoryVo();
-		vo.setNo(51);
-		vo.setCatg_top_no(46);
-		vo.setName("린넨바지");
+		vo.setNo(1);
+		vo.setCatg_top_no(null);
+		vo.setName("상의");
 		
 		ResultActions resultActions = mockMvc.perform(put("/api/admin/category").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
 		
@@ -270,7 +270,7 @@ public class CategoryAPIControllerTest {
 	@Rollback(true)
 	@Test
 	public void testCategoryDeleteSuccess() throws Exception {
-		Integer no = 46;
+		Integer no = 2;
 		ResultActions resultActions = mockMvc.perform(delete("/api/admin/category/{no}",no));
 		
 		resultActions

@@ -2,8 +2,16 @@ package com.cafe24.shopmall.controller;
 
 
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,9 +48,23 @@ import io.swagger.annotations.Api;
 @Api(value="ShopMall", description="Product")
 public class ProductAPIController {
 	
-	//상품등록
+	/**
+	 * @param productVo
+	 * - 상품재고(ProdInventory의 품목명은 front 단에서 가져온다.)
+	 * 
+	 */
 	@PostMapping(value="/admin/product")
-	public ResponseEntity<JSONResult> add(@RequestBody ProductVo productVo){
+	public ResponseEntity<JSONResult> add(@RequestBody @Valid ProductVo productVo, BindingResult errors){
+		
+		if(errors.hasErrors()) {
+			Map<String,String> errorMessages = new HashMap<String, String>();
+			//아이디,이름,비밀번호,휴대전화,이메일
+			for(ObjectError index : errors.getAllErrors()) {
+				FieldError fe = (FieldError)index;
+				errorMessages.put(fe.getField(), fe.getDefaultMessage());
+			}
+			return new ResponseEntity<JSONResult>(JSONResult.fail("입력형식이 유효하지 않습니다.",errorMessages),HttpStatus.BAD_REQUEST);
+		}
 		
 		return new ResponseEntity<JSONResult>(JSONResult.success(null), HttpStatus.OK);
 	}

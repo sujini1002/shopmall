@@ -1,6 +1,10 @@
 package com.cafe24.shopmall.vo;
 
 
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
 /**
  *  상품이미지
  *  - 번호, 상품번호, url, 타이틀 여부 
@@ -10,9 +14,22 @@ public class ProdImgVo {
 	
 	private Long no;
 	private Long prd_no;
+	
+	@NotEmpty
 	private String url;
+	@NotNull
 	private Boolean istitle;
 	
+	public ProdImgVo() {}
+	
+	public ProdImgVo(Long no, Long prd_no, String url, Boolean istitle) {
+		super();
+		this.no = no;
+		this.prd_no = prd_no;
+		this.url = url;
+		this.istitle = istitle;
+	}
+
 	public Long getNo() {
 		return no;
 	}

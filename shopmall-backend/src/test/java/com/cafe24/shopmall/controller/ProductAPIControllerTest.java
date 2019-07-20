@@ -1,10 +1,13 @@
 package com.cafe24.shopmall.controller;
 
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -22,6 +25,9 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.cafe24.shopmall.config.TestAppConfig;
 import com.cafe24.shopmall.config.TestWebConfig;
+import com.cafe24.shopmall.vo.OptionVo;
+import com.cafe24.shopmall.vo.ProdImgVo;
+import com.cafe24.shopmall.vo.ProdInventoryVo;
 import com.cafe24.shopmall.vo.ProductVo;
 import com.google.gson.Gson;
 
@@ -79,15 +85,26 @@ public class ProductAPIControllerTest {
 	 */
 	@Test
 	public void testProductAdd() throws Exception {
-		ProductVo productVo = new ProductVo();
+		ProdImgVo vo = new ProdImgVo(null,null,"",null);
+		List<ProdImgVo> list = new ArrayList<ProdImgVo>();
+		list.add(vo);
+		
+		List<OptionVo> list2 = new ArrayList<OptionVo>();
+		OptionVo vo2 = new OptionVo();
+		list2.add(vo2);
+		List<ProdInventoryVo> list3 = new ArrayList<ProdInventoryVo>();
+		ProdInventoryVo vo3 =new ProdInventoryVo();
+		list3.add(vo3);
+		
+		ProductVo productVo = new ProductVo(null,null,null,null,null,null,list,list2,null,list3);
 		
 		ResultActions resultActions = mockMvc
 				.perform(post("/api/admin/product/")
 				.contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(productVo)))
 				.andDo(print());
 		
-		resultActions.andExpect(status().isOk())
-		.andExpect(jsonPath("$.result",is("success")))
+		resultActions.andExpect(status().isBadRequest())
+		.andExpect(jsonPath("$.result",is("fail")))
 		;
 	}
 }
