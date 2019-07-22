@@ -48,8 +48,6 @@ public class ProductVo {
 	@Valid
 	private List<OptionVo> optionList;
 	
-	@Valid
-	private List<OptionDetailVo> optionDetailList;
 	
 	@ValidList
 	@Valid
@@ -58,7 +56,7 @@ public class ProductVo {
 	public ProductVo() {}
 	
 	public ProductVo(Long no, String title, Integer price, String detail, String prod_date, Integer cate_no,
-			List<ProdImgVo> prodImgList, List<OptionVo> optionList, List<OptionDetailVo> optionDetailList,
+			List<ProdImgVo> prodImgList, List<OptionVo> optionList,
 			List<ProdInventoryVo> prodIventoryList) {
 		this.no = no;
 		this.title = title;
@@ -68,7 +66,6 @@ public class ProductVo {
 		this.cate_no = cate_no;
 		this.prodImgList = prodImgList;
 		this.optionList = optionList;
-		this.optionDetailList = optionDetailList;
 		this.prodIventoryList = prodIventoryList;
 	}
 	
@@ -120,12 +117,6 @@ public class ProductVo {
 	public void setOptionList(List<OptionVo> optionList) {
 		this.optionList = optionList;
 	}
-	public List<OptionDetailVo> getOptionDetailList() {
-		return optionDetailList;
-	}
-	public void setOptionDetailList(List<OptionDetailVo> optionDetailList) {
-		this.optionDetailList = optionDetailList;
-	}
 	public List<ProdInventoryVo> getProdIventoryList() {
 		return prodIventoryList;
 	}
@@ -137,7 +128,7 @@ public class ProductVo {
 	public String toString() {
 		return "ProductVo [no=" + no + ", title=" + title + ", price=" + price + ", detail=" + detail + ", prod_date="
 				+ prod_date + ", cate_no=" + cate_no + ", prodImgList=" + prodImgList + ", optionList=" + optionList
-				+ ", optionDetailList=" + optionDetailList + ", prodIventoryList=" + prodIventoryList + "]";
+				+ ", prodIventoryList=" + prodIventoryList + "]";
 	}
 	
 	

@@ -50,7 +50,7 @@ public class MemberAPIController {
 		@ApiImplicitParam(name="id",value="입력한 아이디",required=true,dataType="query",defaultValue="")
 	})
 	@GetMapping(value="/checkid/{id}")
-	public ResponseEntity<JSONResult> usercheckId(@PathVariable(value="id")String id) {
+	public ResponseEntity<JSONResult> usercheckId(@PathVariable(value="id") String id) {
 		
 		Boolean result = memberService.existId(id);
 		return new ResponseEntity<JSONResult>(JSONResult.success(result), HttpStatus.OK);

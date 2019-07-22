@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -25,6 +26,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.cafe24.shopmall.config.TestAppConfig;
 import com.cafe24.shopmall.config.TestWebConfig;
+import com.cafe24.shopmall.vo.OptionDetailVo;
 import com.cafe24.shopmall.vo.OptionVo;
 import com.cafe24.shopmall.vo.ProdImgVo;
 import com.cafe24.shopmall.vo.ProdInventoryVo;
@@ -68,9 +70,51 @@ public class ProductAPIControllerTest {
 	}
 	
 	public ProductVo construtor() {
+		ProductVo productVo = new ProductVo();
+		productVo.settitle("린넨tee");
+		productVo.setPrice(13000);
+		productVo.setDetail("<html><head><title>Ola's blog</title></head><body><h1>린넨tee</h1></body></html>");
+		productVo.setCate_no(27);
 		
-		return null;
+		//상품이미지
+		List<ProdImgVo> imgList = new ArrayList<ProdImgVo>();
+		imgList.add(new ProdImgVo(null,null,"/images/linentee1.png",true));
+		imgList.add(new ProdImgVo(null,null,"/images/linentee2.png",false));
+		imgList.add(new ProdImgVo(null,null,"/images/linentee3.png",false));
+		
+		//옵션 상세
+		List<OptionDetailVo> detailSizeList = new ArrayList<OptionDetailVo>();
+		detailSizeList.add(new OptionDetailVo(null,null,"S"));
+		detailSizeList.add(new OptionDetailVo(null,null,"M"));
+		detailSizeList.add(new OptionDetailVo(null,null,"L"));
+		
+		List<OptionDetailVo> detailColorList = new ArrayList<OptionDetailVo>();
+		detailColorList.add(new OptionDetailVo(null,null,"블랙"));
+		detailColorList.add(new OptionDetailVo(null,null,"화이트"));
+		
+		productVo.setprodImgList(imgList);
+		//상품 옵션
+		List<OptionVo> optionList = new ArrayList<OptionVo>();
+		optionList.add(new OptionVo(null,null,"사이즈",detailSizeList));
+		optionList.add(new OptionVo(null,null,"색상",detailColorList));
+		
+		productVo.setOptionList(optionList);
+		
+		
+		//상품 재고
+		List<ProdInventoryVo> inventoryList = new ArrayList<ProdInventoryVo>();
+		inventoryList.add(new ProdInventoryVo(null, null, null, 30, true, true));
+		inventoryList.add(new ProdInventoryVo(null, null, null, 30, true, true));
+		inventoryList.add(new ProdInventoryVo(null, null, null, 30, true, true));
+		inventoryList.add(new ProdInventoryVo(null, null, null, 30, true, true));
+		inventoryList.add(new ProdInventoryVo(null, null, null, 30, true, true));
+		inventoryList.add(new ProdInventoryVo(null, null, null, 30, true, true));
+		
+		productVo.setProdIventoryList(inventoryList);
+		
+		return productVo;
 	}
+	
 	
 	/**
 	 *  상품등록 test case 경우
@@ -83,8 +127,12 @@ public class ProductAPIControllerTest {
 	 *  7. 옵션이 n과 옵션 상세가 m개 일때 상품재고 행 추가 갯수가 n * m 이 되야하는 경우 확인  
 	 *  8. 상품, 상품 이미지, 옵션, 옵션 상세, 상품재고 테이블에 정확한 값이 추가될 경우
 	 */
+	
+	/**
+	 * 1.1.1 ProductVo 형식이 틀릴 때 (Valid) 
+	 */
 	@Test
-	public void testProductAdd() throws Exception {
+	public void testProductAddFail() throws Exception {
 		ProdImgVo vo = new ProdImgVo(null,null,"",null);
 		List<ProdImgVo> list = new ArrayList<ProdImgVo>();
 		list.add(vo);
@@ -96,7 +144,7 @@ public class ProductAPIControllerTest {
 		ProdInventoryVo vo3 =new ProdInventoryVo();
 		list3.add(vo3);
 		
-		ProductVo productVo = new ProductVo(null,null,null,null,null,null,list,list2,null,list3);
+		ProductVo productVo = new ProductVo(null,null,null,null,null,null,list,list2,list3);
 		
 		ResultActions resultActions = mockMvc
 				.perform(post("/api/admin/product/")
@@ -105,6 +153,26 @@ public class ProductAPIControllerTest {
 		
 		resultActions.andExpect(status().isBadRequest())
 		.andExpect(jsonPath("$.result",is("fail")))
+		;
+	}
+	
+	/**
+	 * 1.1.2 상품 등록 성공
+	 */
+	@Rollback(true)
+	@Test
+	public void testProductAddSuccess() throws Exception {
+		
+		
+		ProductVo productVo = construtor();
+		
+		ResultActions resultActions = mockMvc
+				.perform(post("/api/admin/product/")
+				.contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(productVo)))
+				.andDo(print());
+		
+		resultActions.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result",is("success")))
 		;
 	}
 }

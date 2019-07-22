@@ -10,6 +10,15 @@ public class OptionDetailVo {
 	private Long opt_no;
 	private String value;
 	
+	public OptionDetailVo() {}
+	
+	public OptionDetailVo(Long no, Long opt_no, String value) {
+		super();
+		this.no = no;
+		this.opt_no = opt_no;
+		this.value = value;
+	}
+
 	public Long getNo() {
 		return no;
 	}

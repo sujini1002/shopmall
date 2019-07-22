@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cafe24.shopmall.dto.JSONResult;
+import com.cafe24.shopmall.service.ProductService;
 import com.cafe24.shopmall.vo.ProductVo;
 
 import io.swagger.annotations.Api;
@@ -48,6 +50,9 @@ import io.swagger.annotations.Api;
 @Api(value="ShopMall", description="Product")
 public class ProductAPIController {
 	
+	@Autowired
+	private ProductService productService;
+	
 	/**
 	 * @param productVo
 	 * - 상품재고(ProdInventory의 품목명은 front 단에서 가져온다.)
@@ -65,7 +70,7 @@ public class ProductAPIController {
 			}
 			return new ResponseEntity<JSONResult>(JSONResult.fail("입력형식이 유효하지 않습니다.",errorMessages),HttpStatus.BAD_REQUEST);
 		}
-		
+		productService.add(productVo);
 		return new ResponseEntity<JSONResult>(JSONResult.success(null), HttpStatus.OK);
 	}
 	

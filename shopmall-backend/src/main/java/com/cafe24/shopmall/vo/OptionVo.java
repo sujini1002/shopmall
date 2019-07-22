@@ -1,5 +1,8 @@
 package com.cafe24.shopmall.vo;
 
+import java.util.List;
+
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -18,6 +21,19 @@ public class OptionVo {
 	@NotNull
 	private String name;
 	
+	@Valid
+	private List<OptionDetailVo> optionDetailList ;
+	
+	public OptionVo() {}
+	
+	public OptionVo(Long no, Long prd_no, String name, List<OptionDetailVo> optionDetailList) {
+		super();
+		this.no = no;
+		Prd_no = prd_no;
+		this.name = name;
+		this.optionDetailList = optionDetailList;
+	}
+
 	public Long getNo() {
 		return no;
 	}
@@ -36,10 +52,18 @@ public class OptionVo {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	@Override
-	public String toString() {
-		return "OptionVo [no=" + no + ", Prd_no=" + Prd_no + ", name=" + name + "]";
+	public List<OptionDetailVo> getOptionDetailList() {
+		return optionDetailList;
+	}
+	public void setOptionDetailList(List<OptionDetailVo> optionDetailList) {
+		this.optionDetailList = optionDetailList;
 	}
 
+	@Override
+	public String toString() {
+		return "OptionVo [no=" + no + ", Prd_no=" + Prd_no + ", name=" + name + ", optionDetailList=" + optionDetailList
+				+ "]";
+	}
+	
+	
 }

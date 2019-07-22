@@ -2,4 +2,45 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="product">
+	<insert id="insertProduct" parameterType="productvo">
+		<selectKey keyProperty="no" resultType="Long" order="AFTER">
+			<![CDATA[
+				 SELECT currval('seq_product');
+			]]>
+		</selectKey>
+		<![CDATA[
+			insert into product values(
+				nextval('seq_product'),
+				#{title},
+				#{price},
+				#{detail},
+				now(),
+				#{cate_no}
+			)
+		]]>
+	</insert>
+	
+	<insert id="insertProdImg" parameterType="hashmap" keyProperty="no" useGeneratedKeys="true">
+		<selectKey resultType="Long" keyProperty="no" order="AFTER" >
+			<![CDATA[
+				 SELECT currval('seq_prodimg');
+			]]>
+		</selectKey>
+		<![CDATA[
+			insert into product_img(no, prd_no, url, istitle) values
+		]]>
+		<foreach collection="prodImgList" item="item" separator=",">
+			(nextval('seq_prodimg'),#{prd_no},#{item.url},#{item.istitle})
+		</foreach>
+	</insert>
+	
+	<insert id="insertOption" parameterType="map">
+		<selectKey keyProperty="no" resultType="Long" order="AFTER">
+			<![CDATA[
+				 SELECT currval('seq_option')
+			]]>
+		</selectKey>
+		insert into option
+		values (nextval('seq_option'),#{prd_no},#{option.name})
+	</insert>
 </mapper>
