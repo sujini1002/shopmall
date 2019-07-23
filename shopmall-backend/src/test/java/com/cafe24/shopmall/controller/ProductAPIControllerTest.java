@@ -215,7 +215,6 @@ public class ProductAPIControllerTest {
 		.andExpect(jsonPath("$.data.detailInsertCnt").exists())
 		.andExpect(jsonPath("$.data.inventoryInsertCnt",is(productVo.getProdIventoryList().size())))
 		;
-		;
 	}
 	
 	/**
