@@ -61,7 +61,6 @@ public class ProductDAO {
 
 	public List<ProductVo> getlist(Long prd_no) {
 		List<ProductVo> list = sqlSession.selectList("product.getList",prd_no);
-		
 		return list;
 	}
 

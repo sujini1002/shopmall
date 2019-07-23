@@ -227,7 +227,7 @@ public class CategoryAPIControllerTest {
 		CategoryVo vo = new CategoryVo();
 		vo.setNo(1);
 		vo.setCatg_top_no(null);
-		vo.setName("상의");
+		vo.setName("Top");
 		
 		ResultActions resultActions = mockMvc.perform(put("/api/admin/category").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
 		

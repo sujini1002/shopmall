@@ -75,7 +75,8 @@ public class ProductAPIControllerTest {
 		productVo.settitle("린넨tee");
 		productVo.setPrice(13000);
 		productVo.setDetail("<html><head><title>Ola's blog</title></head><body><h1>린넨tee</h1></body></html>");
-		productVo.setCate_no(27);
+		productVo.setCate_no(2);
+		productVo.setIssale(true);
 		
 		//상품이미지
 		List<ProdImgVo> imgList = new ArrayList<ProdImgVo>();
@@ -144,7 +145,7 @@ public class ProductAPIControllerTest {
 		ProdInventoryVo vo3 =new ProdInventoryVo();
 		list3.add(vo3);
 		
-		ProductVo productVo = new ProductVo(null,null,null,null,null,null,list,list2,list3);
+		ProductVo productVo = new ProductVo(null,null,null,null,null,null,list,list2,list3,null);
 		
 		ResultActions resultActions = mockMvc
 				.perform(post("/api/admin/product/")
@@ -238,7 +239,7 @@ public class ProductAPIControllerTest {
 	 */
 	@Test
 	public void testProductOne() throws Exception {
-		ResultActions resultActions = mockMvc.perform(get("/api/admin/product/86"))
+		ResultActions resultActions = mockMvc.perform(get("/api/admin/product/96"))
 									 .andDo(print());
 		
 		resultActions.andExpect(status().isOk())

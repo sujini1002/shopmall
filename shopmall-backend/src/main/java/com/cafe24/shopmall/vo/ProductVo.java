@@ -53,11 +53,14 @@ public class ProductVo {
 	@Valid
 	private List<ProdInventoryVo> prodIventoryList;
 	
+	@NotNull
+	private Boolean issale;
+	
 	public ProductVo() {}
 	
 	public ProductVo(Long no, String title, Integer price, String detail, String prod_date, Integer cate_no,
 			List<ProdImgVo> prodImgList, List<OptionVo> optionList,
-			List<ProdInventoryVo> prodIventoryList) {
+			List<ProdInventoryVo> prodIventoryList,Boolean issale) {
 		this.no = no;
 		this.title = title;
 		this.price = price;
@@ -67,6 +70,7 @@ public class ProductVo {
 		this.prodImgList = prodImgList;
 		this.optionList = optionList;
 		this.prodIventoryList = prodIventoryList;
+		this.issale = issale;
 	}
 	
 	public Long getNo() {
@@ -123,12 +127,18 @@ public class ProductVo {
 	public void setProdIventoryList(List<ProdInventoryVo> prodIventoryList) {
 		this.prodIventoryList = prodIventoryList;
 	}
-	
+	public Boolean getIssale() {
+		return issale;
+	}
+	public void setIssale(Boolean issale) {
+		this.issale = issale;
+	}
+
 	@Override
 	public String toString() {
 		return "ProductVo [no=" + no + ", title=" + title + ", price=" + price + ", detail=" + detail + ", prod_date="
 				+ prod_date + ", cate_no=" + cate_no + ", prodImgList=" + prodImgList + ", optionList=" + optionList
-				+ ", prodIventoryList=" + prodIventoryList + "]";
+				+ ", prodIventoryList=" + prodIventoryList + ", issale=" + issale + "]";
 	}
 	
 	

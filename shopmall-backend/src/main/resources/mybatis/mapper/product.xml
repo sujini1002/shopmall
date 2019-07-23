@@ -9,7 +9,7 @@
 			]]>
 		</selectKey>
 		<![CDATA[
-			insert into product values(nextval('seq_product'),#{title},#{price},#{detail},now(),#{cate_no})
+			insert into product values(nextval('seq_product'),#{title},#{price},#{detail},now(),#{cate_no},#{issale})
 		]]>
 	</insert>
 	
@@ -53,6 +53,7 @@
 		<result property="detail" column="DETAIL"/>
 		<result property="prod_date" column="PROD_DATE"/>
 		<result property="cate_no" column="CATE_NO"/>
+		<result property="issale" column="ISSALE"/>
 		<collection property="prodImgList" column="NO" javaType="java.util.ArrayList" ofType="prodimgvo" select="getProdImgList"/>
 		<collection property="optionList" column="NO" javaType="java.util.ArrayList" ofType="optionvo" select="getOptionList"/>
 		<collection property="prodIventoryList" column="NO" javaType="java.util.ArrayList" ofType="prodinventoryvo" select="getProdInventoryList"/>
@@ -66,7 +67,7 @@
 	
 	<select id="getList" resultMap="productResults" parameterType="Long">
 		<![CDATA[
-			select no, title, price, detail,to_char(prod_date, 'YYYY-MM-DD HH24:MI:SS') as prod_date ,cate_no
+			select no, title, price, detail,to_char(prod_date, 'YYYY-MM-DD HH24:MI:SS') as prod_date ,cate_no, issale
 			from product
 		]]>
 		<if test='value != -1'>
@@ -80,7 +81,7 @@
 	</select>
 	
 	<select id="getProdImgList" resultType="prodimgvo">
-		select no,url, istitle from product_img where prd_no = #{no} and istitle = TRUE order by no 
+		select no,url, istitle from product_img where prd_no = #{no}  order by no 
 	</select>
 	
 	<select id="getOptionList" resultMap="optionResults">
@@ -91,7 +92,7 @@
 		select no, value from option_detail where opt_no = #{no}
 	</select>
 	
-	<select id="getProdInventoryList" resultType="prodinventoryvo" >
+	<select id="getProdInventoryList" resultType="prodinventoryvo" parameterType="Long">
 		<![CDATA[
 			select no, opt_value, inventory, isdisplay, issale
 			from product_inventory
