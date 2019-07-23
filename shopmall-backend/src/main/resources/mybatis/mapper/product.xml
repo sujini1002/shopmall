@@ -9,14 +9,7 @@
 			]]>
 		</selectKey>
 		<![CDATA[
-			insert into product values(
-				nextval('seq_product'),
-				#{title},
-				#{price},
-				#{detail},
-				now(),
-				#{cate_no}
-			)
+			insert into product values(nextval('seq_product'),#{title},#{price},#{detail},now(),#{cate_no})
 		]]>
 	</insert>
 	
@@ -52,4 +45,40 @@
 			(nextval('seq_prodinven'),#{prd_no},#{item.opt_value},#{item.inventory},#{item.isdisplay},#{item.issale})
 		</foreach>
 	</insert>
+	
+	<resultMap type="productvo" id="productResults">
+		<result property="no" column="NO"/>
+		<result property="title" column="TITLE"/>
+		<result property="price" column="PRICE"/>
+		<result property="detail" column="DETAIL"/>
+		<result property="prod_date" column="PROD_DATE"/>
+		<result property="cate_no" column="CATE_NO"/>
+		<collection property="prodImgList" column="NO" javaType="java.util.ArrayList" ofType="prodimgvo" select="getProdImgList"/>
+		<collection property="prodIventoryList" column="NO" javaType="java.util.ArrayList" ofType="prodinventoryvo" select="getProdInventoryList"/>
+	</resultMap>
+	
+	<resultMap type="optionvo" id="optionResults">
+		<result property="no" column="NO"/>
+		<result property="name" column="NAME"/>
+		<collection property="optionDetailList" column="NO" javaType="java.util.ArrayList" ofType="optiondetailvo" select="getOptionDetailList"/>
+	</resultMap>
+	
+	<select id="getList" resultMap="productResults">
+		select no, title, price, detail,to_char(prod_date, 'YYYY-MM-DD HH24:MI:SS') as prod_date ,cate_no
+		from product
+		order by prod_date
+	</select>
+	
+	<select id="getProdImgList" resultType="prodimgvo">
+		select no,url, istitle from product_img where prd_no = #{no} and istitle = TRUE order by no 
+	</select>
+	
+	<select id="getProdInventoryList" resultType="prodinventoryvo">
+		select no, opt_value, inventory, isdisplay, issale
+		from product_inventory
+		where prd_no = #{no}
+		order by no
+	</select>
+	
+		
 </mapper>

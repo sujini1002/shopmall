@@ -3,6 +3,7 @@ package com.cafe24.shopmall.controller;
 
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -73,5 +75,16 @@ public class ProductAPIController {
 		return new ResponseEntity<JSONResult>(JSONResult.success(results), HttpStatus.OK);
 	}
 	
+	@GetMapping(value="/admin/product/list")
+	public ResponseEntity<JSONResult> list(){
+		
+		List<ProductVo> allProduct = productService.list();
+		
+		if(allProduct == null) {
+			return new ResponseEntity<JSONResult>(JSONResult.fail("리스트가 존재하지 않습니다.",null),HttpStatus.BAD_REQUEST);
+		}
+		
+		return new ResponseEntity<JSONResult>(JSONResult.success(allProduct), HttpStatus.OK);
+	}
 	
 }

@@ -1,6 +1,7 @@
 package com.cafe24.shopmall.controller;
 
 import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -45,13 +46,12 @@ import com.google.gson.Gson;
  * 	- 상품 수정
  * 	- 상품 삭제
  * 
- *  2. ADMIN과 USER가 모두  가능한 기능
- *   - 상품 상세보기
  *   
- *  3. ADMIN과 USER가 모두 가능한 기능이지만 ADMIN에 추가 기능이 있는 기능
+ *  2. ADMIN과 USER가 모두 가능한 기능이지만 ADMIN에 추가 기능이 있는 기능
  *   - 상품 검색 분류 목록
  *   	- 모두 가능 : 상품명, 카테고리로 검색
  *   	- ADMIN만 가능 : 상품등록일 , 진열상태 , 판매상태로 검색
+ *   -
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -124,7 +124,7 @@ public class ProductAPIControllerTest {
 	 */
 	
 	/**
-	 * 1.1.1 ProductVo 형식이 틀릴 때 (Valid) 
+	 * 1.1 ProductVo 형식이 틀릴 때 (Valid) 
 	 */
 	@Test
 	public void testProductAddFail() throws Exception {
@@ -156,7 +156,7 @@ public class ProductAPIControllerTest {
 	}
 	
 	/**
-	 * 1.1.2 옵션이 없는 상품 등록 성공
+	 * 1.2 옵션이 없는 상품 등록 성공
 	 */
 	@Rollback(true)
 	@Test
@@ -192,7 +192,7 @@ public class ProductAPIControllerTest {
 	}
 	
 	/**
-	 * 1.1.3 옵션이 n개인 상품 등록 성공
+	 * 1.3 옵션이 n개인 상품 등록 성공
 	 */
 	@Rollback(true)
 	@Test
@@ -214,6 +214,22 @@ public class ProductAPIControllerTest {
 		.andExpect(jsonPath("$.data.detailInsertCnt").exists())
 		.andExpect(jsonPath("$.data.inventoryInsertCnt",is(productVo.getProdIventoryList().size())))
 		;
+		;
+	}
+	
+	/**
+	 * 2. 상품 전체 리스트 가져오기 
+	 */
+	@Test
+	public void testProductAllList() throws Exception {
+		ResultActions resultActions = mockMvc.perform(get("/api/admin/product/list"))
+									 .andDo(print());
+		
+		resultActions.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result",is("success")))
+		.andExpect(jsonPath("$.data").exists())
+		.andExpect(jsonPath("$.data[0].prodImgList[0].istitle", is(true)))
+		.andExpect(jsonPath("$.data[0].optionList").doesNotExist())
 		;
 	}
 }

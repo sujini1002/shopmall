@@ -1,6 +1,7 @@
 package com.cafe24.shopmall.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,11 @@ public class ProductService {
 		results.put("inventoryInsertCnt", inventoryInsertCnt);
 		
 		return results;
+	}
+
+	public List<ProductVo> list() {
+		List<ProductVo> list = productDao.getlist();
+		return list;
 	}
 
 }

@@ -59,4 +59,13 @@ public class ProductDAO {
 		return sqlSession.insert("product.insertProdInventory", params);
 	}
 
+	public List<ProductVo> getlist() {
+		List<ProductVo> list = sqlSession.selectList("product.getList");
+//		System.out.println(list);
+//		System.out.println(list.get(0).getprodImgList());
+//		System.out.println(list.get(0).getOptionList());
+//		System.out.println(list.get(0).getProdIventoryList());
+		return list;
+	}
+
 }
