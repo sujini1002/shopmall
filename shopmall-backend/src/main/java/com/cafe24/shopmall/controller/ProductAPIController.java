@@ -63,15 +63,14 @@ public class ProductAPIController {
 		
 		if(errors.hasErrors()) {
 			Map<String,String> errorMessages = new HashMap<String, String>();
-			//아이디,이름,비밀번호,휴대전화,이메일
 			for(ObjectError index : errors.getAllErrors()) {
 				FieldError fe = (FieldError)index;
 				errorMessages.put(fe.getField(), fe.getDefaultMessage());
 			}
 			return new ResponseEntity<JSONResult>(JSONResult.fail("입력형식이 유효하지 않습니다.",errorMessages),HttpStatus.BAD_REQUEST);
 		}
-		productService.add(productVo);
-		return new ResponseEntity<JSONResult>(JSONResult.success(null), HttpStatus.OK);
+		Map<String,Object> results = productService.add(productVo);
+		return new ResponseEntity<JSONResult>(JSONResult.success(results), HttpStatus.OK);
 	}
 	
 	

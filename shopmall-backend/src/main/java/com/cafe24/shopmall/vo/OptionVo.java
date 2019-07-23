@@ -21,7 +21,6 @@ public class OptionVo {
 	@NotNull
 	private String name;
 	
-	@Valid
 	private List<OptionDetailVo> optionDetailList ;
 	
 	public OptionVo() {}

@@ -21,11 +21,6 @@
 	</insert>
 	
 	<insert id="insertProdImg" parameterType="hashmap" keyProperty="no" useGeneratedKeys="true">
-		<selectKey resultType="Long" keyProperty="no" order="AFTER" >
-			<![CDATA[
-				 SELECT currval('seq_prodimg');
-			]]>
-		</selectKey>
 		<![CDATA[
 			insert into product_img(no, prd_no, url, istitle) values
 		]]>
@@ -42,5 +37,19 @@
 		</selectKey>
 		insert into option
 		values (nextval('seq_option'),#{prd_no},#{option.name})
+	</insert>
+	
+	<insert id="insertOptionDetail" parameterType="java.util.List">
+		insert into option_detail values
+		<foreach collection="list" item="item" separator=",">
+			(nextval('seq_optDtail'),#{item.opt_no},#{item.value})
+		</foreach>
+	</insert>
+	
+	<insert id="insertProdInventory" parameterType="map">
+		insert into product_inventory values
+		<foreach collection="prodIventoryList" item="item" separator=",">
+			(nextval('seq_prodinven'),#{prd_no},#{item.opt_value},#{item.inventory},#{item.isdisplay},#{item.issale})
+		</foreach>
 	</insert>
 </mapper>

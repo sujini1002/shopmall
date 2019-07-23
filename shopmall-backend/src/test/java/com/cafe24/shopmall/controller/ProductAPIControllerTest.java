@@ -82,6 +82,7 @@ public class ProductAPIControllerTest {
 		imgList.add(new ProdImgVo(null,null,"/images/linentee2.png",false));
 		imgList.add(new ProdImgVo(null,null,"/images/linentee3.png",false));
 		
+		productVo.setprodImgList(imgList);
 		//옵션 상세
 		List<OptionDetailVo> detailSizeList = new ArrayList<OptionDetailVo>();
 		detailSizeList.add(new OptionDetailVo(null,null,"S"));
@@ -92,7 +93,6 @@ public class ProductAPIControllerTest {
 		detailColorList.add(new OptionDetailVo(null,null,"블랙"));
 		detailColorList.add(new OptionDetailVo(null,null,"화이트"));
 		
-		productVo.setprodImgList(imgList);
 		//상품 옵션
 		List<OptionVo> optionList = new ArrayList<OptionVo>();
 		optionList.add(new OptionVo(null,null,"사이즈",detailSizeList));
@@ -103,12 +103,12 @@ public class ProductAPIControllerTest {
 		
 		//상품 재고
 		List<ProdInventoryVo> inventoryList = new ArrayList<ProdInventoryVo>();
-		inventoryList.add(new ProdInventoryVo(null, null, null, 30, true, true));
-		inventoryList.add(new ProdInventoryVo(null, null, null, 30, true, true));
-		inventoryList.add(new ProdInventoryVo(null, null, null, 30, true, true));
-		inventoryList.add(new ProdInventoryVo(null, null, null, 30, true, true));
-		inventoryList.add(new ProdInventoryVo(null, null, null, 30, true, true));
-		inventoryList.add(new ProdInventoryVo(null, null, null, 30, true, true));
+		inventoryList.add(new ProdInventoryVo(null, null, "S/블랙", 10, true, true));
+		inventoryList.add(new ProdInventoryVo(null, null, "M/블랙", 20, true, true));
+		inventoryList.add(new ProdInventoryVo(null, null, "L/블랙", 30, true, true));
+		inventoryList.add(new ProdInventoryVo(null, null, "S/화이트", 40, true, true));
+		inventoryList.add(new ProdInventoryVo(null, null, "M/화이트", 50, true, true));
+		inventoryList.add(new ProdInventoryVo(null, null, "L/화이트", -1, true, true));
 		
 		productVo.setProdIventoryList(inventoryList);
 		
@@ -119,13 +119,8 @@ public class ProductAPIControllerTest {
 	/**
 	 *  상품등록 test case 경우
 	 *  1. 상품 이미지, 옵션, 옵션 상세, 상품 재고 중 하나라도 null 값이나 없을 때  Custom Valid 필요
-	 *  2. 상품 이미지가 하나일 때
-	 *  3. 상품 이미지가 여러개 일 때
-	 *  4. 옵션이 없을 때 (옵션 상세는 할 필요 없다.) -  상품 재고의 행 추가는 1만 나타나고 옵션의 옵션명 과 상품재고의  품목명은 default 다.
-	 *  5. 옵션이 하나 일 때
-	 *  6. 옵션이 둘 이상 일 때
-	 *  7. 옵션이 n과 옵션 상세가 m개 일때 상품재고 행 추가 갯수가 n * m 이 되야하는 경우 확인  
-	 *  8. 상품, 상품 이미지, 옵션, 옵션 상세, 상품재고 테이블에 정확한 값이 추가될 경우
+	 *  2. 옵션이 default일 때 (옵션 상세는 할 필요 없다.) -  상품 재고의 행 추가는 1만 나타나고 옵션의 옵션명 과 상품재고의  품목명은 default 다.
+	 *  3. 옵션이 여러개 일 때
 	 */
 	
 	/**
@@ -139,6 +134,10 @@ public class ProductAPIControllerTest {
 		
 		List<OptionVo> list2 = new ArrayList<OptionVo>();
 		OptionVo vo2 = new OptionVo();
+		
+		List<OptionDetailVo> list4 = new ArrayList<OptionDetailVo>();
+		vo2.setOptionDetailList(list4);
+		
 		list2.add(vo2);
 		List<ProdInventoryVo> list3 = new ArrayList<ProdInventoryVo>();
 		ProdInventoryVo vo3 =new ProdInventoryVo();
@@ -157,11 +156,47 @@ public class ProductAPIControllerTest {
 	}
 	
 	/**
-	 * 1.1.2 상품 등록 성공
+	 * 1.1.2 옵션이 없는 상품 등록 성공
 	 */
 	@Rollback(true)
 	@Test
-	public void testProductAddSuccess() throws Exception {
+	public void testProductAddOptionOneSuccess() throws Exception {
+		
+		
+		ProductVo productVo = construtor();
+		
+		//상품 옵션
+		List<OptionVo> optionList = new ArrayList<OptionVo>();
+		optionList.add(new OptionVo(null,null,"default",null));
+		
+		productVo.setOptionList(optionList);
+		
+		List<ProdInventoryVo> inventoryList = new ArrayList<ProdInventoryVo>();
+		inventoryList.add(new ProdInventoryVo(null, null, "default", 10, true, true));
+		
+		productVo.setProdIventoryList(inventoryList);
+		
+		ResultActions resultActions = mockMvc
+				.perform(post("/api/admin/product/")
+				.contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(productVo)))
+				.andDo(print());
+		
+		resultActions.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result",is("success")))
+		.andExpect(jsonPath("$.data.productNo").exists())
+		.andExpect(jsonPath("$.data.optionNo").exists())
+		.andExpect(jsonPath("$.data.ImgInsertCnt",is(productVo.getprodImgList().size())))
+		.andExpect(jsonPath("$.data.detailInsertCnt").doesNotExist())
+		.andExpect(jsonPath("$.data.inventoryInsertCnt",is(productVo.getProdIventoryList().size())))
+		;
+	}
+	
+	/**
+	 * 1.1.3 옵션이 n개인 상품 등록 성공
+	 */
+	@Rollback(true)
+	@Test
+	public void testProductAddOptionsSuccess() throws Exception {
 		
 		
 		ProductVo productVo = construtor();
@@ -173,6 +208,12 @@ public class ProductAPIControllerTest {
 		
 		resultActions.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result",is("success")))
+		.andExpect(jsonPath("$.data.productNo").exists())
+//		.andExpect(jsonPath("$.data.optionNo").exists())
+		.andExpect(jsonPath("$.data.ImgInsertCnt",is(productVo.getprodImgList().size())))
+		.andExpect(jsonPath("$.data.detailInsertCnt").exists())
+		.andExpect(jsonPath("$.data.inventoryInsertCnt",is(productVo.getProdIventoryList().size())))
+		;
 		;
 	}
 }
