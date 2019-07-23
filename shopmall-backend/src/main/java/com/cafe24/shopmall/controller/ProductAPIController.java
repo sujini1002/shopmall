@@ -5,6 +5,7 @@ package com.cafe24.shopmall.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -15,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -56,7 +58,7 @@ public class ProductAPIController {
 	private ProductService productService;
 	
 	/**
-	 * @param productVo
+	 * 1. 상품등록
 	 * - 상품재고(ProdInventory의 품목명은 front 단에서 가져온다.)
 	 * 
 	 */
@@ -75,10 +77,12 @@ public class ProductAPIController {
 		return new ResponseEntity<JSONResult>(JSONResult.success(results), HttpStatus.OK);
 	}
 	
-	@GetMapping(value="/admin/product/list")
-	public ResponseEntity<JSONResult> list(){
+	@GetMapping(value= {"/admin/product","/admin/product/{no}"})
+	public ResponseEntity<JSONResult> list(@PathVariable(value="no") Optional<Long> no){
 		
-		List<ProductVo> allProduct = productService.list();
+		Long prd_no = no.isPresent()?no.get():-1;
+		
+		List<ProductVo> allProduct = productService.list(prd_no);
 		
 		if(allProduct == null) {
 			return new ResponseEntity<JSONResult>(JSONResult.fail("리스트가 존재하지 않습니다.",null),HttpStatus.BAD_REQUEST);

@@ -55,8 +55,8 @@ public class ProductService {
 		return results;
 	}
 
-	public List<ProductVo> list() {
-		List<ProductVo> list = productDao.getlist();
+	public List<ProductVo> list(Long prd_no) {
+		List<ProductVo> list = productDao.getlist(prd_no);
 		return list;
 	}
 

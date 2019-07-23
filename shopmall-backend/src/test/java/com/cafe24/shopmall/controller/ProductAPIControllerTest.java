@@ -1,6 +1,7 @@
 package com.cafe24.shopmall.controller;
 
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -218,18 +219,35 @@ public class ProductAPIControllerTest {
 	}
 	
 	/**
-	 * 2. 상품 전체 리스트 가져오기 
+	 * 2.1 상품 전체 리스트 가져오기 
 	 */
 	@Test
 	public void testProductAllList() throws Exception {
-		ResultActions resultActions = mockMvc.perform(get("/api/admin/product/list"))
+		ResultActions resultActions = mockMvc.perform(get("/api/admin/product"))
 									 .andDo(print());
 		
 		resultActions.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result",is("success")))
 		.andExpect(jsonPath("$.data").exists())
 		.andExpect(jsonPath("$.data[0].prodImgList[0].istitle", is(true)))
-		.andExpect(jsonPath("$.data[0].optionList").doesNotExist())
+		.andExpect(jsonPath("$.data[0].optionList").exists())
+		;
+	}
+	
+	/**
+	 * 2.1 상품 상세리스트 가져오기
+	 */
+	@Test
+	public void testProductOne() throws Exception {
+		ResultActions resultActions = mockMvc.perform(get("/api/admin/product/86"))
+									 .andDo(print());
+		
+		resultActions.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result",is("success")))
+		.andExpect(jsonPath("$.data").exists())
+		.andExpect(jsonPath("$.data", hasSize(1)))
+		.andExpect(jsonPath("$.data[0].prodImgList[0].istitle", is(true)))
+		.andExpect(jsonPath("$.data[0].optionList").exists())
 		;
 	}
 }

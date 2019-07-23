@@ -59,8 +59,8 @@ public class ProductDAO {
 		return sqlSession.insert("product.insertProdInventory", params);
 	}
 
-	public List<ProductVo> getlist() {
-		List<ProductVo> list = sqlSession.selectList("product.getList");
+	public List<ProductVo> getlist(Long prd_no) {
+		List<ProductVo> list = sqlSession.selectList("product.getList",prd_no);
 //		System.out.println(list);
 //		System.out.println(list.get(0).getprodImgList());
 //		System.out.println(list.get(0).getOptionList());
