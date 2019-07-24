@@ -33,6 +33,8 @@ public class ProductVo {
 	@NotNull
 	private Integer price;
 	
+	@NotEmpty
+	@NotNull
 	private String detail;
 	
 	private String prod_date;

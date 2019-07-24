@@ -11,6 +11,7 @@ import com.cafe24.shopmall.repository.ProductDAO;
 import com.cafe24.shopmall.vo.OptionDetailVo;
 import com.cafe24.shopmall.vo.OptionVo;
 import com.cafe24.shopmall.vo.ProductVo;
+import com.sun.scenario.effect.impl.prism.PrDrawable;
 
 @Service
 public class ProductService {
@@ -58,6 +59,40 @@ public class ProductService {
 	public List<ProductVo> list(Long prd_no) {
 		List<ProductVo> list = productDao.getlist(prd_no);
 		return list;
+	}
+
+	public ProductVo modify(ProductVo productVo) {
+		// 상품 정보 수정
+		int resultProdcutupdate = productDao.updateProduct(productVo);
+		
+		// 상품 이지미 삭제
+		int resultImgDelete = productDao.deleteImg(productVo.getNo());
+		// 상품 이미지 insert
+		Integer ImgInsertCnt = productDao.insertProdImg(productVo.getprodImgList(),productVo.getNo());
+		
+		// 상품 옵션  및 옵션 상세 삭제
+		Integer resultOptionDelete = productDao.deleteOption(productVo.getNo());
+		// 상품 옵션 insert
+		if(productVo.getOptionList().size()==1 && "default".equals(productVo.getOptionList().get(0).getName())) {
+			Long optionNo = productDao.insertOption(productVo.getOptionList().get(0),productVo.getNo());
+		}else {
+			for(OptionVo optionVo : productVo.getOptionList()) {
+				Long optionNo = productDao.insertOption(optionVo,productVo.getNo());
+				
+				for(OptionDetailVo detailVo : optionVo.getOptionDetailList()) {
+					detailVo.setOpt_no(optionNo);
+				}
+				Integer insertCount = productDao.insertOptionDetail(optionVo.getOptionDetailList());
+			}
+		}
+		
+		// 상품 재고 판매여부 false 변경
+		Integer resultInventoryDelete = productDao.deleteInventory(productVo.getNo());
+		// 상품 재고 insert
+		Integer inventoryInsertCnt = productDao.insertProdInventory(productVo.getProdIventoryList(),productVo.getNo());
+		
+		
+		return (ProductVo) productDao.getlist(productVo.getNo());
 	}
 
 }

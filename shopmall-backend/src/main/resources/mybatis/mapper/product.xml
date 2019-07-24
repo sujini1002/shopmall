@@ -69,10 +69,11 @@
 		<![CDATA[
 			select no, title, price, detail,to_char(prod_date, 'YYYY-MM-DD HH24:MI:SS') as prod_date ,cate_no, issale
 			from product
+			where issale = TRUE
 		]]>
 		<if test='value != -1'>
 			<![CDATA[
-				where no = #{value}
+				and no = #{value}
 			]]>
 		</if>
 		<![CDATA[
@@ -97,9 +98,43 @@
 			select no, opt_value, inventory, isdisplay, issale
 			from product_inventory
 			where prd_no = #{no}
+			and issale = TRUE
 			order by no
 		]]>
 	</select>
 	
-		
+	
+	
+	<update id="updateProduct" parameterType="productvo">
+		<![CDATA[
+			update product
+			set title = #{title},
+				price = #{price},
+				detail = #{detail},
+				cate_no = #{cate_no},
+				issale = #{issale}
+			WHERE no = #{no}
+		]]>
+	</update>	
+	
+	
+	<delete id="deleteProductImg" parameterType="Long">
+		<![CDATA[
+			delete from product_img where prd_no = #{_parameter}
+		]]>
+	</delete>
+	
+	<delete id="deleteOption" parameterType="Long">
+		<![CDATA[
+			delete from option where prd_no = #{_parameter} cascade
+		]]>
+	</delete>
+	
+	<update id="deleteInventory" parameterType="Long">
+		<![CDATA[
+			update product_inventory
+			set issale = FALSE
+			where prd_no = #{_parameter}
+		]]>
+	</update>
 </mapper>

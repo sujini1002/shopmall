@@ -64,4 +64,20 @@ public class ProductDAO {
 		return list;
 	}
 
+	public Integer updateProduct(ProductVo productVo) {
+		return sqlSession.update("product.updateProduct", productVo);
+	}
+
+	public Integer deleteImg(Long no) {
+		return sqlSession.delete("product.deleteProductImg", no);
+	}
+
+	public Integer deleteOption(Long no) {
+		return sqlSession.delete("product.deleteOption", no);
+	}
+
+	public Integer deleteInventory(Long no) {
+		return sqlSession.update("product.deleteInventory", no);
+	}
+
 }

@@ -18,6 +18,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -76,7 +77,11 @@ public class ProductAPIController {
 		Map<String,Object> results = productService.add(productVo);
 		return new ResponseEntity<JSONResult>(JSONResult.success(results), HttpStatus.OK);
 	}
-	
+	/**
+	 * 2. 상품 목록 조회
+	 *  - no 값이 없으면 -> 전체리스트 가져오기
+	 *  - no 값이 있으면 -> 상품 상세보기 
+	 */
 	@GetMapping(value= {"/admin/product","/admin/product/{no}"})
 	public ResponseEntity<JSONResult> list(@PathVariable(value="no") Optional<Long> no){
 		
@@ -90,5 +95,22 @@ public class ProductAPIController {
 		
 		return new ResponseEntity<JSONResult>(JSONResult.success(allProduct), HttpStatus.OK);
 	}
+	
+	@PutMapping(value= "/admin/product")
+	public ResponseEntity<JSONResult> update(@RequestBody @Valid ProductVo productVo, BindingResult errors){
+		
+		if(errors.hasErrors()) {
+			Map<String,String> errorMessages = new HashMap<String, String>();
+			for(ObjectError index : errors.getAllErrors()) {
+				FieldError fe = (FieldError)index;
+				errorMessages.put(fe.getField(), fe.getDefaultMessage());
+			}
+			return new ResponseEntity<JSONResult>(JSONResult.fail("입력형식이 유효하지 않습니다.",errorMessages),HttpStatus.BAD_REQUEST);
+		}
+		
+		ProductVo result = productService.modify(productVo);
+		return new ResponseEntity<JSONResult>(JSONResult.success(result), HttpStatus.OK);
+	}
+	
 	
 }

@@ -2,6 +2,10 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <configuration>
+
+	<settings>
+		<setting name="jdbcTypeForNull" value="NULL" /> 
+	</settings>
 	
 	<typeAliases>
 		<typeAlias alias="membervo" type="com.cafe24.shopmall.vo.MemberVo"/>
@@ -18,4 +22,6 @@
 		<mapper resource="mybatis/mapper/product.xml"/>
 		<mapper resource="mybatis/mapper/category.xml"/>
 	</mappers>
+	
+	
 </configuration>
