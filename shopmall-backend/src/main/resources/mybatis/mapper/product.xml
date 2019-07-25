@@ -107,11 +107,30 @@
 	
 	<update id="updateProduct" parameterType="productvo">
 		<![CDATA[
-			update product
-			set title = #{title},
+			update product 
+					set 
+		]]>
+		<if test="title != null and !''.equals(title)">
+			<![CDATA[
+				title = #{title},
+			]]>
+		</if>
+		<if test="price != null">
+			<![CDATA[
 				price = #{price},
+			]]>
+		</if>
+		<if test="detail != null and !''.equals(detail)">
+			<![CDATA[
 				detail = #{detail},
+			]]>
+		</if>
+		<if test="cate_no != null">
+			<![CDATA[
 				cate_no = #{cate_no},
+			]]>
+		</if>
+		<![CDATA[
 				issale = #{issale}
 			WHERE no = #{no}
 		]]>

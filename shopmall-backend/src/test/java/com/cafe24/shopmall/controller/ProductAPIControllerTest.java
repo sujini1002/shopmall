@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -290,7 +289,7 @@ public class ProductAPIControllerTest {
 	}
 	
 	/**
-	 * 3.1.1 기존 옵션이 2개인 옵션을 한개롤 줄이기
+	 * 3.1.2 기존 옵션이 2개인 옵션을 한개롤 줄이기
 	 */
 	@Rollback(true)
 	@Test
@@ -332,6 +331,102 @@ public class ProductAPIControllerTest {
 		inventoryList.add(new ProdInventoryVo(null, null, "화이트", -1, true));
 		inventoryList.add(new ProdInventoryVo(null, null, "핑크", -1,  true));
 		inventoryList.add(new ProdInventoryVo(null, null, "베이지", -1,  true));
+
+		vo.setProdIventoryList(inventoryList);
+
+		ResultActions resultActions = mockMvc.perform(
+				put("/api/admin/product")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(new Gson().toJson(vo))
+				);
+		
+		resultActions.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result",is("success")))
+		;
+	}
+	
+	/**
+	 * 3.1.3 기존 옵션을 없애기
+	 */
+	@Rollback(true)
+	@Test
+	public void testProductUpdateDeleteAllOption() throws Exception {
+
+		ProductVo vo = new ProductVo();
+		vo.setNo(noMoreOption);
+		vo.settitle("옵션 없는 티셔츠");
+		vo.setPrice(10000);
+		vo.setCate_no(1);
+		vo.setDetail("<h1>옵션 없는 티셔츠  입니다.</h1>");
+		vo.setIssale(true);
+		
+		// 상품이미지
+		List<ProdImgVo> imgList = new ArrayList<ProdImgVo>();
+		imgList.add(new ProdImgVo(null, null, "/images/nooption1.png", true));
+		imgList.add(new ProdImgVo(null, null, "/images/nooption2.png", false));
+		imgList.add(new ProdImgVo(null, null, "/images/nooption3.png", false));
+		
+		vo.setprodImgList(imgList);
+
+
+		// 상품 옵션
+		List<OptionVo> optionList = new ArrayList<OptionVo>();
+		optionList.add(new OptionVo(null, null, "default", null));
+
+		vo.setOptionList(optionList);
+
+		// 상품 재고
+		List<ProdInventoryVo> inventoryList = new ArrayList<ProdInventoryVo>();
+		inventoryList.add(new ProdInventoryVo(null, null, "default", 0,  true));
+
+		vo.setProdIventoryList(inventoryList);
+
+		ResultActions resultActions = mockMvc.perform(
+				put("/api/admin/product")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(new Gson().toJson(vo))
+				);
+		
+		resultActions.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result",is("success")))
+		;
+	}
+	
+	/**
+	 * 3.1.3 상품 정보가 null 이면 수정 되지 않음
+	 */
+	@Rollback(true)
+	@Test
+	public void testProductNullUpdate() throws Exception {
+
+		ProductVo vo = new ProductVo();
+		vo.setNo(noMoreOption);
+		vo.settitle("");
+		vo.setPrice(null);
+		vo.setCate_no(null);
+		vo.setDetail("");
+		vo.setIssale(true);
+		
+		// 상품이미지
+		List<ProdImgVo> imgList = new ArrayList<ProdImgVo>();
+		imgList.add(new ProdImgVo(null, null, "/images/nooption1.png", true));
+		imgList.add(new ProdImgVo(null, null, "/images/nooption2.png", false));
+		imgList.add(new ProdImgVo(null, null, "/images/nooption3.png", false));
+		
+		vo.setprodImgList(imgList);
+
+
+		// 상품 옵션
+		List<OptionVo> optionList = new ArrayList<OptionVo>();
+		optionList.add(new OptionVo(null, null, "default", null));
+
+		vo.setOptionList(optionList);
+
+		// 상품 재고
+		List<ProdInventoryVo> inventoryList = new ArrayList<ProdInventoryVo>();
+		inventoryList.add(new ProdInventoryVo(null, null, "default", 0,  true));
 
 		vo.setProdIventoryList(inventoryList);
 

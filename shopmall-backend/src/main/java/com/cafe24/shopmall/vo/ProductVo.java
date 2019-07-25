@@ -3,6 +3,7 @@ package com.cafe24.shopmall.vo;
 import java.util.List;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -31,6 +32,7 @@ public class ProductVo {
 	private String title;
 	
 	@NotNull
+	@Min(0)
 	private Integer price;
 	
 	@NotEmpty
