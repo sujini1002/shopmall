@@ -15,12 +15,14 @@
 		<typeAlias alias="optiondetailvo" type="com.cafe24.shopmall.vo.OptionDetailVo"/>
 		<typeAlias alias="prodinventoryvo" type="com.cafe24.shopmall.vo.ProdInventoryVo"/>
 		<typeAlias alias="categoryvo" type="com.cafe24.shopmall.vo.CategoryVo"/>
+		<typeAlias alias="cartvo" type="com.cafe24.shopmall.vo.CartVo"/>
 	</typeAliases>
 	
 	<mappers>
 		<mapper resource="mybatis/mapper/member.xml"/>
 		<mapper resource="mybatis/mapper/product.xml"/>
 		<mapper resource="mybatis/mapper/category.xml"/>
+		<mapper resource="mybatis/mapper/cart.xml"/>
 	</mappers>
 	
 	

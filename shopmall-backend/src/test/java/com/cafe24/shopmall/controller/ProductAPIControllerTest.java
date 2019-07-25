@@ -505,7 +505,7 @@ public class ProductAPIControllerTest {
 	}
 	
 	/**
-	 * 4.1 삭제 실패 ( 없는 번호)
+	 * 4.2 삭제 실패 ( 없는 번호)
 	 */
 	@Rollback(true)
 	@Test
