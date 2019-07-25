@@ -115,7 +115,7 @@
 				title = #{title},
 			]]>
 		</if>
-		<if test="price != null">
+		<if test="price != null and price gte 0">
 			<![CDATA[
 				price = #{price},
 			]]>
@@ -125,7 +125,7 @@
 				detail = #{detail},
 			]]>
 		</if>
-		<if test="cate_no != null">
+		<if test="cate_no != null and cate_no gt 0">
 			<![CDATA[
 				cate_no = #{cate_no},
 			]]>

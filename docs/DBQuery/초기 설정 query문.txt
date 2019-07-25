@@ -1,0 +1,60 @@
+﻿create type enum_order_status as enum('입금전','입금완료','결제완료','상품준비중','부분출고완료','출고완료','부분배송중','배송중','배송완료','취소','부분취소');
+
+
+create type enum_ordpro_status as enum('입금전','입금완료','결제완료','상품준비중','출고완료','배송중','배송완료','취소');
+
+create type enum_member_role as enum('ROLE_USER','ROLE_ADMIN');
+drop type enum_member_role cascade;
+create sequence seq_member start 1;
+create sequence seq_product start 1;
+create sequence seq_option start 1;
+create sequence seq_optDtail start 1;
+create sequence seq_prodimg start 1;
+create sequence seq_prodinven start 1;
+create sequence seq_category start 1;
+create sequence seq_order start 1;
+create sequence seq_ordpay start 1;
+create sequence seq_delivers start 1;
+
+select * from product order by prod_date desc;
+select * from option order by prd_no desc;
+select * from option_detail;
+select * from product_img;
+select * from product_inventory order by prd_no desc;
+select * from member;
+
+
+insert into member values(1,'admin','운영자','AdminisNA^^12','010-1597-4865','admin@shopmall.com','','','',FALSE,'ROLE_ADMIN');
+insert into member values(2,'tgif2014','강수진','Enomhoot%12^^','010-0000-4865','tgif2014@gmail.com','','','',FALSE,'ROLE_USER');
+insert into member values(3,'aufclakspt','홍길동','Enomhoot%12^^','010-6666-4824','aufclakstp@gmail.com','02689','서울시 강남구 서초대로23','비트교육센터 3층',FALSE,'ROLE_USER');
+
+insert into category values(1,null,'상의');
+insert into category values(2,1,'니트');
+
+
+--delete from option_detail;
+--delete from option;
+--delete from product_inventory;
+--delete from product_img;
+--delete from product;
+
+
+
+
+ ALTER TABLE public.option_detail
+ DROP CONSTRAINT "FK_option_TO_option_detail";
+ 
+ ALTER TABLE public.option_detail 
+ ADD CONSTRAINT "FK_option_TO_option_detail" FOREIGN KEY (opt_no) REFERENCES option(no) on update no action on delete cascade;
+ 
+
+ALTER TABLE public."option"
+ DROP CONSTRAINT "FK_product_TO_option";
+
+ALTER TABLE public."option" ADD CONSTRAINT "FK_product_TO_option" FOREIGN KEY (prd_no) REFERENCES product(no) on update no action on delete cascade;
+
+
+ALTER TABLE public.product_img
+DROP CONSTRAINT "FK_product_TO_product_img";
+
+ALTER TABLE public.product_img ADD CONSTRAINT "FK_product_TO_product_img" FOREIGN KEY (prd_no) REFERENCES product(no) on update no action on delete cascade;

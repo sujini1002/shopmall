@@ -2,6 +2,7 @@ package com.cafe24.shopmall.controller;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -269,7 +270,7 @@ public class ProductAPIControllerTest {
 
 		// 상품 재고
 		List<ProdInventoryVo> inventoryList = new ArrayList<ProdInventoryVo>();
-		inventoryList.add(new ProdInventoryVo(null, null, "25", 0,  false));
+		inventoryList.add(new ProdInventoryVo(null, null, "25", 0,  true));
 		inventoryList.add(new ProdInventoryVo(null, null, "26", -1, true));
 		inventoryList.add(new ProdInventoryVo(null, null, "27", -1,  true));
 		inventoryList.add(new ProdInventoryVo(null, null, "28", -1,  true));
@@ -285,6 +286,12 @@ public class ProductAPIControllerTest {
 		resultActions.andDo(print())
 		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result",is("success")))
+//		.andExpect(jsonPath("$.data[0].no", is((long)vo.getNo())))
+		.andExpect(jsonPath("$.data[0].title", is(vo.gettitle())))
+		.andExpect(jsonPath("$.data[0].price", is(vo.getPrice())))
+		.andExpect(jsonPath("$.data[0].issale", is(vo.getIssale())))
+		.andExpect(jsonPath("$.data[0].optionList", hasSize(optionList.size())))
+		.andExpect(jsonPath("$.data[0].prodIventoryList", hasSize(inventoryList.size())))
 		;
 	}
 	
@@ -343,6 +350,12 @@ public class ProductAPIControllerTest {
 		resultActions.andDo(print())
 		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result",is("success")))
+//		.andExpect(jsonPath("$.data[0].no", is((long)vo.getNo())))
+		.andExpect(jsonPath("$.data[0].title", is(vo.gettitle())))
+		.andExpect(jsonPath("$.data[0].price", is(vo.getPrice())))
+		.andExpect(jsonPath("$.data[0].issale", is(vo.getIssale())))
+		.andExpect(jsonPath("$.data[0].optionList", hasSize(optionList.size())))
+		.andExpect(jsonPath("$.data[0].prodIventoryList", hasSize(inventoryList.size())))
 		;
 	}
 	
@@ -391,6 +404,12 @@ public class ProductAPIControllerTest {
 		resultActions.andDo(print())
 		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result",is("success")))
+//		.andExpect(jsonPath("$.data[0].no", is((long)vo.getNo())))
+		.andExpect(jsonPath("$.data[0].title", is(vo.gettitle())))
+		.andExpect(jsonPath("$.data[0].price", is(vo.getPrice())))
+		.andExpect(jsonPath("$.data[0].issale", is(vo.getIssale())))
+		.andExpect(jsonPath("$.data[0].optionList", hasSize(optionList.size())))
+		.andExpect(jsonPath("$.data[0].prodIventoryList", hasSize(inventoryList.size())))
 		;
 	}
 	
@@ -404,7 +423,7 @@ public class ProductAPIControllerTest {
 		ProductVo vo = new ProductVo();
 		vo.setNo(noMoreOption);
 		vo.settitle("");
-		vo.setPrice(null);
+		vo.setPrice(-19);
 		vo.setCate_no(null);
 		vo.setDetail("");
 		vo.setIssale(true);
@@ -439,6 +458,22 @@ public class ProductAPIControllerTest {
 		resultActions.andDo(print())
 		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result",is("success")))
+//		.andExpect(jsonPath("$.data[0].no", is((long)vo.getNo())))
+		.andExpect(jsonPath("$.data[0].title", not(vo.gettitle())))
+		.andExpect(jsonPath("$.data[0].price", not(vo.getPrice())))
+		.andExpect(jsonPath("$.data[0].issale", is(vo.getIssale())))
+		.andExpect(jsonPath("$.data[0].optionList", hasSize(optionList.size())))
+		.andExpect(jsonPath("$.data[0].prodIventoryList", hasSize(inventoryList.size())))
 		;
+	}
+	
+	/**
+	 * 4. 상품 삭제 
+	 *  - 상품의 정보는 issale 만 false로 변경한다.
+	 *  - 상품이 삭제 되면 상품의 대표이지미 제외 제거, 옵션, 옵션 상세는 지워진다.
+	 *  - 상품 재고는 주문에 연결 되어 있으므로 삭제하지 않고 issale을 false로 바꾼다.
+	 */
+	public void testDeleteProduct() {
+		
 	}
 }
