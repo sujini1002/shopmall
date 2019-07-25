@@ -81,6 +81,15 @@
 		]]>
 	</select>
 	
+	<select id="getDeleteList" resultMap="productResults" parameterType="Long">
+		<![CDATA[
+			select no, title, price, detail, issale, to_char(prod_date, 'YYYY-MM-DD HH24:MI:SS') as prod_date ,cate_no
+			from product
+			where issale = False and no = #{_parameter}
+			order by prod_date desc
+		]]>
+	</select>
+	
 	<select id="getProdImgList" resultType="prodimgvo">
 		select no,url, istitle from product_img where prd_no = #{no}  order by no 
 	</select>
@@ -103,7 +112,15 @@
 		]]>
 	</select>
 	
-	
+	<select id="getProdInventoryDeleteList" resultType="prodinventoryvo" parameterType="Long">
+		<![CDATA[
+			select no, opt_value, inventory, issale
+			from product_inventory
+			where prd_no = #{no}
+			and issale = FALSE
+			order by no
+		]]>
+	</select>
 	
 	<update id="updateProduct" parameterType="productvo">
 		<![CDATA[
@@ -137,10 +154,17 @@
 	</update>	
 	
 	
-	<delete id="deleteProductImg" parameterType="Long">
+	<delete id="deleteProductImg" parameterType="map">
 		<![CDATA[
-			delete from product_img where prd_no = #{_parameter}
+			delete 
+			from product_img 
+			where prd_no = #{prd_no}
 		]]>
+		<if test="status.equals('DELETE')">
+			<![CDATA[
+				and istitle = FALSE
+			]]>
+		</if>
 	</delete>
 	
 	<delete id="deleteOption" parameterType="Long">
@@ -155,5 +179,11 @@
 			set issale = FALSE
 			where prd_no = #{_parameter}
 		]]>
+	</update>
+	
+	<update id="deleteProduct" parameterType="Long">
+		update product
+		set issale = FALSE
+		where no = #{_parameter}
 	</update>
 </mapper>

@@ -66,7 +66,7 @@ public class ProductService {
 		
 		// 상품 이지미 삭제
 		if(productVo.getprodImgList() != null && productVo.getprodImgList().size()==0) {
-			productDao.deleteImg(productVo.getNo());
+			productDao.deleteImg(productVo.getNo(),"CHANGE");
 			// 상품 이미지 insert
 			productDao.insertProdImg(productVo.getprodImgList(),productVo.getNo());
 		}
@@ -94,6 +94,26 @@ public class ProductService {
 		
 		
 		return productDao.getlist(productVo.getNo());
+	}
+	
+	/**
+	 * 4. 상품 삭제 
+	 *  - 상품의 정보는 issale 만 false로 변경한다.
+	 *  - 상품이 삭제 되면 상품의 대표이지미 제외 제거, 옵션, 옵션 상세는 지워진다.
+	 *  - 상품 재고는 주문에 연결 되어 있으므로 삭제하지 않고 issale을 false로 바꾼다.
+	 */
+	public ProductVo delete(Long no) {
+		
+		// 상품 삭제
+		productDao.deleteProduct(no);
+		// 상품 이미지 삭제
+		productDao.deleteImg(no, "DELETE");
+		// 상품 옵션 및 상세 삭제
+		productDao.deleteOption(no);
+		// 상품 재고 삭제
+		productDao.deleteInventory(no);
+		
+		return productDao.getlistFalse(no);
 	}
 
 }

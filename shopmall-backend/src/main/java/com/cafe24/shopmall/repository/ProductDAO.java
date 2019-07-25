@@ -68,8 +68,13 @@ public class ProductDAO {
 		return sqlSession.update("product.updateProduct", productVo);
 	}
 
-	public Integer deleteImg(Long no) {
-		return sqlSession.delete("product.deleteProductImg", no);
+	public Integer deleteImg(Long no, String string) {
+
+		Map<String,Object> params = new HashMap<String, Object>();
+		params.put("prd_no", no);
+		params.put("status", string);
+		
+		return sqlSession.delete("product.deleteProductImg", params);
 	}
 
 	public Integer deleteOption(Long no) {
@@ -78,6 +83,14 @@ public class ProductDAO {
 
 	public Integer deleteInventory(Long no) {
 		return sqlSession.update("product.deleteInventory", no);
+	}
+
+	public Integer deleteProduct(Long no) {
+		return sqlSession.update("product.deleteProduct", no);
+	}
+
+	public ProductVo getlistFalse(Long no) {
+		return sqlSession.selectOne("product.getDeleteList",no);
 	}
 
 }

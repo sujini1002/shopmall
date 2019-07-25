@@ -6,6 +6,7 @@ import static org.hamcrest.Matchers.not;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -38,13 +39,18 @@ import com.cafe24.shopmall.vo.ProductVo;
 import com.google.gson.Gson;
 
 /**
- * 상품과 관련하여 테스트하는 기능 1. ADMIN만 가능한 기능 - 상품등록 - 기본 상품 정보 등록 (하나만 가능) - 상품 이미지 등록
- * (최소 하나 ~여러개 등록 가능) - LIST - 옵션등록 (최소 하나 ~여러개 등록 가능) - LIST - 옵션 상세등록 (최소 하나
- * ~여러개 등록 가능) - LIST - 옵션 별 상품 재고 등록 (최소 하나 ~여러개 등록 가능) - LIST - 상품 수정 - 상품 삭제
+ * 상품과 관련하여 테스트하는 기능 
+ * 1. ADMIN만 가능한 기능
+ *  - 상품등록 - 기본 상품 정보 등록 (하나만 가능) 
+ *  - 상품 이미지 등록(최소 하나 ~여러개 등록 가능) 
+ *  - LIST - 옵션등록 (최소 하나 ~여러개 등록 가능) 
+ *  - LIST - 옵션 상세등록 (최소 하나  ~여러개 등록 가능) 
+ * 	- LIST - 옵션 별 상품 재고 등록 (최소 하나 ~여러개 등록 가능) - LIST - 상품 수정 - 상품 삭제
  * 
  * 
- * 2. ADMIN과 USER가 모두 가능한 기능이지만 ADMIN에 추가 기능이 있는 기능 - 상품 검색 분류 목록 - 모두 가능 : 상품명,
- * 카테고리로 검색 - ADMIN만 가능 : 상품등록일 , 진열상태 , 판매상태로 검색 -
+ * 2. ADMIN과 USER가 모두 가능한 기능이지만 ADMIN에 추가 기능이 있는 기능 
+ * - 상품 검색 분류 목록 - 모두 가능 : 상품명,카테고리로 검색
+ * - ADMIN만 가능 : 상품등록일 , 진열상태 , 판매상태로 검색 -
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -290,6 +296,7 @@ public class ProductAPIControllerTest {
 		.andExpect(jsonPath("$.data[0].title", is(vo.gettitle())))
 		.andExpect(jsonPath("$.data[0].price", is(vo.getPrice())))
 		.andExpect(jsonPath("$.data[0].issale", is(vo.getIssale())))
+		.andExpect(jsonPath("$.data[0].prodImgList", hasSize(imgList.size())))
 		.andExpect(jsonPath("$.data[0].optionList", hasSize(optionList.size())))
 		.andExpect(jsonPath("$.data[0].prodIventoryList", hasSize(inventoryList.size())))
 		;
@@ -354,6 +361,7 @@ public class ProductAPIControllerTest {
 		.andExpect(jsonPath("$.data[0].title", is(vo.gettitle())))
 		.andExpect(jsonPath("$.data[0].price", is(vo.getPrice())))
 		.andExpect(jsonPath("$.data[0].issale", is(vo.getIssale())))
+		.andExpect(jsonPath("$.data[0].prodImgList", hasSize(imgList.size())))
 		.andExpect(jsonPath("$.data[0].optionList", hasSize(optionList.size())))
 		.andExpect(jsonPath("$.data[0].prodIventoryList", hasSize(inventoryList.size())))
 		;
@@ -408,6 +416,7 @@ public class ProductAPIControllerTest {
 		.andExpect(jsonPath("$.data[0].title", is(vo.gettitle())))
 		.andExpect(jsonPath("$.data[0].price", is(vo.getPrice())))
 		.andExpect(jsonPath("$.data[0].issale", is(vo.getIssale())))
+		.andExpect(jsonPath("$.data[0].prodImgList", hasSize(imgList.size())))
 		.andExpect(jsonPath("$.data[0].optionList", hasSize(optionList.size())))
 		.andExpect(jsonPath("$.data[0].prodIventoryList", hasSize(inventoryList.size())))
 		;
@@ -462,6 +471,7 @@ public class ProductAPIControllerTest {
 		.andExpect(jsonPath("$.data[0].title", not(vo.gettitle())))
 		.andExpect(jsonPath("$.data[0].price", not(vo.getPrice())))
 		.andExpect(jsonPath("$.data[0].issale", is(vo.getIssale())))
+		.andExpect(jsonPath("$.data[0].prodImgList", hasSize(imgList.size())))
 		.andExpect(jsonPath("$.data[0].optionList", hasSize(optionList.size())))
 		.andExpect(jsonPath("$.data[0].prodIventoryList", hasSize(inventoryList.size())))
 		;
@@ -472,8 +482,39 @@ public class ProductAPIControllerTest {
 	 *  - 상품의 정보는 issale 만 false로 변경한다.
 	 *  - 상품이 삭제 되면 상품의 대표이지미 제외 제거, 옵션, 옵션 상세는 지워진다.
 	 *  - 상품 재고는 주문에 연결 되어 있으므로 삭제하지 않고 issale을 false로 바꾼다.
+	 * @throws Exception 
 	 */
-	public void testDeleteProduct() {
+	
+	/**
+	 * 4.1 삭제 성공 
+	 * @throws Exception 
+	 */
+	@Rollback(true)
+	@Test
+	public void testDeleteProduct() throws Exception {
+		ResultActions resultActions = mockMvc.perform(delete("/api/admin/product/"+noMoreOption));
+		resultActions.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result",is("success")))
+//		.andExpect(jsonPath("$.data.no", is(noMoreOption)))
+		.andExpect(jsonPath("$.data.issale", is(false)))
+		.andExpect(jsonPath("$.data.prodImgList",hasSize(1)))
+		.andExpect(jsonPath("$.data.optionList",hasSize(0)))
+		;
+		
+	}
+	
+	/**
+	 * 4.1 삭제 실패 ( 없는 번호)
+	 */
+	@Rollback(true)
+	@Test
+	public void testDeleteProductFail()  throws Exception{
+		ResultActions resultActions = mockMvc.perform(delete("/api/admin/product/"+0));
+		resultActions.andDo(print())
+		.andExpect(status().isBadRequest())
+		.andExpect(jsonPath("$.result",is("fail")))
+		;
 		
 	}
 }
