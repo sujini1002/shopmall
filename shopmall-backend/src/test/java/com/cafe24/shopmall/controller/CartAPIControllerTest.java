@@ -1,17 +1,22 @@
 package com.cafe24.shopmall.controller;
 
 import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -23,6 +28,8 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.cafe24.shopmall.config.TestAppConfig;
 import com.cafe24.shopmall.config.TestWebConfig;
+import com.cafe24.shopmall.vo.CartVo;
+import com.google.gson.Gson;
 
 
 /**
@@ -33,10 +40,10 @@ import com.cafe24.shopmall.config.TestWebConfig;
  * 4. 장바구니 삭제
  * -----------------------
  * 1. 장바구니 추가
- * 	 1.1  옵션선택에 따른 상품 재고 번호 가져오기
+ * 	 1.1  옵션선택에 따른 상품 재고 번호 가져오기 (Ajax)
  * 	 1.2  장바구니 추가(List로 받기)
- * 		1.2.2 회원 번호 조회 후 회원/비회원 결정 - DB쿼리에서 변동 예정
- * 		1.2.1 기존 장바구니에 상품 재고 번호 있는지 조회
+ * 		1.2.1 회원 번호 조회 후 회원/비회원 결정 - DB쿼리에서 변동 예정
+ * 		1.2.2 기존 장바구니에 상품 재고 번호 있는지 조회
  * 		1.2.3 있다면 false로 리턴
  * 		1.2.4 없다면 insert 후 true로 리턴
  * 	 1.3  비회원으로 장바구니 저장한 후 로그인 한 상황
@@ -81,7 +88,14 @@ public class CartAPIControllerTest {
 	 */
 	@Test
 	public void testFindProductInventoryNo() throws Exception {
-		ResultActions resultActions = mockMvc.perform(get("/api/cart/find/{opt_value}/{prd_no}",URLEncoder.encode("L/블랙","UTF-8"),114L));
+		
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("opt_value", "L/블랙");
+		params.put("prd_no", 114L);
+		
+		ResultActions resultActions = mockMvc.perform(post("/api/cart/find")
+														.contentType(MediaType.APPLICATION_JSON)
+														.content(new Gson().toJson(params)));
 		
 		resultActions.andDo(print())
 		.andExpect(status().isOk())
@@ -94,7 +108,13 @@ public class CartAPIControllerTest {
 	 */
 	@Test
 	public void testFindProductInventoryNoFail() throws Exception {
-		ResultActions resultActions = mockMvc.perform(get("/api/cart/find/{opt_value}/{prd_no}",URLEncoder.encode("핑크/S","UTF-8"),114L));
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("opt_value", "L/핑크");
+		params.put("prd_no", 114L);
+		
+		ResultActions resultActions = mockMvc.perform(post("/api/cart/find")
+														.contentType(MediaType.APPLICATION_JSON)
+														.content(new Gson().toJson(params)));
 		
 		resultActions.andDo(print())
 		.andExpect(status().isBadRequest())
@@ -102,4 +122,47 @@ public class CartAPIControllerTest {
 		.andExpect(jsonPath("$.data").doesNotExist())
 		;
 	}
+	
+	/**
+	 * 1.1.3 null 값
+	 */
+	@Test
+	public void testFindProductInventoryNoFailNull() throws Exception {
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("opt_value", "");
+		params.put("prd_no", null);
+		
+		ResultActions resultActions = mockMvc.perform(post("/api/cart/find")
+														.contentType(MediaType.APPLICATION_JSON)
+														.content(new Gson().toJson(params)));
+		
+		resultActions.andDo(print())
+		.andExpect(status().isBadRequest())
+		.andExpect(jsonPath("$.result", is("fail")))
+		.andExpect(jsonPath("$.data").doesNotExist())
+		;
+	}
+	
+	/**
+	 * 1.2.1 회원 장바구니 추가 성공
+	 */
+	@Rollback(true)
+	@Test
+	public void testMemberCartInsert() throws Exception {
+		List<CartVo> cartList = new ArrayList<CartVo>();
+		
+		cartList.add(new CartVo(2L, 238L, null, 1, 13000));
+		cartList.add(new CartVo(2L, 239L, null, 2, 26000));
+		
+		ResultActions resultActions = mockMvc.perform(post("/api/cart")
+													.contentType(MediaType.APPLICATION_JSON)
+													.content(new Gson().toJson(cartList)));
+		
+		resultActions.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result", is("success")))
+//		.andExpect(jsonPath("$.data").exists())
+		;
+	}
+	
 }

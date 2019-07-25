@@ -22,4 +22,9 @@ public class CartDAO {
 		return sqlSession.selectOne("cart.findInventoryNo", params);
 	}
 
+	public boolean isExistInventroyNo(Long value) {
+		int result = sqlSession.selectOne("cart.isExistInventroyNo", value);
+		return result == 1;
+	}
+
 }

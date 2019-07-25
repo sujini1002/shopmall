@@ -1,19 +1,20 @@
 package com.cafe24.shopmall.controller;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.util.Optional;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cafe24.shopmall.dto.JSONResult;
 import com.cafe24.shopmall.service.CartService;
+import com.cafe24.shopmall.vo.CartVo;
 
 import io.swagger.annotations.Api;
 
@@ -54,34 +55,39 @@ import io.swagger.annotations.Api;
 
 
 @RestController("cartAPIController")
-@RequestMapping("/api")
+@RequestMapping("/api/cart")
 @Api(value="ShopMall", description="cart")
 public class CartAPIController {
 	
 	@Autowired
 	private CartService cartService;
 	
-	@GetMapping(value="/cart/find/{opt_value}/{prd_no}")
-	public ResponseEntity<JSONResult> findInventoryNo(
-							@PathVariable(value="opt_value")Optional<String> opt_value,
-							@PathVariable(value="prd_no")Optional<Long> prd_no) throws UnsupportedEncodingException {
+	
+	//1.1  옵션선택에 따른 상품 재고 번호 가져오기
+	@PostMapping(value="/find")
+	public ResponseEntity<JSONResult> findInventoryNo(@RequestBody Map<String,Object> params){
 		
 		
 		//입력 값이 없을 때
-		if(!opt_value.isPresent() || !prd_no.isPresent()) {
-			System.out.println("들어옴");
+		if(params.get("opt_value") == null || "".equals(params.get("opt_value")) || params.get("prd_no")==null) {
 			return new ResponseEntity<JSONResult>(JSONResult.fail("해당 상품이 존재하지 않습니다.",null),HttpStatus.BAD_REQUEST);
 		}
 		
-		String optValue = URLDecoder.decode(opt_value.get(), "UTF-8");
-		Long prdNo = prd_no.get();
+		
 		//상품 재고 번호 가져오기
-		Long productInventoryNo = cartService.findInventoryNo(optValue,prdNo);
+		Long productInventoryNo = cartService.findInventoryNo(params.get("opt_value").toString(),((Integer)params.get("prd_no")).longValue());
+		System.out.println(params.get("opt_value").toString());
 		
 		if(productInventoryNo==null) {
 			return new ResponseEntity<JSONResult>(JSONResult.fail("해당 상품이 존재하지 않습니다.",null),HttpStatus.BAD_REQUEST);
 		}
 		
 		return new ResponseEntity<JSONResult>(JSONResult.success(productInventoryNo), HttpStatus.OK);
+	}
+	
+	@PostMapping(value="",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<JSONResult> add(@RequestBody List<CartVo> cartList){
+		System.out.println(cartList);
+		return new ResponseEntity<JSONResult>(JSONResult.success(null), HttpStatus.OK);
 	}
 }

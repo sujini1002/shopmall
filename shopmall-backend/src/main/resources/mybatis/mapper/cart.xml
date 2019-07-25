@@ -9,4 +9,10 @@
 		and prd_no = #{prd_no}
 	</select>
 	
+	<select id="isExistInventroyNo" parameterType="Long" resultType="Long">
+		select count(*)
+		from product_inventory
+		where no = #{_parameter}
+	</select>
+	
 </mapper>
