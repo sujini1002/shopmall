@@ -61,7 +61,7 @@ public class ProductService {
 		return list;
 	}
 
-	public ProductVo modify(ProductVo productVo) {
+	public List<ProductVo> modify(ProductVo productVo) {
 		// 상품 정보 수정
 		int resultProdcutupdate = productDao.updateProduct(productVo);
 		
@@ -92,7 +92,7 @@ public class ProductService {
 		Integer inventoryInsertCnt = productDao.insertProdInventory(productVo.getProdIventoryList(),productVo.getNo());
 		
 		
-		return (ProductVo) productDao.getlist(productVo.getNo());
+		return productDao.getlist(productVo.getNo());
 	}
 
 }

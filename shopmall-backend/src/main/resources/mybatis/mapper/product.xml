@@ -9,7 +9,7 @@
 			]]>
 		</selectKey>
 		<![CDATA[
-			insert into product values(nextval('seq_product'),#{title},#{price},#{detail},now(),#{cate_no},#{issale})
+			insert into product values(nextval('seq_product'),#{title},#{price},#{detail},#{issale},now(),#{cate_no})
 		]]>
 	</insert>
 	
@@ -42,7 +42,7 @@
 	<insert id="insertProdInventory" parameterType="map">
 		insert into product_inventory values
 		<foreach collection="prodIventoryList" item="item" separator=",">
-			(nextval('seq_prodinven'),#{prd_no},#{item.opt_value},#{item.inventory},#{item.isdisplay},#{item.issale})
+			(nextval('seq_prodinven'),#{prd_no},#{item.opt_value},#{item.inventory},#{item.issale})
 		</foreach>
 	</insert>
 	
@@ -67,7 +67,7 @@
 	
 	<select id="getList" resultMap="productResults" parameterType="Long">
 		<![CDATA[
-			select no, title, price, detail,to_char(prod_date, 'YYYY-MM-DD HH24:MI:SS') as prod_date ,cate_no, issale
+			select no, title, price, detail, issale, to_char(prod_date, 'YYYY-MM-DD HH24:MI:SS') as prod_date ,cate_no
 			from product
 			where issale = TRUE
 		]]>
@@ -95,7 +95,7 @@
 	
 	<select id="getProdInventoryList" resultType="prodinventoryvo" parameterType="Long">
 		<![CDATA[
-			select no, opt_value, inventory, isdisplay, issale
+			select no, opt_value, inventory, issale
 			from product_inventory
 			where prd_no = #{no}
 			and issale = TRUE
@@ -126,7 +126,7 @@
 	
 	<delete id="deleteOption" parameterType="Long">
 		<![CDATA[
-			delete from option where prd_no = #{_parameter} cascade
+			delete from option where prd_no = #{_parameter}
 		]]>
 	</delete>
 	

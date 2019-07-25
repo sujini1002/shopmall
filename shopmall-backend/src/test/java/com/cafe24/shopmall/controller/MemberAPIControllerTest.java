@@ -37,6 +37,9 @@ import com.google.gson.Gson;
 @WebAppConfiguration
 @Transactional
 public class MemberAPIControllerTest {
+	
+	private Long no = 2L;
+	private String id = "tgif2014";
 
 	private MockMvc mockMvc;
 
@@ -52,7 +55,7 @@ public class MemberAPIControllerTest {
 	@Test
 	public void testCheckEmailExist() throws Exception {
 		ResultActions resultActions = mockMvc
-				.perform(get("/api/member/checkid/{id}", "tgif2014").contentType(MediaType.APPLICATION_JSON));
+				.perform(get("/api/member/checkid/{id}", id).contentType(MediaType.APPLICATION_JSON));
 		
 		resultActions.andExpect(status().isOk()).andDo(print())
 		.andExpect(jsonPath("$.result", is("success")))
@@ -183,12 +186,11 @@ public class MemberAPIControllerTest {
 	// 회원정보 가져오기 성공
 	@Test
 	public void testMemeberInfoSuccess() throws Exception {
-		Long code = 3L;
-		ResultActions resultActions = mockMvc.perform(get("/api/member/{no}",code)).andDo(print());
+		ResultActions resultActions = mockMvc.perform(get("/api/member/{no}",no)).andDo(print());
 		
 		resultActions.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result",is("success")))
-		.andExpect(jsonPath("$.data.code",is(code.intValue())))
+		.andExpect(jsonPath("$.data.code",is(no.intValue())))
 		.andExpect(jsonPath("$.data.id").exists())
 		.andExpect(jsonPath("$.data.name").exists())
 		.andExpect(jsonPath("$.data.password").doesNotExist())

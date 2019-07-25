@@ -97,18 +97,9 @@ public class ProductAPIController {
 	}
 	
 	@PutMapping(value= "/admin/product")
-	public ResponseEntity<JSONResult> update(@RequestBody @Valid ProductVo productVo, BindingResult errors){
+	public ResponseEntity<JSONResult> update(@RequestBody  ProductVo productVo){
 		
-		if(errors.hasErrors()) {
-			Map<String,String> errorMessages = new HashMap<String, String>();
-			for(ObjectError index : errors.getAllErrors()) {
-				FieldError fe = (FieldError)index;
-				errorMessages.put(fe.getField(), fe.getDefaultMessage());
-			}
-			return new ResponseEntity<JSONResult>(JSONResult.fail("입력형식이 유효하지 않습니다.",errorMessages),HttpStatus.BAD_REQUEST);
-		}
-		
-		ProductVo result = productService.modify(productVo);
+		List<ProductVo> result = productService.modify(productVo);
 		return new ResponseEntity<JSONResult>(JSONResult.success(result), HttpStatus.OK);
 	}
 	

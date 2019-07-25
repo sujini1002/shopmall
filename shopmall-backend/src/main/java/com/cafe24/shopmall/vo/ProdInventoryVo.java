@@ -18,21 +18,15 @@ public class ProdInventoryVo {
 	private Integer inventory;
 	
 	@NotNull
-	private Boolean isdisplay;
-	
-	@NotNull
 	private Boolean issale;
 	
 	public ProdInventoryVo() {}
 	
-	public ProdInventoryVo(Long no, Long prd_no, String opt_value, Integer inventory, Boolean isdisplay,
-			Boolean issale) {
-		super();
+	public ProdInventoryVo(Long no, Long prd_no, String opt_value, Integer inventory,Boolean issale) {
 		this.no = no;
 		this.prd_no = prd_no;
 		this.opt_value = opt_value;
 		this.inventory = inventory;
-		this.isdisplay = isdisplay;
 		this.issale = issale;
 	}
 
@@ -60,12 +54,6 @@ public class ProdInventoryVo {
 	public void setInventory(Integer inventory) {
 		this.inventory = inventory;
 	}
-	public Boolean getIsdisplay() {
-		return isdisplay;
-	}
-	public void setIsdisplay(Boolean isdisplay) {
-		this.isdisplay = isdisplay;
-	}
 	public Boolean getIssale() {
 		return issale;
 	}
@@ -76,7 +64,7 @@ public class ProdInventoryVo {
 	@Override
 	public String toString() {
 		return "ProdIventoryVo [no=" + no + ", prd_no=" + prd_no + ", opt_value=" + opt_value + ", inventory="
-				+ inventory + ", isdisplay=" + isdisplay + ", issale=" + issale + "]";
+				+ inventory + ", issale=" + issale + "]";
 	}
 	
 }

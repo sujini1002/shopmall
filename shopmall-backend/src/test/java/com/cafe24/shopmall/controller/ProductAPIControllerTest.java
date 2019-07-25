@@ -1,7 +1,7 @@
 package com.cafe24.shopmall.controller;
 
-import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,10 @@ import com.google.gson.Gson;
 @Transactional
 public class ProductAPIControllerTest {
 	private MockMvc mockMvc;
+	
+	private Long noOneOption = 111L;
+	private Long noMoreOption = 110L;
+	
 
 	@Autowired
 	private WebApplicationContext webApplicationContext;
@@ -95,12 +100,12 @@ public class ProductAPIControllerTest {
 
 		// 상품 재고
 		List<ProdInventoryVo> inventoryList = new ArrayList<ProdInventoryVo>();
-		inventoryList.add(new ProdInventoryVo(null, null, "S/블랙", 10, true, true));
-		inventoryList.add(new ProdInventoryVo(null, null, "M/블랙", 20, true, true));
-		inventoryList.add(new ProdInventoryVo(null, null, "L/블랙", 30, true, true));
-		inventoryList.add(new ProdInventoryVo(null, null, "S/화이트", 40, true, true));
-		inventoryList.add(new ProdInventoryVo(null, null, "M/화이트", 50, true, true));
-		inventoryList.add(new ProdInventoryVo(null, null, "L/화이트", -1, true, true));
+		inventoryList.add(new ProdInventoryVo(null, null, "S/블랙", 10,  true));
+		inventoryList.add(new ProdInventoryVo(null, null, "M/블랙", 20, true));
+		inventoryList.add(new ProdInventoryVo(null, null, "L/블랙", 30,  true));
+		inventoryList.add(new ProdInventoryVo(null, null, "S/화이트", 40,  true));
+		inventoryList.add(new ProdInventoryVo(null, null, "M/화이트", 50,  true));
+		inventoryList.add(new ProdInventoryVo(null, null, "L/화이트", -1,  true));
 
 		productVo.setProdIventoryList(inventoryList);
 
@@ -157,7 +162,7 @@ public class ProductAPIControllerTest {
 		productVo.setOptionList(optionList);
 
 		List<ProdInventoryVo> inventoryList = new ArrayList<ProdInventoryVo>();
-		inventoryList.add(new ProdInventoryVo(null, null, "default", 10, true, true));
+		inventoryList.add(new ProdInventoryVo(null, null, "default", 10, true));
 
 		productVo.setProdIventoryList(inventoryList);
 
@@ -209,7 +214,7 @@ public class ProductAPIControllerTest {
 	 */
 	@Test
 	public void testProductOne() throws Exception {
-		ResultActions resultActions = mockMvc.perform(get("/api/admin/product/96")).andDo(print());
+		ResultActions resultActions = mockMvc.perform(get("/api/admin/product/"+noMoreOption)).andDo(print());
 
 		resultActions.andExpect(status().isOk()).andExpect(jsonPath("$.result", is("success")))
 				.andExpect(jsonPath("$.data").exists()).andExpect(jsonPath("$.data", hasSize(1)))
@@ -225,15 +230,19 @@ public class ProductAPIControllerTest {
 	 * 
 	 * @throws Exception
 	 */
+
+	/**
+	 * 3.1.1 기존 옵션이 default인 상품의 옵션을 추가 
+	 */
 	@Rollback(true)
 	@Test
-	public void testProductUpdate() throws Exception {
+	public void testProductUpdateNoOption() throws Exception {
 
 		ProductVo vo = new ProductVo();
-		vo.setNo(99L);
+		vo.setNo(noOneOption);
 		vo.settitle("린넨 pants");
 		vo.setPrice(25000);
-		vo.setCate_no(3);
+		vo.setCate_no(2);
 		vo.setDetail("<h1>하의 입니다.</h1>");
 		vo.setIssale(true);
 		
@@ -261,10 +270,68 @@ public class ProductAPIControllerTest {
 
 		// 상품 재고
 		List<ProdInventoryVo> inventoryList = new ArrayList<ProdInventoryVo>();
-		inventoryList.add(new ProdInventoryVo(null, null, "25", 0, false, false));
-		inventoryList.add(new ProdInventoryVo(null, null, "26", -1, true, true));
-		inventoryList.add(new ProdInventoryVo(null, null, "27", -1, true, true));
-		inventoryList.add(new ProdInventoryVo(null, null, "28", -1, true, true));
+		inventoryList.add(new ProdInventoryVo(null, null, "25", 0,  false));
+		inventoryList.add(new ProdInventoryVo(null, null, "26", -1, true));
+		inventoryList.add(new ProdInventoryVo(null, null, "27", -1,  true));
+		inventoryList.add(new ProdInventoryVo(null, null, "28", -1,  true));
+
+		vo.setProdIventoryList(inventoryList);
+
+		ResultActions resultActions = mockMvc.perform(
+				put("/api/admin/product")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(new Gson().toJson(vo))
+				);
+		
+		resultActions.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result",is("success")))
+		;
+	}
+	
+	/**
+	 * 3.1.1 기존 옵션이 2개인 옵션을 한개롤 줄이기
+	 */
+	@Rollback(true)
+	@Test
+	public void testProductUpdateMoreOption() throws Exception {
+
+		ProductVo vo = new ProductVo();
+		vo.setNo(noMoreOption);
+		vo.settitle("시원한 티셔츠");
+		vo.setPrice(10000);
+		vo.setCate_no(1);
+		vo.setDetail("<h1>시원한 티셔츠  입니다.</h1>");
+		vo.setIssale(true);
+		
+		// 상품이미지
+		List<ProdImgVo> imgList = new ArrayList<ProdImgVo>();
+		imgList.add(new ProdImgVo(null, null, "/images/cooltee1.png", true));
+		imgList.add(new ProdImgVo(null, null, "/images/cooltee2.png", false));
+		imgList.add(new ProdImgVo(null, null, "/images/cooltee3.png", false));
+		
+		vo.setprodImgList(imgList);
+
+		// 옵션 상세
+		List<OptionDetailVo> detailSizeList = new ArrayList<OptionDetailVo>();
+		detailSizeList.add(new OptionDetailVo(null, null, "블랙"));
+		detailSizeList.add(new OptionDetailVo(null, null, "화이트"));
+		detailSizeList.add(new OptionDetailVo(null, null, "핑크"));
+		detailSizeList.add(new OptionDetailVo(null, null, "베이지"));
+
+
+		// 상품 옵션
+		List<OptionVo> optionList = new ArrayList<OptionVo>();
+		optionList.add(new OptionVo(null, null, "색상", detailSizeList));
+
+		vo.setOptionList(optionList);
+
+		// 상품 재고
+		List<ProdInventoryVo> inventoryList = new ArrayList<ProdInventoryVo>();
+		inventoryList.add(new ProdInventoryVo(null, null, "블랙", 0,  true));
+		inventoryList.add(new ProdInventoryVo(null, null, "화이트", -1, true));
+		inventoryList.add(new ProdInventoryVo(null, null, "핑크", -1,  true));
+		inventoryList.add(new ProdInventoryVo(null, null, "베이지", -1,  true));
 
 		vo.setProdIventoryList(inventoryList);
 
