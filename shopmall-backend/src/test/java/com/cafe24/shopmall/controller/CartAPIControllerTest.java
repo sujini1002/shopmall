@@ -149,14 +149,21 @@ public class CartAPIControllerTest {
 	@Rollback(true)
 	@Test
 	public void testMemberCartInsert() throws Exception {
+		Map<String,Object> params = new HashMap<String,Object>();
+		params.put("memberNo", 2L);
+		
 		List<CartVo> cartList = new ArrayList<CartVo>();
 		
-		cartList.add(new CartVo(2L, 238L, null, 1, 13000));
-		cartList.add(new CartVo(2L, 239L, null, 2, 26000));
+		cartList.add(new CartVo(null, 238L, null, 1, 13000));
+		cartList.add(new CartVo(null, 239L, null, 2, 26000));
+		
+		params.put("cartList", cartList);
+		
+		
 		
 		ResultActions resultActions = mockMvc.perform(post("/api/cart")
 													.contentType(MediaType.APPLICATION_JSON)
-													.content(new Gson().toJson(cartList)));
+													.content(new Gson().toJson(params)));
 		
 		resultActions.andDo(print())
 		.andExpect(status().isOk())
