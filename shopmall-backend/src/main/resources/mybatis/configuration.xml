@@ -3,10 +3,13 @@
 
 <configuration>
 
+<<<<<<< HEAD
 	<settings>
 		<setting name="jdbcTypeForNull" value="NULL" /> 
 	</settings>
 	
+=======
+>>>>>>> shopmall_backup/master
 	<typeAliases>
 		<typeAlias alias="membervo" type="com.cafe24.shopmall.vo.MemberVo"/>
 		<typeAlias alias="productvo" type="com.cafe24.shopmall.vo.ProductVo"/>
@@ -25,5 +28,8 @@
 		<mapper resource="mybatis/mapper/cart.xml"/>
 	</mappers>
 	
+<<<<<<< HEAD
 	
+=======
+>>>>>>> shopmall_backup/master
 </configuration>

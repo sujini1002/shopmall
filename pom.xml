@@ -6,11 +6,16 @@
 	<artifactId>shopmall</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> shopmall_backup/master
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
+<<<<<<< HEAD
 
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
@@ -37,4 +42,10 @@
 	</modules>
 
 
+=======
+	
+	<modules>
+		<module>shopmall-backend</module>
+	</modules>
+>>>>>>> shopmall_backup/master
 </project>

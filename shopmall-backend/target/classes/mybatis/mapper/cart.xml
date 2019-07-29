@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cart">
+	<select id="findInventoryNo" parameterType="map" resultType="Long">
+		select no
+		from product_inventory
+		where opt_value=#{opt_value}
+		and prd_no = #{prd_no}
+	</select>
+	
+	<select id="isExistInventroyNo" parameterType="Long" resultType="Long">
+		select count(*)
+		from product_inventory
+		where no = #{_parameter}
+	</select>
+	
+</mapper>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="member">
+	<select id="selectById" parameterType="string" resultType="long">
+		<![CDATA[
+			select count(*)
+			from member
+			where id = #{_parameter}
+		]]>
+	</select>
+	<insert id="insertMember" parameterType="membervo">
+		<selectKey keyProperty="code" resultType="Long" order="AFTER">
+			<![CDATA[
+				 SELECT currval('seq_member');
+			]]>
+		</selectKey>
+		<![CDATA[
+			insert into member values(
+						nextval('seq_member'),
+						#{id},
+						#{name},
+						#{password},
+						#{phone},
+						#{email},
+						#{postid},
+						#{base_deliver},
+						#{detail_deliver},
+						FALSE,
+						cast('ROLE_USER' as enum_member_role)
+					)
+		]]>
+	</insert>
+	
+	<select id="selectUserByIdPw" parameterType="map" resultType="string">
+		<![CDATA[
+			select role
+			from member
+			where id = #{id} and password = #{password} and isdrop = FALSE
+		]]>
+	</select>
+	
+	<select id="selectMemberByCode" parameterType="Long" resultType="membervo">
+		<![CDATA[
+			select code, id, name, phone, email, postid, base_deliver, detail_deliver
+			from member
+			where code = #{_parameter};
+		]]>
+	</select>
+	
+	<update id="updateMember" parameterType="membervo">
+		<![CDATA[
+			update member
+			set name = #{name},
+		]]>
+		<if test='password != ""'>
+			<![CDATA[
+				password=#{password},
+			]]>
+		</if>
+		<![CDATA[
+			postid=#{postid},
+			base_deliver=#{base_deliver},
+			detail_deliver=#{detail_deliver},
+			email = #{email},
+			phone = #{phone}
+			where id= #{id} and code = #{code}
+		]]>
+	</update>
+	
+	<update id="deleteMember" parameterType="map">
+		<![CDATA[
+			update member
+			set isdrop = TRUE
+			where code = #{code} and password = #{password}
+		]]>
+	</update>
+</mapper>

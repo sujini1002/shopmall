@@ -3,10 +3,17 @@ package com.cafe24.shopmall.controller;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
+<<<<<<< HEAD
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+=======
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+>>>>>>> shopmall_backup/master
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -18,6 +25,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+<<<<<<< HEAD
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
@@ -31,6 +39,17 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.cafe24.shopmall.config.TestAppConfig;
 import com.cafe24.shopmall.config.TestWebConfig;
+=======
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
+
+>>>>>>> shopmall_backup/master
 import com.cafe24.shopmall.vo.OptionDetailVo;
 import com.cafe24.shopmall.vo.OptionVo;
 import com.cafe24.shopmall.vo.ProdImgVo;
@@ -53,10 +72,15 @@ import com.google.gson.Gson;
  * - ADMIN만 가능 : 상품등록일 , 진열상태 , 판매상태로 검색 -
  */
 
+<<<<<<< HEAD
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { TestAppConfig.class, TestWebConfig.class })
 @WebAppConfiguration
 @Transactional
+=======
+@RunWith(SpringRunner.class)
+@SpringBootTest
+>>>>>>> shopmall_backup/master
 public class ProductAPIControllerTest {
 	private MockMvc mockMvc;
 	

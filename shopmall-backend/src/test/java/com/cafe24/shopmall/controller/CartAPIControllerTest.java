@@ -6,15 +6,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+=======
+import java.util.HashMap;
+>>>>>>> shopmall_backup/master
 import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+<<<<<<< HEAD
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
@@ -28,6 +33,17 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.cafe24.shopmall.config.TestAppConfig;
 import com.cafe24.shopmall.config.TestWebConfig;
+=======
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
+
+>>>>>>> shopmall_backup/master
 import com.cafe24.shopmall.vo.CartVo;
 import com.google.gson.Gson;
 
@@ -68,10 +84,15 @@ import com.google.gson.Gson;
  */
 
 
+<<<<<<< HEAD
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { TestAppConfig.class, TestWebConfig.class })
 @WebAppConfiguration
 @Transactional
+=======
+@RunWith(SpringRunner.class)
+@SpringBootTest
+>>>>>>> shopmall_backup/master
 public class CartAPIControllerTest {
 	private MockMvc mockMvc;
 
@@ -149,6 +170,7 @@ public class CartAPIControllerTest {
 	@Rollback(true)
 	@Test
 	public void testMemberCartInsert() throws Exception {
+<<<<<<< HEAD
 		Map<String,Object> params = new HashMap<String,Object>();
 		params.put("memberNo", 2L);
 		
@@ -159,11 +181,20 @@ public class CartAPIControllerTest {
 		
 		params.put("cartList", cartList);
 		
+=======
+		
+		
+		CartVo vo = new CartVo(2L, 238L, null, 1, 13000);
+>>>>>>> shopmall_backup/master
 		
 		
 		ResultActions resultActions = mockMvc.perform(post("/api/cart")
 													.contentType(MediaType.APPLICATION_JSON)
+<<<<<<< HEAD
 													.content(new Gson().toJson(params)));
+=======
+													.content(new Gson().toJson(vo)));
+>>>>>>> shopmall_backup/master
 		
 		resultActions.andDo(print())
 		.andExpect(status().isOk())

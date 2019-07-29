@@ -16,17 +16,25 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+<<<<<<< HEAD
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
+=======
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.junit4.SpringRunner;
+>>>>>>> shopmall_backup/master
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
+<<<<<<< HEAD
 import com.cafe24.shopmall.config.TestAppConfig;
 import com.cafe24.shopmall.config.TestWebConfig;
 import com.cafe24.shopmall.vo.MemberVo;
@@ -35,6 +43,13 @@ import com.google.gson.Gson;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { TestAppConfig.class, TestWebConfig.class })
 @WebAppConfiguration
+=======
+import com.cafe24.shopmall.vo.MemberVo;
+import com.google.gson.Gson;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest
+>>>>>>> shopmall_backup/master
 @Transactional
 public class MemberAPIControllerTest {
 	

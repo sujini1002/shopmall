@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="category">
+	
+	<insert id="insert" parameterType="categoryvo">
+		<selectKey keyProperty="no" resultType="Integer" order="AFTER">
+			<![CDATA[
+				 SELECT currval('seq_category');
+			]]>
+		</selectKey>
+		<![CDATA[
+			insert into category values(nextval('seq_category'), #{catg_top_no}, #{name})
+		]]>
+	</insert>
+	
+	<select id="isExistTopNo" parameterType="Integer" resultType="Integer">
+		select count(*) from category where no = #{_parameter}
+	</select>
+	
+	<select id="getList" parameterType="Integer" resultType="categoryvo">
+		<![CDATA[
+			select no, catg_top_no, name
+			from category
+		]]>
+		<if test='value != 0'>
+			<![CDATA[
+				where catg_top_no = #{_parameter}
+			]]>
+		</if>
+		<![CDATA[
+			order by catg_top_no desc
+		]]>
+	</select>
+	
+	<select id="getInfo" parameterType="Integer" resultType="categoryvo">
+		<![CDATA[
+			select no, catg_top_no, name
+			from category
+			where no = #{_parameter}
+		]]>
+	</select>
+	
+	<update id="update" parameterType="categoryvo">
+		<![CDATA[
+			update category
+			set catg_top_no = #{catg_top_no},
+				name = #{name}
+			where no = #{no}
+		]]>
+	</update>
+	
+	<delete id="delete" parameterType="Integer">
+		<![CDATA[
+			delete from category 
+			where no = #{_parameter} 
+			or catg_top_no = #{_parameter}
+			or catg_top_no in (select no from category where catg_top_no = #{_parameter})
+		]]>
+	</delete>
+</mapper>

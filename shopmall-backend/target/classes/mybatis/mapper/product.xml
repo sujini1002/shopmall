@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="product">
+	<insert id="insertProduct" parameterType="productvo">
+		<selectKey keyProperty="no" resultType="Long" order="AFTER">
+			<![CDATA[
+				 SELECT currval('seq_product');
+			]]>
+		</selectKey>
+		<![CDATA[
+			insert into product values(nextval('seq_product'),#{title},#{price},#{detail},#{issale},now(),#{cate_no})
+		]]>
+	</insert>
+	
+	<insert id="insertProdImg" parameterType="hashmap" keyProperty="no" useGeneratedKeys="true">
+		<![CDATA[
+			insert into product_img(no, prd_no, url, istitle) values
+		]]>
+		<foreach collection="prodImgList" item="item" separator=",">
+			(nextval('seq_prodimg'),#{prd_no},#{item.url},#{item.istitle})
+		</foreach>
+	</insert>
+	
+	<insert id="insertOption" parameterType="map">
+		<selectKey keyProperty="no" resultType="Long" order="AFTER">
+			<![CDATA[
+				 SELECT currval('seq_option')
+			]]>
+		</selectKey>
+		insert into option
+		values (nextval('seq_option'),#{prd_no},#{option.name})
+	</insert>
+	
+	<insert id="insertOptionDetail" parameterType="java.util.List">
+		insert into option_detail values
+		<foreach collection="list" item="item" separator=",">
+			(nextval('seq_optDtail'),#{item.opt_no},#{item.value})
+		</foreach>
+	</insert>
+	
+	<insert id="insertProdInventory" parameterType="map">
+		insert into product_inventory values
+		<foreach collection="prodIventoryList" item="item" separator=",">
+			(nextval('seq_prodinven'),#{prd_no},#{item.opt_value},#{item.inventory},#{item.issale})
+		</foreach>
+	</insert>
+	
+	<resultMap type="productvo" id="productResults">
+		<result property="no" column="NO"/>
+		<result property="title" column="TITLE"/>
+		<result property="price" column="PRICE"/>
+		<result property="detail" column="DETAIL"/>
+		<result property="prod_date" column="PROD_DATE"/>
+		<result property="cate_no" column="CATE_NO"/>
+		<result property="issale" column="ISSALE"/>
+		<collection property="prodImgList" column="NO" javaType="java.util.ArrayList" ofType="prodimgvo" select="getProdImgList"/>
+		<collection property="optionList" column="NO" javaType="java.util.ArrayList" ofType="optionvo" select="getOptionList"/>
+		<collection property="prodIventoryList" column="NO" javaType="java.util.ArrayList" ofType="prodinventoryvo" select="getProdInventoryList"/>
+	</resultMap>
+	
+	<resultMap type="optionvo" id="optionResults">
+		<result property="no" column="NO"/>
+		<result property="name" column="NAME"/>
+		<collection property="optionDetailList" column="NO" javaType="java.util.ArrayList" ofType="optiondetailvo" select="getOptionDetailList"/>
+	</resultMap>
+	
+	<select id="getList" resultMap="productResults" parameterType="Long">
+		<![CDATA[
+			select no, title, price, detail, issale, to_char(prod_date, 'YYYY-MM-DD HH24:MI:SS') as prod_date ,cate_no
+			from product
+			where issale = TRUE
+		]]>
+		<if test='value != -1'>
+			<![CDATA[
+				and no = #{value}
+			]]>
+		</if>
+		<![CDATA[
+			order by prod_date desc
+		]]>
+	</select>
+	
+	<select id="getDeleteList" resultMap="productResults" parameterType="Long">
+		<![CDATA[
+			select no, title, price, detail, issale, to_char(prod_date, 'YYYY-MM-DD HH24:MI:SS') as prod_date ,cate_no
+			from product
+			where issale = False and no = #{_parameter}
+			order by prod_date desc
+		]]>
+	</select>
+	
+	<select id="getProdImgList" resultType="prodimgvo">
+		select no,url, istitle from product_img where prd_no = #{no}  order by no 
+	</select>
+	
+	<select id="getOptionList" resultMap="optionResults">
+		select no, name from option where prd_no = #{no}
+	</select>
+	
+	<select id="getOptionDetailList" resultType="optiondetailvo">
+		select no, value from option_detail where opt_no = #{no}
+	</select>
+	
+	<select id="getProdInventoryList" resultType="prodinventoryvo" parameterType="Long">
+		<![CDATA[
+			select no, opt_value, inventory, issale
+			from product_inventory
+			where prd_no = #{no}
+			and issale = TRUE
+			order by no
+		]]>
+	</select>
+	
+	<select id="getProdInventoryDeleteList" resultType="prodinventoryvo" parameterType="Long">
+		<![CDATA[
+			select no, opt_value, inventory, issale
+			from product_inventory
+			where prd_no = #{no}
+			and issale = FALSE
+			order by no
+		]]>
+	</select>
+	
+	<update id="updateProduct" parameterType="productvo">
+		<![CDATA[
+			update product 
+					set 
+		]]>
+		<if test="title != null and !''.equals(title)">
+			<![CDATA[
+				title = #{title},
+			]]>
+		</if>
+		<if test="price != null and price gte 0">
+			<![CDATA[
+				price = #{price},
+			]]>
+		</if>
+		<if test="detail != null and !''.equals(detail)">
+			<![CDATA[
+				detail = #{detail},
+			]]>
+		</if>
+		<if test="cate_no != null and cate_no gt 0">
+			<![CDATA[
+				cate_no = #{cate_no},
+			]]>
+		</if>
+		<![CDATA[
+				issale = #{issale}
+			WHERE no = #{no}
+		]]>
+	</update>	
+	
+	
+	<delete id="deleteProductImg" parameterType="map">
+		<![CDATA[
+			delete 
+			from product_img 
+			where prd_no = #{prd_no}
+		]]>
+		<if test="status.equals('DELETE')">
+			<![CDATA[
+				and istitle = FALSE
+			]]>
+		</if>
+	</delete>
+	
+	<delete id="deleteOption" parameterType="Long">
+		<![CDATA[
+			delete from option where prd_no = #{_parameter}
+		]]>
+	</delete>
+	
+	<update id="deleteInventory" parameterType="Long">
+		<![CDATA[
+			update product_inventory
+			set issale = FALSE
+			where prd_no = #{_parameter}
+		]]>
+	</update>
+	
+	<update id="deleteProduct" parameterType="Long">
+		update product
+		set issale = FALSE
+		where no = #{_parameter}
+	</update>
+</mapper>

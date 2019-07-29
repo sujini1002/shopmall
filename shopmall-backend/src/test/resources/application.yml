@@ -1,0 +1,52 @@
+server:
+   port: 8888
+   context-path: /shopmall
+   error:
+      whitelabel:
+         enabled: false
+      
+spring:
+   profiles:
+      active: developer
+      
+   devtools:
+      livereload:
+         enabled: true
+      
+   datasource:
+      platform: postgres
+      driver-class-name: org.postgresql.Driver
+      url: jdbc:postgresql://192.168.1.66:5432/smtest
+      username: smtest
+      password: smtest
+         
+   mvc:
+      view:
+         prefix: /WEB-INF/views/
+         suffix: .jsp  
+             
+   http:
+      encoding:
+         charset: UTF-8
+         enabled: true
+         forced: true
+         forced-request: true
+         forced-response: true
+
+   aop:
+      auto: true
+   jpa:
+      properties:
+         hibernate:
+            temp:
+               use_jdbc_metadata_defaults: false
+      
+   aop-proxy-target-class: true
+   
+mybatis:
+   config-location: classpath:mybatis/configuration.xml
+   
+logging:
+   config: classpath:logback.xml
+      
+      
