@@ -1,9 +1,5 @@
 package com.cafe24.shopmall.controller;
 
-<<<<<<< HEAD
-import java.util.List;
-=======
->>>>>>> shopmall_backup/master
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cafe24.shopmall.dto.JSONResult;
 import com.cafe24.shopmall.service.CartService;
 import com.cafe24.shopmall.vo.CartVo;
-<<<<<<< HEAD
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-=======
->>>>>>> shopmall_backup/master
 
 import io.swagger.annotations.Api;
 
@@ -94,13 +85,7 @@ public class CartAPIController {
 	}
 	
 	@PostMapping(value="",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-<<<<<<< HEAD
-	public ResponseEntity<JSONResult> add(@RequestBody Map<String,Object> params){
-=======
 	public ResponseEntity<JSONResult> add(@RequestBody CartVo cartVo){
->>>>>>> shopmall_backup/master
-		
-		
 		return new ResponseEntity<JSONResult>(JSONResult.success(null), HttpStatus.OK);
 	}
 }

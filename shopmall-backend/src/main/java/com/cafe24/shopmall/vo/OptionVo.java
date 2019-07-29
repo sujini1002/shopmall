@@ -4,11 +4,6 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
-<<<<<<< HEAD
-import org.hibernate.validator.constraints.NotEmpty;
-=======
->>>>>>> shopmall_backup/master
-
 /**
  * 옵션 
  * - 옵션 번호 , 상품 번호, 옵션명 
@@ -19,10 +14,6 @@ public class OptionVo {
 	private Long no;
 	private Long Prd_no;
 	
-<<<<<<< HEAD
-	@NotEmpty
-=======
->>>>>>> shopmall_backup/master
 	@NotNull
 	private String name;
 	

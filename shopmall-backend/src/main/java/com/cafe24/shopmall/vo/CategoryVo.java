@@ -1,12 +1,6 @@
 package com.cafe24.shopmall.vo;
 
 import javax.validation.constraints.NotNull;
-
-<<<<<<< HEAD
-import org.hibernate.validator.constraints.NotBlank;
-=======
->>>>>>> shopmall_backup/master
-
 import com.cafe24.shopmall.validator.constraints.ValidCheckCategoryNo;
 
 public class CategoryVo {
@@ -16,10 +10,6 @@ public class CategoryVo {
 	@ValidCheckCategoryNo
 	private Integer catg_top_no;
 	
-<<<<<<< HEAD
-	@NotBlank
-=======
->>>>>>> shopmall_backup/master
 	@NotNull
 	private String name;
 	

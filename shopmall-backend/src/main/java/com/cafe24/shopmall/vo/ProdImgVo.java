@@ -3,11 +3,6 @@ package com.cafe24.shopmall.vo;
 
 import javax.validation.constraints.NotNull;
 
-<<<<<<< HEAD
-import org.hibernate.validator.constraints.NotEmpty;
-=======
->>>>>>> shopmall_backup/master
-
 /**
  *  상품이미지
  *  - 번호, 상품번호, url, 타이틀 여부 
@@ -18,11 +13,6 @@ public class ProdImgVo {
 	private Long no;
 	private Long prd_no;
 	
-<<<<<<< HEAD
-	@NotEmpty
-=======
-	@NotNull
->>>>>>> shopmall_backup/master
 	private String url;
 	@NotNull
 	private Boolean istitle;

@@ -5,12 +5,6 @@ import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-
-<<<<<<< HEAD
-import org.hibernate.validator.constraints.NotEmpty;
-=======
->>>>>>> shopmall_backup/master
-
 import com.cafe24.shopmall.validator.constraints.ValidCheckCategoryNo;
 import com.cafe24.shopmall.validator.constraints.ValidList;
 
@@ -30,21 +24,12 @@ public class ProductVo {
 	 */
 	private Long no;
 	
-	@NotNull
-<<<<<<< HEAD
-	@NotEmpty
-=======
->>>>>>> shopmall_backup/master
 	private String title;
 	
 	@NotNull
 	@Min(0)
 	private Integer price;
 	
-<<<<<<< HEAD
-	@NotEmpty
-=======
->>>>>>> shopmall_backup/master
 	@NotNull
 	private String detail;
 	

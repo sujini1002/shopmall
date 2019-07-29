@@ -1,22 +1,5 @@
 package com.cafe24.shopmall.config;
 
-<<<<<<< HEAD
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.context.annotation.Import;
-
-import com.cafe24.config.web.MVCConfig;
-import com.cafe24.config.web.SwaggerConfig;
-
-@Configuration
-@EnableAspectJAutoProxy
-@ComponentScan({"com.cafe24.shopmall.controller"})
-@Import({MVCConfig.class,SwaggerConfig.class})
-public class WebConfig {
-	
-}
-=======
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -96,4 +79,3 @@ public class WebConfig implements WebMvcConfigurer {
     }	
 
 }
->>>>>>> shopmall_backup/master

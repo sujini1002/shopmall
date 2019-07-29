@@ -6,46 +6,13 @@
 	<artifactId>shopmall</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
-<<<<<<< HEAD
-	
-=======
 
->>>>>>> shopmall_backup/master
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
-<<<<<<< HEAD
-
-	<build>
-		<sourceDirectory>src/main/java</sourceDirectory>
-		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.0</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-war-plugin</artifactId>
-				<configuration>
-					<failOnMissingWebXml>false</failOnMissingWebXml>
-					<warSourceDirectory>src/main/webapp</warSourceDirectory>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
-	<modules>
-		<module>shopmall-backend</module>
-	</modules>
-
-
-=======
 	
 	<modules>
 		<module>shopmall-backend</module>
 	</modules>
->>>>>>> shopmall_backup/master
 </project>
