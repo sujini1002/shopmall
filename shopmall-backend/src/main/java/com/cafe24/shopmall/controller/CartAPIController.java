@@ -14,9 +14,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -53,10 +55,8 @@ import io.swagger.annotations.Api;
  * 3. 장바구니 수정
  * 		3.1 동일한 상품 재고을 장바구니를 다시 담을 때
  * 			3.1.1 수량을 입력 된 수량 값만큼 증가 시킨다.
- * 			3.1.2 증가 된 값만큼 장바구니의 가격을 증가 시킨다.
  * 		3.2 장바구니 페이지에서 수량을 변경
  * 			3.2.1 수량을 입력 된 수량 값만큼 증가 시킨다.
- * 			3.2.2 증가 된 값만큼 장바구니의 가격을 증가 시킨다.
  * 4. 장바구니 삭제
  * 		4.1.1 상품재고 번호와 사용자 번호 또는 세션  id 값을 가져온다.
  * 		4.1.2 장바구니에서 해당 상품 재고를 삭제한다.
@@ -133,5 +133,34 @@ public class CartAPIController {
 		}
 		
 		return new ResponseEntity<JSONResult>(JSONResult.success(cartList), HttpStatus.OK);
+	}
+	
+	//3 장바구니 수정
+	@PutMapping(value="")
+	public ResponseEntity<JSONResult> modify(@RequestBody CartVo cartVo){
+		
+		if(cartVo.getMember_code() == null && (cartVo.getSession_id() == null || "".equals(cartVo.getSession_id())) ) {
+			return new ResponseEntity<JSONResult>(JSONResult.fail("입력형식이 유효하지 않습니다.",null),HttpStatus.BAD_REQUEST);
+		}
+		
+		CartVo result = cartService.modify(cartVo);
+		
+		
+		return new ResponseEntity<JSONResult>(JSONResult.success(result), HttpStatus.OK);
+	}
+	
+	//4 장바구니 삭제
+	@DeleteMapping(value="")
+	public ResponseEntity<JSONResult> delete(@RequestBody CartVo cartVo){
+		
+		if((cartVo.getMember_code() == null &&
+			(cartVo.getSession_id() == null || "".equals(cartVo.getSession_id()))) 
+			|| cartVo.getInventory_no() == null ) {
+			return new ResponseEntity<JSONResult>(JSONResult.fail("입력형식이 유효하지 않습니다.",null),HttpStatus.BAD_REQUEST);
+		}
+		
+		Boolean result = cartService.delete(cartVo);
+		
+		return new ResponseEntity<JSONResult>(JSONResult.success(result), HttpStatus.OK);
 	}
 }

@@ -67,16 +67,46 @@
 		</if>
 	</select>
 	
+	<update id="update" parameterType="map">
+		<if test="status eq 'none'.toString()">
+			<![CDATA[
+				update none_cart set count = count + #{cartVo.count} where session_id = #{cartVo.session_id} and inventory_no = #{cartVo.inventory_no}
+			]]>
+		</if>
+		<if test="status eq 'member'.toString()">
+			<![CDATA[
+				update cart set count = count + #{cartVo.count} where member_code = #{cartVo.member_code} and inventory_no = #{cartVo.inventory_no}
+			]]>
+		</if>
+	</update>
+	
+	<select id="getCart" parameterType="map" resultType="cartvo">
+		<if test="status eq 'none'.toString()">
+			<![CDATA[
+				select session_id, inventory_no, count
+				from none_cart
+				where session_id = #{cartVo.session_id} and inventory_no = #{cartVo.inventory_no}
+			]]>
+		</if>
+		<if test="status eq 'member'.toString()">
+			<![CDATA[
+				select member_code, inventory_no, count
+				from cart
+				where member_code = #{cartVo.member_code} and inventory_no = #{cartVo.inventory_no}
+			]]>
+		</if>
+	</select>
+	
 	<delete id="delete" parameterType="map">
-			<if test="status == none">
-				<![CDATA[
-					delete from none_cart where session_id = #{session_id}
-				]]>
-			</if>
-			<if test="status == member">
-				<![CDATA[
-					delete from cart where no = #{no}
-				]]>
-			</if>
+		<if test="status eq 'none'.toString()">
+			<![CDATA[
+				delete from none_cart where session_id = #{cartVo.session_id} and inventory_no = #{cartVo.inventory_no} 
+			]]>
+		</if>
+		<if test="status eq 'member'.toString()">
+			<![CDATA[
+				delete from cart where member_code = #{cartVo.member_code} and inventory_no = #{cartVo.inventory_no} 
+			]]>
+		</if>
 	</delete>
 </mapper>

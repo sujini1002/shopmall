@@ -37,13 +37,6 @@ public class CartDAO {
 		return sqlSession.selectOne("cart.getInventoryNo", params);
 	}
 
-	public Long delete(String sessionId, String string) {
-		Map<String,Object> params = new HashMap<String, Object>();
-		params.put("status", string);
-		params.put("sessionId", sessionId);
-		return (long) sqlSession.delete("cart.delete", params);
-	}
-
 	public Boolean insert(CartVo cartVo, String string) {
 		Map<String,Object> params = new HashMap<String, Object>();
 		params.put("status", string);
@@ -68,5 +61,34 @@ public class CartDAO {
 		return sqlSession.selectList("cart.getList", params);
 	}
 
+	public Boolean update(CartVo cartVo, String status) {
+		Map<String,Object> params = new HashMap<String, Object>();
+		params.put("status", status);
+		params.put("cartVo", cartVo);
+		
+		return 1== sqlSession.update("cart.update", params);
+	}
+	
+	public CartVo getCart(CartVo cartVo,String status) {
+		Map<String,Object> params = new HashMap<String, Object>();
+		params.put("status", status);
+		params.put("cartVo", cartVo);
+		
+		return sqlSession.selectOne("cart.getCart", params);
+	}
 
+	public Boolean delete(CartVo cartVo, String status) {
+		Map<String,Object> params = new HashMap<String, Object>();
+		params.put("status", status);
+		params.put("cartVo", cartVo);
+		
+		return 1== sqlSession.delete("cart.delete", params);
+	}
+
+	public Long delete(String sessionId, String string) {
+		Map<String,Object> params = new HashMap<String, Object>();
+		params.put("status", string);
+		params.put("sessionId", sessionId);
+		return (long) sqlSession.delete("cart.delete", params);
+	}
 }

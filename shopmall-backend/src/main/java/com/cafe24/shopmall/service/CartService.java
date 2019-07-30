@@ -64,14 +64,31 @@ public class CartService {
 	//회원
 	public List<CartVo> get(Long member_code) {
 		List<CartVo> cartList = cartDao.getList(member_code,"member");
-		System.out.println(cartList);
 		return cartList;
 	}
 	//비회원
 	public List<CartVo> get(String session_id) {
-		System.out.println(session_id);
 		List<CartVo> cartList = cartDao.getList(session_id,"none");
 		return cartList;
+	}
+	
+	// 수정하기
+	public CartVo modify(CartVo cartVo) {
+		
+		String status = cartVo.getMember_code()==null?"none":"member";
+		
+		cartDao.update(cartVo,status);
+		
+		return cartDao.getCart(cartVo, status);
+	}
+
+	public Boolean delete(CartVo cartVo) {
+		
+		String status = cartVo.getMember_code()==null?"none":"member";
+		
+		Boolean result = cartDao.delete(cartVo,status);
+		
+		return result;
 	}
 
 }
