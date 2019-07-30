@@ -1,6 +1,7 @@
 package com.cafe24.shopmall.repository;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -49,6 +50,22 @@ public class CartDAO {
 		params.put("cartVo", cartVo);
 		return 1 == sqlSession.insert("cart.insert",params);
 		
+	}
+
+	public List<CartVo> getList(Long member_code, String status) {
+		Map<String,Object> params = new HashMap<String, Object>();
+		params.put("status", status);
+		params.put("member_code", member_code);
+		
+		return sqlSession.selectList("cart.getList", params);
+	}
+
+	public List<CartVo> getList(String session_id, String status) {
+		Map<String,Object> params = new HashMap<String, Object>();
+		params.put("status", status);
+		params.put("session_id", session_id);
+		
+		return sqlSession.selectList("cart.getList", params);
 	}
 
 

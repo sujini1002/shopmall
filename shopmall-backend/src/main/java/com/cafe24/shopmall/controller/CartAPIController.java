@@ -1,17 +1,21 @@
 package com.cafe24.shopmall.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -91,7 +95,8 @@ public class CartAPIController {
 	}
 	
 	
-	@PostMapping(value="",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	//1.2 장바구니 insert
+	@PostMapping(value="")
 	public ResponseEntity<JSONResult> add(@RequestBody @Valid CartVo cartVo, BindingResult errors){
 		
 		//오류 검출
@@ -108,5 +113,25 @@ public class CartAPIController {
 		Map<String, Object> result= cartService.add(cartVo);
 		
 		return new ResponseEntity<JSONResult>(JSONResult.success(result), HttpStatus.OK);
+	}
+	
+	//2 장바구니 list 가져오기
+	@GetMapping(value="{code}")
+	public ResponseEntity<JSONResult> list(@PathVariable(value="code") Optional<?> code){
+		
+		List<CartVo> cartList = new ArrayList<CartVo>();
+		
+		
+		if( code.get().toString().matches("-?\\d+(\\.\\d+)?")) {
+			
+			cartList = cartService.get(Long.parseLong(code.get().toString()));
+			
+		}else if(code.get().toString() instanceof String) {
+			
+			cartList = cartService.get(code.get().toString());
+			
+		}
+		
+		return new ResponseEntity<JSONResult>(JSONResult.success(cartList), HttpStatus.OK);
 	}
 }

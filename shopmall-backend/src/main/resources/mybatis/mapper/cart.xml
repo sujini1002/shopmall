@@ -36,18 +36,6 @@
 	</if>
 	</select>
 	
-	<delete id="delete" parameterType="map">
-			<if test="status == none">
-				<![CDATA[
-					delete from none_cart where session_id = #{session_id}
-				]]>
-			</if>
-			<if test="status == member">
-				<![CDATA[
-					delete from cart where no = #{no}
-				]]>
-			</if>
-	</delete>
 	
 	<insert id="insert" parameterType="map">
 		<if test="status eq 'none'.toString()">
@@ -61,4 +49,34 @@
 			]]>
 		</if>
 	</insert>
+	
+	<select id="getList" parameterType="map" resultType="cartvo">
+		<if test="status eq 'none'.toString()">
+			<![CDATA[
+				select session_id,inventory_no,count
+				from none_cart
+				where session_id = #{session_id}
+			]]>
+		</if>
+		<if test="status eq 'member'.toString()">
+			<![CDATA[
+				select member_code,inventory_no,count
+				from cart
+				where member_code = #{member_code}
+			]]>
+		</if>
+	</select>
+	
+	<delete id="delete" parameterType="map">
+			<if test="status == none">
+				<![CDATA[
+					delete from none_cart where session_id = #{session_id}
+				]]>
+			</if>
+			<if test="status == member">
+				<![CDATA[
+					delete from cart where no = #{no}
+				]]>
+			</if>
+	</delete>
 </mapper>

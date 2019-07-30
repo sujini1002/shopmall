@@ -25,6 +25,8 @@ public class CartVo {
 	@Min(1)
 	private Integer count;
 	
+	public CartVo() {}
+	
 	public CartVo(Long member_code, Long inventory_no, String session_id, Integer count) {
 		this.member_code = member_code;
 		this.inventory_no = inventory_no;

@@ -2,6 +2,7 @@ package com.cafe24.shopmall.service;
 
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,19 @@ public class CartService {
 		map.put("isOk", result);
 		
 		return map;
+	}
+	
+	//회원
+	public List<CartVo> get(Long member_code) {
+		List<CartVo> cartList = cartDao.getList(member_code,"member");
+		System.out.println(cartList);
+		return cartList;
+	}
+	//비회원
+	public List<CartVo> get(String session_id) {
+		System.out.println(session_id);
+		List<CartVo> cartList = cartDao.getList(session_id,"none");
+		return cartList;
 	}
 
 }

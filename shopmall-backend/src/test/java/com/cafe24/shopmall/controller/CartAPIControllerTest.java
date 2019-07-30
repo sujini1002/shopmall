@@ -1,6 +1,7 @@
 package com.cafe24.shopmall.controller;
 
 import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -37,11 +38,10 @@ import com.google.gson.Gson;
  * -----------------------
  * 1. 장바구니 추가
  * 	 1.1  옵션선택에 따른 상품 재고 번호 가져오기 (Ajax)
- * 	 1.2  장바구니 추가(List로 받기)
+ * 	 1.2  장바구니 추가
  * 		1.2.1 회원 번호 조회 후 회원/비회원 결정 - DB쿼리에서 변동 예정
  * 		1.2.2 기존 장바구니에 상품 재고 번호 있는지 조회
- * 		1.2.3 있다면 false로 리턴
- * 		1.2.4 없다면 insert 후 true로 리턴
+ * 		1.2.3 있다면 false로 리턴 회원 값과 상품 재고 번호 를 return
  * 	 1.3  비회원으로 장바구니 저장한 후 로그인 한 상황
  * 		1.3.1 회원의 장바구니의 상품 재고 번호 조회
  * 		1.3.2 같은 상품 재고가 있는 것은 비회원일 때의 상품 재고의 수량 만큼 더하기
@@ -245,8 +245,7 @@ public class CartAPIControllerTest {
 	}
 	
 	/**
-	 * 1.2.1 이미 존재하는  회원 장바구니 추가
-	 * @throws Exception 
+	 * 1.2.3 이미 존재하는  회원 장바구니 추가
 	 */
 	@Rollback(true)
 	@Test
@@ -268,8 +267,7 @@ public class CartAPIControllerTest {
 	}
 	
 	/**
-	 * 1.2.2 이미 존재하는  비회원 장바구니 추가
-	 * @throws Exception 
+	 * 1.2.3 이미 존재하는  비회원 장바구니 추가
 	 */
 	@Rollback(true)
 	@Test
@@ -290,4 +288,37 @@ public class CartAPIControllerTest {
 		;
 	}
 	
+	/**
+	 *  회원 장바구니 리스트 가져오기
+	 * @throws Exception 
+	 */
+	@Test
+	public void testMemberCartList() throws Exception {
+		Long member_code = 2L;
+		
+		ResultActions resultActions = mockMvc.perform(get("/api/cart/{code}",member_code));
+		
+		resultActions.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result", is("success")))
+		;
+		
+	}
+	
+	/**
+	 *  비회원 장바구니 리스트 가져오기
+	 * @throws Exception 
+	 */
+	@Test
+	public void testNoneMemberCartList() throws Exception {
+		String sessionId = "testsession";
+		
+		ResultActions resultActions = mockMvc.perform(get("/api/cart/{code}",sessionId));
+		
+		resultActions.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result", is("success")))
+		;
+		
+	}
 }
