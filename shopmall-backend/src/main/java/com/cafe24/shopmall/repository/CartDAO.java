@@ -85,10 +85,12 @@ public class CartDAO {
 		return 1== sqlSession.delete("cart.delete", params);
 	}
 
-	public Long delete(String sessionId, String string) {
+	public Boolean deleteCartList(String session_id, String string) {
 		Map<String,Object> params = new HashMap<String, Object>();
 		params.put("status", string);
-		params.put("sessionId", sessionId);
-		return (long) sqlSession.delete("cart.delete", params);
+		params.put("session_id", session_id);
+		
+		
+		return 1 <= sqlSession.delete("cart.deleteCartList",params);
 	}
 }

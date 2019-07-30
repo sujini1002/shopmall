@@ -289,6 +289,27 @@ public class CartAPIControllerTest {
 		.andExpect(jsonPath("$.data.inventory_no").exists())
 		;
 	}
+	/**
+	 * 1.3 비회원이 로그인 했을 때 장바구니에 추가
+	 */
+	@Rollback(true)
+	@Test
+	public void testMemberLoginCart() throws Exception {
+		
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("member_code", 2L);
+		map.put("session_id","testsession");
+		
+		ResultActions resultActions = mockMvc.perform(post("/api/cart/login")
+													 .contentType(MediaType.APPLICATION_JSON)
+													 .content(new Gson().toJson(map))
+													 );
+		
+		resultActions.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result", is("success")))
+		;
+	}
 	
 	/**
 	 *  2.1회원 장바구니 리스트 가져오기

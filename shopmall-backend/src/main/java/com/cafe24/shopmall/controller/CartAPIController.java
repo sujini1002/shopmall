@@ -115,6 +115,20 @@ public class CartAPIController {
 		return new ResponseEntity<JSONResult>(JSONResult.success(result), HttpStatus.OK);
 	}
 	
+	//1.3 비회원이 로그인 했을 때
+	@PostMapping(value="/login")
+	public ResponseEntity<JSONResult> addLogin(@RequestBody Map<String,Object> map){
+		
+		if(map.get("member_code")==null || map.get("session_id")== null) {
+			return new ResponseEntity<JSONResult>(JSONResult.fail("입력형식이 유효하지 않습니다.",null),HttpStatus.BAD_REQUEST);
+		}
+		
+		List<CartVo> result = cartService.addLogin(Long.parseLong(map.get("member_code").toString()),map.get("session_id").toString());
+		
+		return new ResponseEntity<JSONResult>(JSONResult.success(result), HttpStatus.OK);
+	}
+	
+	
 	//2 장바구니 list 가져오기
 	@GetMapping(value="{code}")
 	public ResponseEntity<JSONResult> list(@PathVariable(value="code") Optional<?> code){
