@@ -3,6 +3,7 @@ package com.cafe24.shopmall.vo;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import com.cafe24.shopmall.validator.constraints.ValidCheckInventoryNO;
 import com.cafe24.shopmall.validator.constraints.ValidCheckMemberNo;
 
 
@@ -13,8 +14,8 @@ public class CartVo {
 	@ValidCheckMemberNo
 	private Long member_code;
 	
-//	@ValidCheckInventoryNO
-	@NotNull
+	@ValidCheckInventoryNO
+//	@NotNull
 	private Long inventory_no;
 	
 	@NotNull

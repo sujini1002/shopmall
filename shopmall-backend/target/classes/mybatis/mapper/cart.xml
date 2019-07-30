@@ -11,7 +11,7 @@
 	]]>
 	</select>
 	
-	<select id="isExistInventroyNo" parameterType="Long" resultType="Long">
+	<select id="isExistInventroyNo" parameterType="Long" resultType="Integer">
 	<![CDATA[
 		select count(*)
 		from product_inventory

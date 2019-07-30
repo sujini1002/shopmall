@@ -203,7 +203,7 @@ public class CartAPIControllerTest {
 	}
 	
 	/**
-	 * 1.2.1 회원 장바구니 추가 실패
+	 * 1.2.1 장바구니 추가 실패
 	 */
 	@Rollback(true)
 	@Test
@@ -211,6 +211,27 @@ public class CartAPIControllerTest {
 		
 		
 		CartVo vo = new CartVo(null, null,null, 1);
+		
+		ResultActions resultActions = mockMvc.perform(post("/api/cart")
+													.contentType(MediaType.APPLICATION_JSON)
+													.content(new Gson().toJson(vo)));
+		
+		resultActions.andDo(print())
+		.andExpect(status().isBadRequest())
+		.andExpect(jsonPath("$.result", is("fail")))
+		.andExpect(jsonPath("$.data").exists())
+		;
+	}
+	
+	/**
+	 * 1.2.1 장바구니 추가 실패 (없는 회원 및 없는 상품 재고 번호)
+	 */
+	@Rollback(true)
+	@Test
+	public void testMemberCartInsertFailUnknownNumber() throws Exception {
+		
+		
+		CartVo vo = new CartVo(0L, 0L,"testsession", 1);
 		
 		ResultActions resultActions = mockMvc.perform(post("/api/cart")
 													.contentType(MediaType.APPLICATION_JSON)
