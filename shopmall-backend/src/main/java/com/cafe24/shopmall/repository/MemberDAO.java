@@ -25,6 +25,14 @@ public class MemberDAO {
 	}
 	
 	/**
+	 *  회원 존재 여부 
+	 */
+	public boolean isExistMemberNo(Long value) {
+		int result = sqlSession.selectOne("member.isExistMemberNo", value);
+		return result==1;
+	}
+	
+	/**
 	 * member 테이블에 행 추가 
 	 */
 	public Long insertMember(MemberVo memberVo) {

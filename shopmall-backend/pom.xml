@@ -24,10 +24,10 @@
 		</dependency>
 
 		<!-- Spring AOP -->
-<!-- 		<dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-aop</artifactId>
-		</dependency> -->
+		</dependency>
 		
 		<!-- MyBatis Starter -->
 		<dependency>

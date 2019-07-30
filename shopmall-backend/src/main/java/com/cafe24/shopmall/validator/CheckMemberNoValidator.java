@@ -5,29 +5,28 @@ import javax.validation.ConstraintValidatorContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.cafe24.shopmall.repository.CartDAO;
-import com.cafe24.shopmall.validator.constraints.ValidCheckInventoryNO;
+import com.cafe24.shopmall.repository.MemberDAO;
+import com.cafe24.shopmall.validator.constraints.ValidCheckMemberNo;
 
-public class CheckInventoryNoValidator implements ConstraintValidator<ValidCheckInventoryNO, Long>{
+public class CheckMemberNoValidator implements ConstraintValidator<ValidCheckMemberNo, Long>{
 	
 	@Autowired
-	private CartDAO cartDao;
+	private MemberDAO memberDao;
 	
 	@Override
-	public void initialize(ValidCheckInventoryNO constraintAnnotation) {
+	public void initialize(ValidCheckMemberNo constraintAnnotation) {
 	}
-	
+
 	@Override
 	public boolean isValid(Long value, ConstraintValidatorContext context) {
 		
-		if(value == null ) {
-			return false;
+		if(value == null) {
+			return true;
 		}
 		
 		Long no = Long.valueOf(String.valueOf(value));
 		
-		return cartDao.isExistInventroyNo(no);
+		return memberDao.isExistMemberNo(no);
 	}
-
 
 }

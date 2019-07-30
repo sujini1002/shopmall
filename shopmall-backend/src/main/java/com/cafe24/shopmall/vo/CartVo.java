@@ -3,34 +3,32 @@ package com.cafe24.shopmall.vo;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-import com.cafe24.shopmall.validator.constraints.ValidCheckInventoryNO;
+import com.cafe24.shopmall.validator.constraints.ValidCheckMemberNo;
+
 
 //import com.cafe24.shopmall.validator.constraints.ValidCheckInventroyNo;
 
 public class CartVo {
 	
+	@ValidCheckMemberNo
 	private Long member_code;
 	
-	@ValidCheckInventoryNO
+//	@ValidCheckInventoryNO
+	@NotNull
 	private Long inventory_no;
 	
+	@NotNull
 	private String session_id;
 	
 	@NotNull
 	@Min(1)
 	private Integer count;
 	
-	@NotNull
-	@Min(0)
-	private Integer price;
-	
-	
-	public CartVo(Long member_code, Long inventory_no, String session_id, Integer count, Integer price) {
+	public CartVo(Long member_code, Long inventory_no, String session_id, Integer count) {
 		this.member_code = member_code;
 		this.inventory_no = inventory_no;
 		this.session_id = session_id;
 		this.count = count;
-		this.price = price;
 	}
 	
 	public Long getMember_code() {
@@ -57,17 +55,11 @@ public class CartVo {
 	public void setCount(Integer count) {
 		this.count = count;
 	}
-	public Integer getPrice() {
-		return price;
-	}
-	public void setPrice(Integer price) {
-		this.price = price;
-	}
 	
 	@Override
 	public String toString() {
 		return "CartVo [member_code=" + member_code + ", inventory_no=" + inventory_no + ", session_id=" + session_id
-				+ ", count=" + count + ", price=" + price + "]";
+				+ ", count=" + count +"]";
 	}
 	
 }

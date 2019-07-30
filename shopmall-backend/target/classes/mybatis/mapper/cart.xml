@@ -3,16 +3,62 @@
 
 <mapper namespace="cart">
 	<select id="findInventoryNo" parameterType="map" resultType="Long">
+	<![CDATA[
 		select no
 		from product_inventory
 		where opt_value=#{opt_value}
 		and prd_no = #{prd_no}
+	]]>
 	</select>
 	
 	<select id="isExistInventroyNo" parameterType="Long" resultType="Long">
+	<![CDATA[
 		select count(*)
 		from product_inventory
 		where no = #{_parameter}
+	]]>
 	</select>
 	
+	<select id="getInventoryNo" parameterType="map" resultType="Long">
+	<if test="status eq 'none'.toString()">
+		<![CDATA[
+			select inventory_no
+			from none_cart
+			where session_id = #{cartVo.session_id} and inventory_no = #{cartVo.inventory_no}
+		]]>
+	</if>
+	<if test="status eq 'member'.toString()">
+		<![CDATA[
+			select inventory_no
+			from cart
+			where member_code = #{cartVo.member_code} and inventory_no = #{cartVo.inventory_no}
+		]]>
+	</if>
+	</select>
+	
+	<delete id="delete" parameterType="map">
+			<if test="status == none">
+				<![CDATA[
+					delete from none_cart where session_id = #{session_id}
+				]]>
+			</if>
+			<if test="status == member">
+				<![CDATA[
+					delete from cart where no = #{no}
+				]]>
+			</if>
+	</delete>
+	
+	<insert id="insert" parameterType="map">
+		<if test="status eq 'none'.toString()">
+			<![CDATA[
+				insert into none_cart values(#{cartVo.inventory_no},#{cartVo.session_id},#{cartVo.count})
+			]]>
+		</if>
+		<if test="status eq 'member'.toString()">
+			<![CDATA[
+				insert into cart values(#{cartVo.inventory_no},#{cartVo.member_code},#{cartVo.count})
+			]]>
+		</if>
+	</insert>
 </mapper>

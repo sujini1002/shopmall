@@ -147,7 +147,7 @@ public class CartAPIControllerTest {
 	public void testMemberCartInsert() throws Exception {
 		
 		
-		CartVo vo = new CartVo(2L, 238L, null, 1, 13000);
+		CartVo vo = new CartVo(2L, 238L, "28df123b14e56efcb70ecfa7c119f003", 1);
 		
 		ResultActions resultActions = mockMvc.perform(post("/api/cart")
 													.contentType(MediaType.APPLICATION_JSON)
@@ -156,7 +156,116 @@ public class CartAPIControllerTest {
 		resultActions.andDo(print())
 		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result", is("success")))
-//		.andExpect(jsonPath("$.data").exists())
+		.andExpect(jsonPath("$.data.isOk", is(true)))
+		;
+	}
+	
+	/**
+	 * 1.2.1 비회원 장바구니 추가 성공
+	 */
+	@Rollback(true)
+	@Test
+	public void testNoneMemberCartInsert() throws Exception {
+		
+		
+		CartVo vo = new CartVo(null, 238L, "28df123b14e56efcb70ecfa7c119f003", 1);
+		
+		ResultActions resultActions = mockMvc.perform(post("/api/cart")
+													.contentType(MediaType.APPLICATION_JSON)
+													.content(new Gson().toJson(vo)));
+		
+		resultActions.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result", is("success")))
+		.andExpect(jsonPath("$.data.isOk",is(true)))
+		;
+	}
+	
+	/**
+	 * 1.2.1 회원 장바구니 추가 실패 없는 회원
+	 */
+	@Rollback(true)
+	@Test
+	public void testMemberCartInsertNoMember() throws Exception {
+		
+		
+		CartVo vo = new CartVo(0L, 238L,"28df123b14e56efcb70ecfa7c119f003", 1);
+		
+		ResultActions resultActions = mockMvc.perform(post("/api/cart")
+													.contentType(MediaType.APPLICATION_JSON)
+													.content(new Gson().toJson(vo)));
+		
+		resultActions.andDo(print())
+		.andExpect(status().isBadRequest())
+		.andExpect(jsonPath("$.result", is("fail")))
+		.andExpect(jsonPath("$.data").exists())
+		;
+	}
+	
+	/**
+	 * 1.2.1 회원 장바구니 추가 실패
+	 */
+	@Rollback(true)
+	@Test
+	public void testMemberCartInsertFail() throws Exception {
+		
+		
+		CartVo vo = new CartVo(null, null,null, 1);
+		
+		ResultActions resultActions = mockMvc.perform(post("/api/cart")
+													.contentType(MediaType.APPLICATION_JSON)
+													.content(new Gson().toJson(vo)));
+		
+		resultActions.andDo(print())
+		.andExpect(status().isBadRequest())
+		.andExpect(jsonPath("$.result", is("fail")))
+		.andExpect(jsonPath("$.data").exists())
+		;
+	}
+	
+	/**
+	 * 1.2.1 이미 존재하는  회원 장바구니 추가
+	 * @throws Exception 
+	 */
+	@Rollback(true)
+	@Test
+	public void testMemberCartInsertExist() throws Exception {
+		
+		CartVo vo = new CartVo(2L, 239L,"testsession", 1);
+		
+		ResultActions resultActions = mockMvc.perform(post("/api/cart")
+													.contentType(MediaType.APPLICATION_JSON)
+													.content(new Gson().toJson(vo)));
+		
+		resultActions.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result", is("success")))
+		.andExpect(jsonPath("$.data.isOk", is(false)))
+		.andExpect(jsonPath("$.data.member_code").exists())
+		.andExpect(jsonPath("$.data.inventory_no").exists())
+		;
+	}
+	
+	/**
+	 * 1.2.2 이미 존재하는  비회원 장바구니 추가
+	 * @throws Exception 
+	 */
+	@Rollback(true)
+	@Test
+	public void testNoneMemberCartInsertExist() throws Exception {
+		
+		CartVo vo = new CartVo(null, 239L,"testsession", 1);
+		
+		ResultActions resultActions = mockMvc.perform(post("/api/cart")
+													.contentType(MediaType.APPLICATION_JSON)
+													.content(new Gson().toJson(vo)));
+		
+		resultActions.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result", is("success")))
+		.andExpect(jsonPath("$.data.isOk", is(false)))
+		.andExpect(jsonPath("$.data.session_id").exists())
+		.andExpect(jsonPath("$.data.inventory_no").exists())
 		;
 	}
 	

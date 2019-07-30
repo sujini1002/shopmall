@@ -40,6 +40,12 @@
 		]]>
 	</select>
 	
+	<select id ="isExistMemberNo" parameterType="Long" resultType="Integer">
+		select count(*)
+		from member
+		where code = #{_parameter}
+	</select>	
+	
 	<select id="selectMemberByCode" parameterType="Long" resultType="membervo">
 		<![CDATA[
 			select code, id, name, phone, email, postid, base_deliver, detail_deliver
