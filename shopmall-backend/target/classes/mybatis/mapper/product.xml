@@ -164,7 +164,7 @@
 			<![CDATA[
 				and istitle = FALSE
 			]]>
-		</if>
+		</if> 
 	</delete>
 	
 	<delete id="deleteOption" parameterType="Long">

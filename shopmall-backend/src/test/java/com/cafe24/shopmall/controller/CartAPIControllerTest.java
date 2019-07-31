@@ -88,8 +88,8 @@ public class CartAPIControllerTest {
 	public void testFindProductInventoryNo() throws Exception {
 		
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("opt_value", "L/블랙");
-		params.put("prd_no", 114L);
+		params.put("opt_value", "블랙/L");
+		params.put("prd_no", 1L);
 		
 		ResultActions resultActions = mockMvc.perform(post("/api/cart/find")
 														.contentType(MediaType.APPLICATION_JSON)
@@ -107,7 +107,7 @@ public class CartAPIControllerTest {
 	@Test
 	public void testFindProductInventoryNoFail() throws Exception {
 		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("opt_value", "L/핑크");
+		params.put("opt_value", "블랙/XL");
 		params.put("prd_no", 114L);
 		
 		ResultActions resultActions = mockMvc.perform(post("/api/cart/find")
@@ -149,7 +149,7 @@ public class CartAPIControllerTest {
 	public void testMemberCartInsert() throws Exception {
 		
 		
-		CartVo vo = new CartVo(3L, 238L, "28df123b14e56efcb70ecfa7c119f003", 1);
+		CartVo vo = new CartVo(3L, 6L, "28df123b14e56efcb70ecfa7c119f003", 1);
 		
 		ResultActions resultActions = mockMvc.perform(post("/api/cart")
 													.contentType(MediaType.APPLICATION_JSON)
@@ -170,7 +170,7 @@ public class CartAPIControllerTest {
 	public void testNoneMemberCartInsert() throws Exception {
 		
 		
-		CartVo vo = new CartVo(null, 238L, "28df123b14e56efcb70ecfa7c119f003", 1);
+		CartVo vo = new CartVo(null, 1L, "28df123b14e56efcb70ecfa7c119f003", 1);
 		
 		ResultActions resultActions = mockMvc.perform(post("/api/cart")
 													.contentType(MediaType.APPLICATION_JSON)
@@ -191,7 +191,7 @@ public class CartAPIControllerTest {
 	public void testMemberCartInsertNoMember() throws Exception {
 		
 		
-		CartVo vo = new CartVo(0L, 238L,"28df123b14e56efcb70ecfa7c119f003", 1);
+		CartVo vo = new CartVo(0L, 1L,"28df123b14e56efcb70ecfa7c119f003", 1);
 		
 		ResultActions resultActions = mockMvc.perform(post("/api/cart")
 													.contentType(MediaType.APPLICATION_JSON)
@@ -253,7 +253,7 @@ public class CartAPIControllerTest {
 	@Test
 	public void testMemberCartInsertExist() throws Exception {
 		
-		CartVo vo = new CartVo(2L, 239L,"testsession", 1);
+		CartVo vo = new CartVo(2L, 1L,"testsession", 1);
 		
 		ResultActions resultActions = mockMvc.perform(post("/api/cart")
 													.contentType(MediaType.APPLICATION_JSON)
@@ -275,7 +275,7 @@ public class CartAPIControllerTest {
 	@Test
 	public void testNoneMemberCartInsertExist() throws Exception {
 		
-		CartVo vo = new CartVo(null, 239L,"testsession", 1);
+		CartVo vo = new CartVo(null, 3L,"testsession", 1);
 		
 		ResultActions resultActions = mockMvc.perform(post("/api/cart")
 													.contentType(MediaType.APPLICATION_JSON)
@@ -357,7 +357,7 @@ public class CartAPIControllerTest {
 	@Test
 	public void testMeberUpdateCart() throws Exception {
 		
-		CartVo vo = new CartVo(2L, 238L, null, 2);
+		CartVo vo = new CartVo(2L, 1L, null, 2);
 		
 		ResultActions resultActions = mockMvc.perform(put("/api/cart")
 													.contentType(MediaType.APPLICATION_JSON)
@@ -376,7 +376,7 @@ public class CartAPIControllerTest {
 	@Test
 	public void testNoneMeberUpdateCart() throws Exception {
 		
-		CartVo vo = new CartVo(null, 238L, "testsession", 3);
+		CartVo vo = new CartVo(null, 4L, "testsession", 3);
 		
 		ResultActions resultActions = mockMvc.perform(put("/api/cart")
 													.contentType(MediaType.APPLICATION_JSON)
@@ -394,7 +394,7 @@ public class CartAPIControllerTest {
 	@Rollback(true)
 	@Test
 	public void testMemberDeleteCart() throws Exception {
-		CartVo vo = new CartVo(2L,240L,null,null);
+		CartVo vo = new CartVo(2L,1L,null,null);
 		
 		ResultActions resultActions = mockMvc.perform(delete("/api/cart")
 														.contentType(MediaType.APPLICATION_JSON)
@@ -413,7 +413,7 @@ public class CartAPIControllerTest {
 	@Rollback(true)
 	@Test
 	public void testNoneMemberDeleteCart() throws Exception {
-		CartVo vo = new CartVo(null,240L,"testsession",null);
+		CartVo vo = new CartVo(null,4L,"testsession",null);
 		
 		ResultActions resultActions = mockMvc.perform(delete("/api/cart")
 														.contentType(MediaType.APPLICATION_JSON)

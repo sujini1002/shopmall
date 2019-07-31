@@ -2,17 +2,15 @@ package com.cafe24.shopmall.vo;
 
 public class DepositVo {
 	private Long code;
-	private Integer price;
 	private String bank;
 	private String name;
 	private String refund_account;
 	
 	public DepositVo() {}
 
-	public DepositVo(Long code, Integer price, String bank, String name, String refund_account) {
+	public DepositVo(Long code, String bank, String name, String refund_account) {
 		super();
 		this.code = code;
-		this.price = price;
 		this.bank = bank;
 		this.name = name;
 		this.refund_account = refund_account;
@@ -24,14 +22,6 @@ public class DepositVo {
 
 	public void setCode(Long code) {
 		this.code = code;
-	}
-
-	public Integer getPrice() {
-		return price;
-	}
-
-	public void setPrice(Integer price) {
-		this.price = price;
 	}
 
 	public String getBank() {
@@ -60,7 +50,7 @@ public class DepositVo {
 
 	@Override
 	public String toString() {
-		return "Deposit [code=" + code + ", price=" + price + ", bank=" + bank + ", name=" + name + ", refund_account="
+		return "Deposit [code=" + code + ", bank=" + bank + ", name=" + name + ", refund_account="
 				+ refund_account + "]";
 	}
 	

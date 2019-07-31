@@ -2,5 +2,70 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="orders">
-
+	
+	<select id="getprdInvenList" parameterType="list" resultType="map">
+		<![CDATA[
+			select pi.no,pi.inventory,p.price
+			from product_inventory pi inner join product p
+			on pi.prd_no = p.no
+			where pi.no in (
+		]]>
+		<foreach collection="list" item="item" separator=",">
+			<![CDATA[
+				#{item.prd_no}
+			]]>
+		</foreach>
+		
+		<![CDATA[
+			)
+		]]>
+	</select>
+	
+	<insert id="insertOrder" parameterType="ordervo">
+		<selectKey keyProperty="no" resultType="Long" order="AFTER">
+			<![CDATA[
+				 SELECT currval('seq_order');
+			]]>
+		</selectKey>
+		<![CDATA[
+			insert into orders values(
+				nextval('seq_order'),
+				(select concat(to_char(now(),'YYYYMMDD'),'-',
+					(select lpad(cast(count(*)+1 as char) ,7,'0') from orders where to_char(order_date,'YYYY-MM-DD')= to_char(now(),'YYYY-MM-DD')))
+				),
+				#{member_code},
+				#{name},
+				#{password},
+				#{deliver},
+				#{phone},
+				#{email},
+				#{rev_name},
+				#{rev_deliver},
+				#{rev_phone},
+				#{deliver_price},
+				cast(#{status} as enum_order_status),
+				now(),
+				#{pay_way},
+				#{payment}
+				
+			)
+		]]>
+	</insert>
+	
+	<insert id="insertOrderProduct" parameterType="hashmap">
+		insert into orders_product values
+		<foreach collection="orderProductList" item="item" separator=",">
+			(
+				#{order_no},
+				#{item.prd_no},
+				#{item.count},
+				cast(#{item.status} as enum_ordpro_status),
+				#{item.price}
+			)
+		</foreach>
+	</insert>
+	
+	<insert id="insertDeposit" parameterType="map">
+		insert into deposit values (#{order_no},#{depositVo.bank},#{depositVo.name},#{depositVo.refund_account})
+	</insert>
 </mapper>

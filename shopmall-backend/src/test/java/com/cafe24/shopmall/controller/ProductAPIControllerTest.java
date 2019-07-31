@@ -23,6 +23,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import org.springframework.boot.test.context.SpringBootTest;
@@ -51,11 +52,12 @@ import com.google.gson.Gson;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Transactional
 public class ProductAPIControllerTest {
 	private MockMvc mockMvc;
 	
-	private Long noOneOption = 111L;
-	private Long noMoreOption = 110L;
+	private Long noOneOption = 2L;
+	private Long noMoreOption = 1L;
 	
 
 	@Autowired

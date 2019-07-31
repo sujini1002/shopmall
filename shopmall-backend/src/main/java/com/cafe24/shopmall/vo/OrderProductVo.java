@@ -16,16 +16,13 @@ public class OrderProductVo {
 	@Min(1)
 	private Integer count;
 	
-	@NotNull
 	private String status;
 	
-	@NotNull
 	private Integer price;
 	
 	public OrderProductVo() {}
 	
 	public OrderProductVo(Long order_no, Long prd_no, Integer count, String status, Integer price) {
-		super();
 		this.order_no = order_no;
 		this.prd_no = prd_no;
 		this.count = count;
