@@ -46,6 +46,10 @@ public class MemberAPIController {
 	@GetMapping(value="/checkid/{id}")
 	public ResponseEntity<JSONResult> usercheckId(@PathVariable(value="id") String id) {
 		
+		if(id == null || "".equals(id)) {
+			return new ResponseEntity<JSONResult>(JSONResult.fail("id가 없습니다.",null),HttpStatus.BAD_REQUEST);
+		}
+		
 		Boolean result = memberService.existId(id);
 		return new ResponseEntity<JSONResult>(JSONResult.success(result), HttpStatus.OK);
 	}
@@ -100,9 +104,14 @@ public class MemberAPIController {
 		@ApiImplicitParam(name="code",value="회원 코드",required=true,dataType="String",defaultValue="")
 	})
 	@GetMapping(value="/{no}")
-	public JSONResult getUserInfo(@PathVariable(value="no")Long code) {
+	public ResponseEntity<JSONResult> getUserInfo(@PathVariable(value="no")Long code) {
 		MemberVo member = memberService.getMemberInfo(code);
-		return JSONResult.success(member);
+		
+		if(member == null) {
+			return new ResponseEntity<JSONResult>(JSONResult.fail("회원이 존재하지 않습니다.", null), HttpStatus.BAD_REQUEST);
+		}
+		
+		return new ResponseEntity<JSONResult>(JSONResult.success(member),HttpStatus.OK);
 	}
 	
 	// 회원 정보 수정

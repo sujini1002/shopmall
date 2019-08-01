@@ -110,6 +110,11 @@ public class MemberAPIControllerTest {
 		;
 	}
 	
+	/**
+	 * 회원 가입 요청
+	 * -- 배송지와 우편번호가 있는 경우
+	 */
+	
 //	@Ignore
 	@Rollback(true)
 	@Test
@@ -174,9 +179,8 @@ public class MemberAPIControllerTest {
 		Long code = 0L;
 		ResultActions resultActions = mockMvc.perform(get("/api/member/{no}",code)).andDo(print());
 		
-		resultActions.andExpect(status().isOk())
-		.andExpect(jsonPath("$.result",is("success")))
-		.andExpect(jsonPath("$.data.code").doesNotExist())
+		resultActions.andExpect(status().isBadRequest())
+		.andExpect(jsonPath("$.result",is("fail")))
 		;
 	}
 	
