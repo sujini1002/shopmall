@@ -28,6 +28,9 @@ import com.cafe24.shopmall.service.CartService;
 import com.cafe24.shopmall.vo.CartVo;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 
 /**
  * ------ 장바구니 ----------
@@ -73,6 +76,11 @@ public class CartAPIController {
 	
 	
 	//1.1  옵션선택에 따른 상품 재고 번호 가져오기
+	@ApiOperation(value="상품 재고 번호 가져오기", notes="상품 재고 번호 API")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="prd_no",value="상품 재고 번호",required=true,dataType="query",defaultValue=""),
+		@ApiImplicitParam(name="opt_value",value="옵션 값",required=true,dataType="query",defaultValue="")
+	})
 	@PostMapping(value="/find")
 	public ResponseEntity<JSONResult> findInventoryNo(@RequestBody Map<String,Object> params){
 		
@@ -96,6 +104,10 @@ public class CartAPIController {
 	
 	
 	//1.2 장바구니 insert
+	@ApiOperation(value="장바구니 등록", notes="장바구니 등록 API")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="cartVo",value="장바구니 정보",required=true,dataType="query",defaultValue="")
+	})
 	@PostMapping(value="")
 	public ResponseEntity<JSONResult> add(@RequestBody @Valid CartVo cartVo, BindingResult errors){
 		
@@ -116,6 +128,11 @@ public class CartAPIController {
 	}
 	
 	//1.3 비회원이 로그인 했을 때
+	@ApiOperation(value="비회원 장바구니를 회원 장바구니로 이동", notes="비회원 장바구니를 회원 장바구니로 이동 API")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="member_code",value="회원 코드",required=true,dataType="query",defaultValue=""),
+		@ApiImplicitParam(name="session_id",value="비회원 세션 값",required=true,dataType="query",defaultValue="")
+	})
 	@PostMapping(value="/login")
 	public ResponseEntity<JSONResult> addLogin(@RequestBody Map<String,Object> map){
 		
@@ -130,6 +147,10 @@ public class CartAPIController {
 	
 	
 	//2 장바구니 list 가져오기
+	@ApiOperation(value="장바구니 목록 가져오기", notes="장바구니 목록 가져오기 API")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="code",value="회원 코드 or 비회원 세션 id",required=true,dataType="query",defaultValue=""),
+	})
 	@GetMapping(value="{code}")
 	public ResponseEntity<JSONResult> list(@PathVariable(value="code") Optional<?> code){
 		
@@ -150,6 +171,10 @@ public class CartAPIController {
 	}
 	
 	//3 장바구니 수정
+	@ApiOperation(value="장바구니 수정", notes="장바구니 수정 API")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="cartVo",value="장바구니 정보",required=true,dataType="query",defaultValue="")
+	})
 	@PutMapping(value="")
 	public ResponseEntity<JSONResult> modify(@RequestBody CartVo cartVo){
 		
@@ -164,6 +189,10 @@ public class CartAPIController {
 	}
 	
 	//4 장바구니 삭제
+	@ApiOperation(value="장바구니 삭제", notes="장바구니 삭제API")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="cartVo",value="장바구니 정보",required=true,dataType="query",defaultValue="")
+	})
 	@DeleteMapping(value="")
 	public ResponseEntity<JSONResult> delete(@RequestBody CartVo cartVo){
 		

@@ -73,7 +73,7 @@ public class OrderAPIControllerTest {
 	
 	@Rollback(true)
 	@Test
-	public void 주문등록성공() throws Exception {
+	public void 무통장입금주문등록성공() throws Exception {
 		
 		OrderVo vo = constructor();
 		
@@ -85,6 +85,91 @@ public class OrderAPIControllerTest {
 		resultActions.andDo(print())
 		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result", is("success")))
+		.andExpect(jsonPath("$.data", is(true)))
+		;
+	}
+	
+	@Rollback(true)
+	@Test
+	public void 신용카드주문등록성공() throws Exception {
+		
+		OrderVo vo = constructor();
+		
+		vo.setPay_way("신용카드");
+		vo.setStatus("결제완료");
+		vo.setDepositVo(null);
+		
+		
+		ResultActions resultActions = mockMvc.perform(post("/api/order")
+													.contentType(MediaType.APPLICATION_JSON)
+													.content(new Gson().toJson(vo))
+													);
+		
+		resultActions.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result", is("success")))
+		.andExpect(jsonPath("$.data", is(true)))
+		;
+	}
+	
+	@Rollback(true)
+	@Test
+	public void 주문등록실패회원비회원값없음() throws Exception {
+		
+		OrderVo vo = new OrderVo(null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+		
+		
+		
+		
+		ResultActions resultActions = mockMvc.perform(post("/api/order")
+													.contentType(MediaType.APPLICATION_JSON)
+													.content(new Gson().toJson(vo))
+													);
+		
+		resultActions.andDo(print())
+		.andExpect(status().isBadRequest())
+		.andExpect(jsonPath("$.result", is("fail")))
+		;
+	}
+	
+	@Rollback(true)
+	@Test
+	public void 주문등록실패회원입력형식() throws Exception {
+		
+		OrderVo vo = new OrderVo(null, null, 2L, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
+		
+		
+		
+		
+		ResultActions resultActions = mockMvc.perform(post("/api/order")
+													.contentType(MediaType.APPLICATION_JSON)
+													.content(new Gson().toJson(vo))
+													);
+		
+		resultActions.andDo(print())
+		.andExpect(status().isBadRequest())
+		.andExpect(jsonPath("$.result", is("fail")))
+		.andExpect(jsonPath("$.data").exists())
+		;
+	}
+	
+	@Rollback(true)
+	@Test
+	public void 주문등록실패재고없음() throws Exception {
+		
+		OrderVo vo = constructor();
+		
+		vo.getOrderProductList().get(0).setPrd_no(6L);
+		
+		
+		ResultActions resultActions = mockMvc.perform(post("/api/order")
+													.contentType(MediaType.APPLICATION_JSON)
+													.content(new Gson().toJson(vo))
+													);
+		
+		resultActions.andDo(print())
+		.andExpect(status().isBadRequest())
+		.andExpect(jsonPath("$.result", is("fail")))
 		;
 	}
 }

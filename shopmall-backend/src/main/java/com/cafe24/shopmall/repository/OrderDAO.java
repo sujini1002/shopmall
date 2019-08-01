@@ -31,16 +31,18 @@ public class OrderDAO {
 		Map<String,Object> params = new HashMap<String, Object>();
 		params.put("orderProductList", orderProductList);
 		params.put("order_no", order_no);
-		
 		return sqlSession.insert("orders.insertOrderProduct", params);
 	}
 
-	public Integer insertDeposit(DepositVo depositVo, Long order_no) {
+	public Boolean insertDeposit(DepositVo depositVo, Long order_no) {
 		Map<String,Object> params = new HashMap<String, Object>();
 		params.put("depositVo", depositVo);
 		params.put("order_no", order_no);
-		
-		return sqlSession.insert("orders.insertDeposit", params);
+		return 1==sqlSession.insert("orders.insertDeposit", params);
+	}
+
+	public Boolean updateInventory(List<OrderProductVo> orderProductList) {
+		return 0 < sqlSession.update("orders.updateInventory", orderProductList);
 	}
 
 }

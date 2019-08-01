@@ -15,7 +15,7 @@
 	<![CDATA[
 		select count(*)
 		from product_inventory
-		where no = #{_parameter}
+		where no = #{_parameter} and issale= TRUE
 	]]>
 	</select>
 	

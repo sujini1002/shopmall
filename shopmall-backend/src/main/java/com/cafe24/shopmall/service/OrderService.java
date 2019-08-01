@@ -39,18 +39,22 @@ public class OrderService {
 		for (Map<String,Object> piVo : prdInvenList) {
 			
 			for (OrderProductVo odVo : orderVo.getOrderProductList()) {
-				if(Integer.parseInt(piVo.get("inventory").toString())==-1) {
-					odVo.setPrice(Integer.parseInt(piVo.get("price").toString())*odVo.getCount());
-					continue;
+				if(Long.parseLong(piVo.get("no").toString())== odVo.getPrd_no().longValue()) {
+					
+					if(Integer.parseInt(piVo.get("inventory").toString())==-1) {
+						odVo.setPrice(Integer.parseInt(piVo.get("price").toString())*odVo.getCount());
+						continue;
+					}
+					else if(Integer.parseInt(piVo.get("inventory").toString()) - odVo.getCount()<=0) 
+					{
+						return false;
+					}else {
+						odVo.setPrice(Integer.parseInt(piVo.get("price").toString())*odVo.getCount());
+					}
+					odVo.setStatus(orderVo.getStatus());
+					
 				}
-				else if(Long.parseLong(piVo.get("inventory").toString())==odVo.getPrd_no() 
-							&& Integer.parseInt(piVo.get("inventory").toString()) - odVo.getCount()<=0) 
-				{
-					return false;
-				}else {
-					odVo.setPrice(Integer.parseInt(piVo.get("price").toString())*odVo.getCount());
-				}
-				odVo.setStatus(orderVo.getStatus());
+				
 			}
 			
 		}
@@ -62,30 +66,33 @@ public class OrderService {
 			totalPrice += vo.getPrice();
 		}
 		
-		if(totalPrice != orderVo.getPayment()) {
+		if(totalPrice.intValue() != orderVo.getPayment().intValue()) {
+			System.out.println("들어옴");
 			return false;
 		}
 		
 		//1.2 orders에 insert
 		Long order_no = orderDao.insertOrder(orderVo);
-		System.out.println(order_no);
 		
 		//1.3 order_product에 insert 
 		Integer resultOrderProduct = orderDao.insertOrderProduct(orderVo.getOrderProductList(),order_no);
 		
-		System.out.println(resultOrderProduct);
+		if(resultOrderProduct!=orderVo.getOrderProductList().size())return false;
 		
 		//1.4 무통장입금일 경우 deposit에 insert
 		if("무통장입금".equals(orderVo.getPay_way())) {
-			Integer resultDeposit = orderDao.insertDeposit(orderVo.getDepositVo(),order_no);
+			Boolean resultDeposit = orderDao.insertDeposit(orderVo.getDepositVo(),order_no);
+			
+			if(!resultDeposit)return false;
 		}
 		
 		//1.5 재고 업데이트 
+		Boolean resultInventory = orderDao.updateInventory(orderVo.getOrderProductList());
+		System.out.println(resultInventory);
 		
+		if(!resultInventory)return false;
 		
-		
-
-		return null;
+		return true;
 	}
 
 }

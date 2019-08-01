@@ -53,8 +53,11 @@
 	</insert>
 	
 	<insert id="insertOrderProduct" parameterType="hashmap">
-		insert into orders_product values
+		<![CDATA[
+			insert into orders_product values
+		]]>
 		<foreach collection="orderProductList" item="item" separator=",">
+		<![CDATA[
 			(
 				#{order_no},
 				#{item.prd_no},
@@ -62,10 +65,25 @@
 				cast(#{item.status} as enum_ordpro_status),
 				#{item.price}
 			)
+		]]>
 		</foreach>
 	</insert>
 	
 	<insert id="insertDeposit" parameterType="map">
-		insert into deposit values (#{order_no},#{depositVo.bank},#{depositVo.name},#{depositVo.refund_account})
+	<![CDATA[
+		insert into deposit values 
+		(#{order_no},#{depositVo.bank},#{depositVo.name},#{depositVo.refund_account})
+	]]>
 	</insert>
+	
+	<update id="updateInventory" parameterType="list">
+		<foreach collection="list" item="item" separator=";">
+		<![CDATA[
+			update product_inventory 
+			set inventory = inventory - #{item.count}
+			where no = #{item.prd_no}
+		]]>
+		</foreach>
+	</update>
+	
 </mapper>

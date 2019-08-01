@@ -37,12 +37,6 @@ public class MemberAPIController {
 	@Autowired
 	private MemberService memberService;
 	
-	//회원 가입 페이지
-	@ApiOperation(value="회원 가입 페이지", notes="회원 가입 페이지 API")
-	@GetMapping(value="/join")
-	public String userjoinform() {
-		return "member/join";
-	}
 	
 	//이메일 중복 체크
 	@ApiOperation(value="아이디 중복 체크", notes="아이디 중복 체크 API")
@@ -82,12 +76,6 @@ public class MemberAPIController {
 		return new ResponseEntity<JSONResult>(JSONResult.success(result), HttpStatus.OK);
 	}
 	
-	//로그인 페이지 요청
-	@ApiOperation(value="로그인 페이지 요청")
-	@GetMapping(value="/login")
-	public String userLonginForm() {
-		return "member/login";
-	}
 	
 	//로그인 요청
 	@ApiOperation(value="로그인",notes="로그인")
@@ -147,12 +135,6 @@ public class MemberAPIController {
 		return new ResponseEntity<JSONResult>(JSONResult.success(result),HttpStatus.OK);
 	}
 	
-	// 회원 탈퇴 페이지
-	@ApiOperation(value="회원 탈퇴 페이지", notes="회원 탈퇴 페이지 API")
-	@GetMapping(value="/delete")
-	public String deleteForm() {
-		return "member/deleteForm";
-	}
 	
 	//회원 탈퇴
 	@ApiOperation(value="회원 탈퇴", notes="회원 탈퇴 API")
