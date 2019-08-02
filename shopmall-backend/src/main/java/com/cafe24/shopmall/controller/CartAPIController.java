@@ -111,13 +111,19 @@ public class CartAPIController {
 	@PostMapping(value="")
 	public ResponseEntity<JSONResult> add(@RequestBody @Valid CartVo cartVo, BindingResult errors){
 		
+		if(cartVo.getMember_code() == null && cartVo.getSession_id() == null) {
+			return new ResponseEntity<JSONResult>(JSONResult.fail("입력형식이 유효하지 않습니다.",null),HttpStatus.BAD_REQUEST);
+		}
+		
 		//오류 검출
 		if(errors.hasErrors()) {
+			
 			Map<String,String> errorMessages = new HashMap<String, String>();
 			for(ObjectError index : errors.getAllErrors()) {
 				FieldError fe = (FieldError)index;
 				errorMessages.put(fe.getField(), fe.getDefaultMessage());
 			}
+			
 			return new ResponseEntity<JSONResult>(JSONResult.fail("입력형식이 유효하지 않습니다.",errorMessages),HttpStatus.BAD_REQUEST);
 		}
 		
@@ -166,6 +172,7 @@ public class CartAPIController {
 			cartList = cartService.get(code.get().toString());
 			
 		}
+		
 		
 		return new ResponseEntity<JSONResult>(JSONResult.success(cartList), HttpStatus.OK);
 	}

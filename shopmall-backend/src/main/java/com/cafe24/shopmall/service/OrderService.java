@@ -34,8 +34,6 @@ public class OrderService {
 		// 1.0 재고 확인 및 가격 설정
 		List<Map<String,Object>> prdInvenList = orderDao.getprdInvenList(orderVo.getOrderProductList());
 		
-		System.out.println(prdInvenList);
-
 		for (Map<String,Object> piVo : prdInvenList) {
 			
 			for (OrderProductVo odVo : orderVo.getOrderProductList()) {
@@ -58,7 +56,6 @@ public class OrderService {
 			}
 			
 		}
-		System.out.println(orderVo.getOrderProductList());
 		
 		//1.1 orderVo에 있는 가격과 같은지 비교
 		Integer totalPrice = 0;
@@ -67,7 +64,6 @@ public class OrderService {
 		}
 		
 		if(totalPrice.intValue() != orderVo.getPayment().intValue()) {
-			System.out.println("들어옴");
 			return false;
 		}
 		
@@ -88,7 +84,6 @@ public class OrderService {
 		
 		//1.5 재고 업데이트 
 		Boolean resultInventory = orderDao.updateInventory(orderVo.getOrderProductList());
-		System.out.println(resultInventory);
 		
 		if(!resultInventory)return false;
 		

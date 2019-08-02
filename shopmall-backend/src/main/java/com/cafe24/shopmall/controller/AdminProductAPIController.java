@@ -117,6 +117,11 @@ public class AdminProductAPIController {
 	public ResponseEntity<JSONResult> update(@RequestBody  ProductVo productVo){
 		
 		List<ProductVo> result = productService.modify(productVo);
+		
+		if(result == null) {
+			return new ResponseEntity<JSONResult>(JSONResult.fail("상품이 존재하지 않습니다.",null),HttpStatus.BAD_REQUEST);
+		}
+		
 		return new ResponseEntity<JSONResult>(JSONResult.success(result), HttpStatus.OK);
 	}
 	

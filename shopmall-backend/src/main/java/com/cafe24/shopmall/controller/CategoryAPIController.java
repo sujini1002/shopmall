@@ -64,7 +64,6 @@ public class CategoryAPIController {
 	
 	@ApiOperation(value="카테고리 등록",notes="새로운 카테고리 등록")
 	@ApiImplicitParams({
-		@ApiImplicitParam(name="no",value="카테고리 번호",required=false,paramType="query"),
 		@ApiImplicitParam(name="catg_top_no",value="상위 카테고리 번호",required=false,paramType="query",defaultValue=""),
 		@ApiImplicitParam(name="name",value="이름",required=true,paramType="query",defaultValue=""),
 	})

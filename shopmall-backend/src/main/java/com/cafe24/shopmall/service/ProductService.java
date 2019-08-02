@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cafe24.shopmall.repository.ProductDAO;
 import com.cafe24.shopmall.vo.OptionDetailVo;
@@ -60,6 +61,7 @@ public class ProductService {
 		return list;
 	}
 
+	@Transactional
 	public List<ProductVo> modify(ProductVo productVo) {
 		// 상품 정보 수정
 		productDao.updateProduct(productVo);
