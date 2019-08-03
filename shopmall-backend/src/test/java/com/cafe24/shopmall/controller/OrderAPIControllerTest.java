@@ -3,6 +3,7 @@ package com.cafe24.shopmall.controller;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -264,6 +265,32 @@ public class OrderAPIControllerTest {
 		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result", is("fail")))
 		.andExpect(jsonPath("$.data[0]").doesNotExist())
+		;
+	}
+	/**
+	 * 주문  취소
+	 */
+	@Rollback(true)
+	@Test
+	public void 주문전체취소() throws Exception {
+		ResultActions resultActions = mockMvc.perform(delete("/api/order/{no}",1L));
+		
+		resultActions.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result", is("success")))
+		.andExpect(jsonPath("$.data", is(true)))
+		;
+	}
+	
+	@Rollback(true)
+	@Test
+	public void 주문부분취소() throws Exception {
+		ResultActions resultActions = mockMvc.perform(delete("/api/order/1/2"));
+		
+		resultActions.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result", is("success")))
+		.andExpect(jsonPath("$.data", is(true)))
 		;
 	}
 }

@@ -149,4 +149,60 @@
 			and pim.istitle = true
 		]]>
 	</select>
+	
+	<select id="orderStatus" parameterType="long" resultType="int" >
+		<![CDATA[
+			select count(*)
+			from orders o join orders_product op
+			on o.no = op.order_no
+			where o.no = #{_parameter} and op.order_no = #{_parameter} and 
+			(
+				o.status not in ('입금전','입금완료','결제완료','상품준비중')
+				or op.status not in ('입금전','입금완료','결제완료','상품준비중')
+			
+			)
+			 
+		]]>
+	</select>
+	<select id="orderProductStatus" parameterType="map" resultType="int">
+		<![CDATA[
+			select count(*)
+			from orders_product
+			where order_no = #{order_no} and prd_no = #{prd_no}
+			and status not in ('입금전','입금완료','결제완료','상품준비중')
+		]]>
+	</select>
+	
+	<update id="updateOrders" parameterType="long">
+		<![CDATA[
+			update orders
+			set status = '취소'
+			where no = #{_parameter}
+		]]>
+	</update>
+	
+	<update id="updateOrderProductAll" parameterType="long">
+		<![CDATA[
+			update orders_product
+			set status = '취소'
+			where order_no = #{_parameter}
+		]]>
+	</update>
+	
+	<update id="updateOrderProduct" parameterType="map">
+		<![CDATA[
+			update orders_product
+			set status = '취소'
+			where order_no = #{order_no}
+			and prd_no = #{prd_no}
+		]]>
+	</update>
+	
+	<update id="updateOrderStatus" parameterType="long">
+		<![CDATA[
+			update orders
+			set status = '부분취소'
+			where no = #{_parameter}
+		]]>
+	</update>
 </mapper>

@@ -100,8 +100,52 @@ public class OrderService {
 		return orderDao.getList(password,order_code,"none");
 	}
 
+	//주문 상세보기
 	public List<Map<String, Object>> getOrder(Long no) {
 		return orderDao.getOrder(no);
+	}
+	
+	//주문 전체 지우기
+	public Boolean deleteAll(Long no) {
+		
+		// 주문 상태 확인하기 
+		if(orderDao.orderStatus(no)>0) {
+			return false;
+		}
+		
+		Boolean result = null;
+		
+		//주문테이블 취소
+		result = orderDao.deleteOrder(no);
+		//주문상품 취소
+		if(result==false) {
+			return false;
+		}
+		
+		result =orderDao.deleteOrderProduct(no);
+		
+		return result;
+	}
+
+	public Boolean deleteOrderProduct(Long no, Long prdIven_no) {
+		
+		//주문 상품 상태 확인
+		if(orderDao.orderProductStatus(no,prdIven_no)>0) {
+			return false;
+		}
+		
+		Boolean result = null;
+		
+		//주문 상품 취소
+		result = orderDao.deleteOrderProduct(no,prdIven_no);
+		System.out.println(result);
+		
+		if(!result) return false;
+		
+		//주문의 상테 수정
+		result = orderDao.updateOrderStatus(no);
+		
+		return result;
 	}
 
 }

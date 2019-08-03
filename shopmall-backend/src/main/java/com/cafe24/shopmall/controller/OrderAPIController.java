@@ -3,6 +3,7 @@ package com.cafe24.shopmall.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -129,8 +130,25 @@ public class OrderAPIController {
 	
 	//주문 취소
 	@ApiOperation(value = "주문 취소", notes = "주문 취소API")
-	@DeleteMapping(value= "")
-	public ResponseEntity<JSONResult> delete() {
-		return null;
+	@DeleteMapping(value= {"/{no}","/{no}/{prd_no}"})
+	public ResponseEntity<JSONResult> delete(@PathVariable(value="no") Long no,
+											 @PathVariable(value="prd_no") Optional<Long> prd_no) {
+		
+		Long prdIven_no = prd_no.isPresent()?prd_no.get().longValue():null;
+		
+		Boolean result = null;
+		
+		if(prdIven_no==null) {
+			result = orderService.deleteAll(no);
+		}else {
+			result = orderService.deleteOrderProduct(no,prdIven_no);
+		}
+		
+		//결과확인
+		if(result == false) {
+			return new ResponseEntity<JSONResult>(JSONResult.fail("이미 배송처리 된 상품입니다. 자세한 사항은 고객센터에 문의해 주세요.", null), HttpStatus.OK);
+		}
+		
+		return new ResponseEntity<JSONResult>(JSONResult.success(result), HttpStatus.OK);
 	}
 }
