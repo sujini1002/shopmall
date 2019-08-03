@@ -1,15 +1,19 @@
 package com.cafe24.shopmall.controller;
 
 import static org.hamcrest.Matchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -153,6 +157,7 @@ public class OrderAPIControllerTest {
 		;
 	}
 	
+	@Ignore
 	@Rollback(true)
 	@Test
 	public void 주문등록실패재고없음() throws Exception {
@@ -170,6 +175,95 @@ public class OrderAPIControllerTest {
 		resultActions.andDo(print())
 		.andExpect(status().isBadRequest())
 		.andExpect(jsonPath("$.result", is("fail")))
+		;
+	}
+	
+	/**
+	 * 주문 내역 조회
+	 * @throws Exception 
+	 */
+	@Test
+	public void 회원주문목록조회() throws Exception {
+		ResultActions resultActions = mockMvc.perform(get("/api/order/member/{no}",2L));
+		
+		resultActions.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result", is("success")))
+		.andExpect(jsonPath("$.data[0]").exists())
+		;
+	}
+	
+	@Test
+	public void 회원주문목록조회실패없는회원() throws Exception {
+		ResultActions resultActions = mockMvc.perform(get("/api/order/member/{no}",0L));
+		
+		resultActions.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result", is("fail")))
+		.andExpect(jsonPath("$.data[0]").doesNotExist())
+		;
+	}
+	
+	@Test
+	public void 비회원주문목록조회() throws Exception {
+		
+		Map<String,String> vo = new HashMap<String,String>();
+		vo.put("password", "1234");
+		vo.put("order_code", "20190803-0000001");
+		
+		ResultActions resultActions = mockMvc.perform(post("/api/order/none")
+														.contentType(MediaType.APPLICATION_JSON)
+														.content(new Gson().toJson(vo))
+														);
+		
+		resultActions.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result", is("success")))
+		.andExpect(jsonPath("$.data[0]").exists())
+		;
+	}
+	
+	@Test
+	public void 비회원주문목록조회실패() throws Exception {
+		Map<String,String> vo = new HashMap<String,String>();
+		vo.put("password", "0000");
+		vo.put("order_code", "20190803-0000001");
+		
+		ResultActions resultActions = mockMvc.perform(post("/api/order/none")
+														.contentType(MediaType.APPLICATION_JSON)
+														.content(new Gson().toJson(vo))
+														);
+		
+		resultActions.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result", is("fail")))
+		.andExpect(jsonPath("$.data[0]").doesNotExist())
+		;
+	}
+	
+	/**
+	 * 주문 상세 보기
+	 * @throws Exception 
+	 */
+	@Test
+	public void 주문상세보기() throws Exception {
+		ResultActions resultActions = mockMvc.perform(get("/api/order/{no}",1L));
+		
+		resultActions.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result", is("success")))
+		.andExpect(jsonPath("$.data[0]").exists())
+		;
+	}
+	
+	@Test
+	public void 주문상세보기실패없는번호() throws Exception {
+		ResultActions resultActions = mockMvc.perform(get("/api/order/{no}",0L));
+		
+		resultActions.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result", is("fail")))
+		.andExpect(jsonPath("$.data[0]").doesNotExist())
 		;
 	}
 }

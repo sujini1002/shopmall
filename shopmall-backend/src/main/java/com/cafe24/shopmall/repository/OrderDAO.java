@@ -45,4 +45,23 @@ public class OrderDAO {
 		return 0 < sqlSession.update("orders.updateInventory", orderProductList);
 	}
 
+	public List<Map<String, Object>> getList(long member_code,String status) {
+		Map<String,Object> params = new HashMap<String, Object>();
+		params.put("member_code", member_code);
+		params.put("status", status);
+		return sqlSession.selectList("orders.getList", params);
+	}
+
+	public List<Map<String, Object>> getList(String password, String order_code, String status) {
+		Map<String,Object> params = new HashMap<String, Object>();
+		params.put("password", password);
+		params.put("order_code", order_code);
+		params.put("status", status);
+		return sqlSession.selectList("orders.getList", params);
+	}
+
+	public List<Map<String, Object>> getOrder(Long no) {
+		return sqlSession.selectList("orders.getOrder", no);
+	}
+
 }

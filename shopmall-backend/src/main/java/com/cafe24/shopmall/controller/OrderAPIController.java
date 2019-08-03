@@ -1,6 +1,7 @@
 package com.cafe24.shopmall.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -13,6 +14,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -73,11 +75,56 @@ public class OrderAPIController {
 		return new ResponseEntity<JSONResult>(JSONResult.success(result), HttpStatus.OK);
 	}
 	
-	//주문 목록 조회 및 상세보기 
+	//회원 주문 목록 조회  
 	@ApiOperation(value="주문 목록 조회 및 상세보기", notes="주문 목록 조회 및 상세보기API")
-	@GetMapping(value= {"/{no}",""})
-	public ResponseEntity<JSONResult> getList(){
-		return null;
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="no",value="회원 번호",required=true,dataType="query",defaultValue="")
+	})
+	@GetMapping(value= "/member/{no}")
+	public ResponseEntity<JSONResult> getList(@PathVariable(value="no")Long no){
+		
+		List<Map<String,Object>>  result = orderService.getList(no);
+		
+		if(result.size()==0) {
+			return new ResponseEntity<JSONResult>(JSONResult.fail("회원의 주문내역이 존재하지 않습니다.", null), HttpStatus.OK);
+		}
+		
+		return new ResponseEntity<JSONResult>(JSONResult.success(result), HttpStatus.OK);
+	}
+	
+	//비회원 주문 목록 
+	@ApiOperation(value="주문 목록 조회 및 상세보기", notes="주문 목록 조회 및 상세보기API")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="password",value="비밀 번호",required=true,dataType="query",defaultValue=""),
+		@ApiImplicitParam(name="order_code",value="주문 번호",required=true,dataType="query",defaultValue="")
+	})
+	@PostMapping(value= "/none")
+	public ResponseEntity<JSONResult> getNoeList(@RequestBody Map<String,String> params){
+		
+		List<Map<String,Object>>  result = orderService.getList(params.get("password"),params.get("order_code"));
+		
+		if(result.size()==0) {
+			return new ResponseEntity<JSONResult>(JSONResult.fail("회원의 주문내역이 존재하지 않습니다.", null), HttpStatus.OK);
+		}
+		
+		return new ResponseEntity<JSONResult>(JSONResult.success(result), HttpStatus.OK);
+	}
+	
+	//주문 상세보기
+	@ApiOperation(value="주문 목록 조회 및 상세보기", notes="주문 목록 조회 및 상세보기API")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="no",value="비밀 번호",required=true,dataType="query",defaultValue=""),
+	})
+	@GetMapping(value= "/{no}")
+	public ResponseEntity<JSONResult> getView(@PathVariable(value="no")Long no){
+		
+		List<Map<String,Object>>  result = orderService.getOrder(no);
+		
+		if(result.size()==0) {
+			return new ResponseEntity<JSONResult>(JSONResult.fail("회원의 주문내역이 존재하지 않습니다.", null), HttpStatus.OK);
+		}
+		
+		return new ResponseEntity<JSONResult>(JSONResult.success(result), HttpStatus.OK);
 	}
 	
 	//주문 취소

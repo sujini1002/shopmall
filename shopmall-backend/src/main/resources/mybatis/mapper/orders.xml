@@ -86,4 +86,67 @@
 		</foreach>
 	</update>
 	
+	<select id="getList" parameterType="map" resultType="map">
+		<![CDATA[
+			select o.no as order_no,
+				   o.order_code as order_code,
+				   o.payment as payment,
+				   o.pay_way as pay_way, 
+				   o.status  as status,
+				   (
+				   		select distinct(concat(p.title,'외',(select count(*) from orders_product where order_no = o.no),'건'))
+						from product_inventory piv join product p
+						on piv.prd_no = p.no
+						where piv.prd_no = (
+												select prd_no 
+												from orders_product 
+												where order_no = o.no 
+												order by prd_no asc 
+												limit 1 offset 0 
+				                            )
+				   )as order_title
+			from orders o
+		]]>
+		<if test="status eq 'none'.toString()">
+			<![CDATA[
+				where o.password = #{password}
+				and o.order_code = #{order_code}
+			]]>
+		</if>
+		<if test="status eq 'member'.toString()">
+			<![CDATA[
+				where o.member_code= #{member_code}
+			]]>
+		</if>
+		<![CDATA[
+			order by o.order_date desc
+		]]>
+	</select>
+	
+	
+	<select id="getOrder" parameterType="long" resultType="map">
+		<![CDATA[
+			select op.prd_no as prdInven_no,
+				   piv.opt_value as opt_value,
+				   p.title as prd_title,
+				   pim.url as prd_img,
+				   p.price as prd_price,
+				   op.status as order_status,
+				   to_char(o.order_date,'YYYY-MM-dd') as order_date,
+				   o.order_code as order_code,
+				   o.payment as order_payment,
+				   o.pay_way as order_pay_way,
+				   p.no as prd_no
+			from orders o join orders_product op 
+				 on o.no = op.order_no
+				 join product_inventory  piv 
+				 on op.prd_no = piv."no"
+				 join product p 
+				 on piv.prd_no = p."no"
+				 join product_img pim
+				 on p."no" = pim.prd_no
+			where op.order_no = #{_parameter}
+			and pim.istitle = true
+		]]>
+	</select>
 </mapper>

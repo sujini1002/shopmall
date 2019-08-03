@@ -89,5 +89,19 @@ public class OrderService {
 		
 		return true;
 	}
+	
+	//회원 주문 목록
+	public List<Map<String, Object>> getList(long member_code) {
+		return orderDao.getList(member_code,"member");
+	}
+	//비회원 주문 목록
+	public List<Map<String, Object>> getList(String password, String order_code) {
+		
+		return orderDao.getList(password,order_code,"none");
+	}
+
+	public List<Map<String, Object>> getOrder(Long no) {
+		return orderDao.getOrder(no);
+	}
 
 }
