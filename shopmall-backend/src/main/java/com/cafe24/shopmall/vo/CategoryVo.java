@@ -1,17 +1,20 @@
 package com.cafe24.shopmall.vo;
 
 import javax.validation.constraints.NotNull;
-import com.cafe24.shopmall.validator.constraints.ValidCheckCategoryNo;
+
+import com.cafe24.shopmall.validator.constraints.ValidCheckCategoryTop;
 
 public class CategoryVo {
 	
 	private Integer no;
 	
-	@ValidCheckCategoryNo
+	@ValidCheckCategoryTop
 	private Integer catg_top_no;
 	
 	@NotNull
 	private String name;
+	
+	private Integer level;
 	
 	public Integer getNo() {
 		return no;
@@ -32,9 +35,18 @@ public class CategoryVo {
 		this.name = name;
 	}
 	
+	public Integer getLevel() {
+		return level;
+	}
+	public void setLevel(Integer level) {
+		this.level = level;
+	}
+	
 	@Override
 	public String toString() {
-		return "CategoryVo [no=" + no + ", catg_top_no=" + catg_top_no + ", name=" + name + "]";
+		return "CategoryVo [no=" + no + ", catg_top_no=" + catg_top_no + ", name=" + name + ", level=" + level + "]";
 	}
+	
+	
 	
 }

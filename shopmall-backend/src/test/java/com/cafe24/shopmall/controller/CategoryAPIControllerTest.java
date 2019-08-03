@@ -20,6 +20,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.cafe24.shopmall.vo.CategoryVo;
@@ -28,6 +29,7 @@ import com.google.gson.Gson;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Transactional
 public class CategoryAPIControllerTest {
 	private MockMvc mockMvc;
 
@@ -89,6 +91,7 @@ public class CategoryAPIControllerTest {
 		CategoryVo categoryVo = new CategoryVo();
 		categoryVo.setCatg_top_no(1);
 		categoryVo.setName("블라우스");
+		categoryVo.setLevel(1);
 		
 		ResultActions resultActions = mockMvc.perform(post("/api/admin/category")
 				.contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(categoryVo))); 
@@ -108,8 +111,9 @@ public class CategoryAPIControllerTest {
 	@Test
 	public void testCatgoryAddButtomFail() throws Exception {
 		CategoryVo categoryVo = new CategoryVo();
-		categoryVo.setCatg_top_no(0);
+		categoryVo.setCatg_top_no(-1);
 		categoryVo.setName("블라우스");
+		categoryVo.setLevel(0);
 		
 		ResultActions resultActions = mockMvc.perform(post("/api/admin/category")
 				.contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(categoryVo))); 
@@ -138,43 +142,45 @@ public class CategoryAPIControllerTest {
 		.andExpect(jsonPath("$.data[0].no").exists())
 		.andExpect(jsonPath("$.data[0].catg_top_no").doesNotExist())
 		.andExpect(jsonPath("$.data[0].name").exists())
+		.andExpect(jsonPath("$.data[0].level").exists())
 		;
 	}
 	
-	/**
-	 *  2. 카테고리 조회
-	 *  2.2.1 하위카테고리 조회 성공
-	 */
-	@Test
-	public void testCategoryListButtomSuccess() throws Exception {
-		ResultActions resultActions = mockMvc.perform(get("/api/category/{cate_no}",1));
-		
-		resultActions
-		.andDo(print())
-		.andExpect(status().isOk())
-		.andExpect(jsonPath("$.result",is("success")))
-		.andExpect(jsonPath("$.data").exists())
-		.andExpect(jsonPath("$.data[0].no").exists())
-		.andExpect(jsonPath("$.data[0].catg_top_no").exists())
-		.andExpect(jsonPath("$.data[0].name").exists())
-		;
-	}
+//	/**
+//	 *  2. 카테고리 조회
+//	 *  2.2.1 하위카테고리 조회 성공
+//	 */
+//	@Test
+//	public void testCategoryListButtomSuccess() throws Exception {
+//		ResultActions resultActions = mockMvc.perform(get("/api/category/{cate_no}",1));
+//		
+//		resultActions
+//		.andDo(print())
+//		.andExpect(status().isOk())
+//		.andExpect(jsonPath("$.result",is("success")))
+//		.andExpect(jsonPath("$.data").exists())
+//		.andExpect(jsonPath("$.data[0].no").exists())
+//		.andExpect(jsonPath("$.data[0].catg_top_no").exists())
+//		.andExpect(jsonPath("$.data[0].name").exists())
+//		.andExpect(jsonPath("$.data[0].level").exists())
+//		;
+//	}
 	
-	/**
-	 *  2. 카테고리 리스트 조회
-	 *  2.2.2하위카테고리 조회 실패 (없는 번호 또는 최하위 카테고리에서의 조회)
-	 */
-	@Test
-	public void testCategoryListButtomFail() throws Exception {
-		ResultActions resultActions = mockMvc.perform(get("/api/category/{cate_no}",-1));
-		
-		resultActions
-		.andDo(print())
-		.andExpect(status().isBadRequest())
-		.andExpect(jsonPath("$.result",is("fail")))
-		.andExpect(jsonPath("$.data").doesNotExist())
-		;
-	}
+//	/**
+//	 *  2. 카테고리 리스트 조회
+//	 *  2.2.2하위카테고리 조회 실패 (없는 번호 또는 최하위 카테고리에서의 조회)
+//	 */
+//	@Test
+//	public void testCategoryListButtomFail() throws Exception {
+//		ResultActions resultActions = mockMvc.perform(get("/api/category/{cate_no}",-1));
+//		
+//		resultActions
+//		.andDo(print())
+//		.andExpect(status().isBadRequest())
+//		.andExpect(jsonPath("$.result",is("fail")))
+//		.andExpect(jsonPath("$.data").doesNotExist())
+//		;
+//	}
 	
 	/**
 	 * 3. 카테고리 수정
@@ -201,7 +207,7 @@ public class CategoryAPIControllerTest {
 	 */
 	@Test
 	public void testCategoryInfoFail() throws Exception {
-		Integer no = 0;
+		Integer no = -1;
 		ResultActions resultActions = mockMvc.perform(get("/api/admin/category/{cate_no}",no));
 		
 		resultActions
@@ -224,6 +230,7 @@ public class CategoryAPIControllerTest {
 		vo.setCatg_top_no(null);
 		vo.setName("Top");
 		
+		
 		ResultActions resultActions = mockMvc.perform(put("/api/admin/category").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
 		
 		resultActions
@@ -245,7 +252,7 @@ public class CategoryAPIControllerTest {
 	public void testCategoryUpdateFail() throws Exception {
 		CategoryVo vo = new CategoryVo();
 		vo.setNo(50);
-		vo.setCatg_top_no(0);
+		vo.setCatg_top_no(-1);
 		vo.setName("린넨티셔츠");
 		
 		ResultActions resultActions = mockMvc.perform(put("/api/admin/category").contentType(MediaType.APPLICATION_JSON).content(new Gson().toJson(vo)));
@@ -277,13 +284,31 @@ public class CategoryAPIControllerTest {
 	}
 	
 	/**
+	 *  4.1 최상위 카테고리 삭제 성공
+	 *  
+	 */
+	@Rollback(true)
+	@Test
+	public void testCategoryDeleteSuccessTop() throws Exception {
+		Integer no = 1;
+		ResultActions resultActions = mockMvc.perform(delete("/api/admin/category/{no}",no));
+		
+		resultActions
+		.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result",is("success")))
+		.andExpect(jsonPath("$.data",is(true)))
+		;
+	}
+	
+	/**
 	 *  4.1 카테고리 삭제 실패 ( 없는 번호)
 	 *  
 	 */
 	@Rollback(true)
 	@Test
 	public void testCategoryDeleteFail() throws Exception {
-		Integer no = 0;
+		Integer no = -1;
 		ResultActions resultActions = mockMvc.perform(delete("/api/admin/category/{no}",no));
 		
 		resultActions

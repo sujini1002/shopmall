@@ -6,15 +6,15 @@ import javax.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.cafe24.shopmall.repository.CategoryDAO;
-import com.cafe24.shopmall.validator.constraints.ValidCheckCategoryNo;
+import com.cafe24.shopmall.validator.constraints.ValidCheckCategoryTop;
 
-public class CheckCategoryNoValidator implements ConstraintValidator<ValidCheckCategoryNo, Integer>{
+public class CheckCategoryTopValidator implements ConstraintValidator<ValidCheckCategoryTop, Integer>{
 	
 	@Autowired
 	private CategoryDAO categoryDao;
 	
 	@Override
-	public void initialize(ValidCheckCategoryNo constraintAnnotation) {
+	public void initialize(ValidCheckCategoryTop constraintAnnotation) {
 	}
 
 	@Override
@@ -24,7 +24,7 @@ public class CheckCategoryNoValidator implements ConstraintValidator<ValidCheckC
 			return true;
 		}
 		
-		return categoryDao.isExistNo(value);
+		return categoryDao.isExistTopNo(value);
 	}
 
 }

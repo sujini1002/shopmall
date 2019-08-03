@@ -3,7 +3,6 @@ package com.cafe24.shopmall.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -77,7 +76,10 @@ public class CategoryAPIController {
 				errorMessages.put(fe.getField(), fe.getDefaultMessage());
 			}
 			return new ResponseEntity<JSONResult>(JSONResult.fail("입력 값이 올바르지 않습니다.",errorMessages),HttpStatus.BAD_REQUEST);
+		}else if(categoryVo.getCatg_top_no()!=null && categoryVo.getLevel()==0) {
+			return new ResponseEntity<JSONResult>(JSONResult.fail("입력 값이 올바르지 않습니다.",null),HttpStatus.BAD_REQUEST);
 		}
+		
 		
 		Integer no = categoryService.add(categoryVo);
 		return new ResponseEntity<JSONResult>(JSONResult.success(no),HttpStatus.OK);
@@ -87,14 +89,13 @@ public class CategoryAPIController {
 	@ApiImplicitParams({
 		@ApiImplicitParam(name="no",value="카테고리 번호",required=false,paramType="query")
 	})
-	@GetMapping(value= {"/category","/category/{cate_no}"})
-	public ResponseEntity<JSONResult> list(@PathVariable(value="cate_no") Optional<Integer> cate_no){
+	@GetMapping(value= "/category")
+	public ResponseEntity<JSONResult> list(){
 		
-		Integer no = cate_no.isPresent()?cate_no.get():0;
-		List<CategoryVo> results = categoryService.list(no);
+		List<CategoryVo> results = categoryService.list();
 		
 		if(results.size()==0) {
-			return new ResponseEntity<JSONResult>(JSONResult.fail("입력 값이 올바르지 않습니다.",null),HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<JSONResult>(JSONResult.fail("카테고리가 존재하지 않습니다.",null),HttpStatus.BAD_REQUEST);
 		}
 		
 		return new ResponseEntity<JSONResult>(JSONResult.success(results),HttpStatus.OK);

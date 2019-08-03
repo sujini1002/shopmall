@@ -10,23 +10,29 @@ import com.cafe24.shopmall.vo.CategoryVo;
 
 @Repository
 public class CategoryDAO {
-	
+
 	@Autowired
 	private SqlSession sqlSession;
-	
+
 	public Integer insert(CategoryVo categoryVo) {
 		sqlSession.insert("category.insert", categoryVo);
 		return categoryVo.getNo();
 	}
-	
+
 	// 상위카테고리가 존재하는지 체크
 	public boolean isExistTopNo(Integer value) {
 		Integer result = sqlSession.selectOne("category.isExistTopNo", value);
-		return result==1;
+		return result >=1;
 	}
 
-	public List<CategoryVo> getList(Integer no) {
-		return sqlSession.selectList("category.getList", no);
+	// 카테고리가 존재하는지 체크
+	public boolean isExistNo(Integer value) {
+		Integer result = sqlSession.selectOne("category.isExistNo", value);
+		return result == 1;
+	}
+
+	public List<CategoryVo> getList() {
+		return sqlSession.selectList("category.getList");
 	}
 
 	public CategoryVo getInfo(Integer no) {
@@ -38,7 +44,8 @@ public class CategoryDAO {
 	}
 
 	public Boolean delete(Integer no) {
-		int cnt = sqlSession.delete("category.delete",no);
+		int cnt = sqlSession.delete("category.delete", no);
+		System.out.println(cnt);
 		return cnt > 0;
 	}
 

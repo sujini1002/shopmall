@@ -10,26 +10,23 @@
 			]]>
 		</selectKey>
 		<![CDATA[
-			insert into category values(nextval('seq_category'), #{catg_top_no}, #{name})
+			insert into category values(nextval('seq_category'), #{catg_top_no}, #{name},#{level})
 		]]>
 	</insert>
 	
 	<select id="isExistTopNo" parameterType="Integer" resultType="Integer">
+		select count(*) from category where catg_top_no = #{_parameter}
+	</select>
+	
+	<select id="isExistNo" parameterType="Integer" resultType="Integer">
 		select count(*) from category where no = #{_parameter}
 	</select>
 	
-	<select id="getList" parameterType="Integer" resultType="categoryvo">
+	<select id="getList" resultType="categoryvo">
 		<![CDATA[
-			select no, catg_top_no, name
+			select no, catg_top_no, name ,level
 			from category
-		]]>
-		<if test='value != 0'>
-			<![CDATA[
-				where catg_top_no = #{_parameter}
-			]]>
-		</if>
-		<![CDATA[
-			order by catg_top_no desc
+			order by catg_top_no desc, level asc
 		]]>
 	</select>
 	
@@ -45,7 +42,8 @@
 		<![CDATA[
 			update category
 			set catg_top_no = #{catg_top_no},
-				name = #{name}
+				name = #{name},
+				level = #{level}
 			where no = #{no}
 		]]>
 	</update>
@@ -55,7 +53,6 @@
 			delete from category 
 			where no = #{_parameter} 
 			or catg_top_no = #{_parameter}
-			or catg_top_no in (select no from category where catg_top_no = #{_parameter})
 		]]>
 	</delete>
 </mapper>

@@ -16,7 +16,8 @@ spring:
    datasource:
       platform: postgres
       driver-class-name: org.postgresql.Driver
-      url: jdbc:postgresql://192.168.1.66:5432/smtest
+#      url: jdbc:postgresql://192.168.1.66:5432/smtest
+      url: jdbc:postgresql://192.168.1.101:5432/smtest
       username: smtest
       password: smtest
          
