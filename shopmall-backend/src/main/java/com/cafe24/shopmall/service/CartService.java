@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.cafe24.shopmall.repository.CartDAO;
 import com.cafe24.shopmall.vo.CartVo;
@@ -30,6 +31,7 @@ public class CartService {
 	 *  1.1.2.1 존재하면 false로 return 한다.
 	 *  
 	 */
+	@Transactional
 	public Map<String,Object> add(CartVo cartVo) {
 		
 		Map<String,Object> map = new HashMap<String, Object>();
@@ -73,6 +75,7 @@ public class CartService {
 	}
 	
 	// 수정하기
+	@Transactional
 	public CartVo modify(CartVo cartVo) {
 		
 		String status = cartVo.getMember_code()==null?"none":"member";
@@ -81,7 +84,7 @@ public class CartService {
 		
 		return cartDao.getCart(cartVo, status);
 	}
-
+	@Transactional
 	public Boolean delete(CartVo cartVo) {
 		
 		String status = cartVo.getMember_code()==null?"none":"member";

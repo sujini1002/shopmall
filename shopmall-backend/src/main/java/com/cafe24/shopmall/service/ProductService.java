@@ -19,6 +19,7 @@ public class ProductService {
 	@Autowired
 	private ProductDAO productDao;
 	
+	@Transactional
 	public Map<String,Object> add(ProductVo productVo) {
 		
 		Map<String,Object> results = new HashMap<String, Object>();
@@ -104,6 +105,7 @@ public class ProductService {
 	 *  - 상품이 삭제 되면 상품의 대표이지미 제외 제거, 옵션, 옵션 상세는 지워진다.
 	 *  - 상품 재고는 주문에 연결 되어 있으므로 삭제하지 않고 issale을 false로 바꾼다.
 	 */
+	@Transactional
 	public ProductVo delete(Long no) {
 		
 		// 상품 삭제

@@ -106,6 +106,7 @@ public class OrderService {
 	}
 	
 	//주문 전체 지우기
+	@Transactional
 	public Boolean deleteAll(Long no) {
 		
 		// 주문 상태 확인하기 
@@ -126,7 +127,7 @@ public class OrderService {
 		
 		return result;
 	}
-
+	@Transactional
 	public Boolean deleteOrderProduct(Long no, Long prdIven_no) {
 		
 		//주문 상품 상태 확인
