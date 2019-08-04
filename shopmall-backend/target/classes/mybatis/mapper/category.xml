@@ -15,7 +15,9 @@
 	</insert>
 	
 	<select id="isExistTopNo" parameterType="Integer" resultType="Integer">
-		select count(*) from category where catg_top_no = #{_parameter}
+		<![CDATA[
+			select count(*) from category where no = #{_parameter} and catg_top_no = null
+		]]>
 	</select>
 	
 	<select id="isExistNo" parameterType="Integer" resultType="Integer">

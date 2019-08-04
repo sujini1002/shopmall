@@ -199,7 +199,7 @@ public class OrderAPIControllerTest {
 		ResultActions resultActions = mockMvc.perform(get("/api/order/member/{no}",0L));
 		
 		resultActions.andDo(print())
-		.andExpect(status().isOk())
+		.andExpect(status().isBadRequest())
 		.andExpect(jsonPath("$.result", is("fail")))
 		.andExpect(jsonPath("$.data[0]").doesNotExist())
 		;
@@ -236,7 +236,7 @@ public class OrderAPIControllerTest {
 														);
 		
 		resultActions.andDo(print())
-		.andExpect(status().isOk())
+		.andExpect(status().isBadRequest())
 		.andExpect(jsonPath("$.result", is("fail")))
 		.andExpect(jsonPath("$.data[0]").doesNotExist())
 		;
@@ -288,9 +288,9 @@ public class OrderAPIControllerTest {
 		ResultActions resultActions = mockMvc.perform(delete("/api/order/{no}",2L));
 		
 		resultActions.andDo(print())
-		.andExpect(status().isOk())
+		.andExpect(status().isBadRequest())
 		.andExpect(jsonPath("$.result", is("fail")))
-		.andExpect(jsonPath("$.data", is(false)))
+		.andExpect(jsonPath("$.data[0]").doesNotExist())
 		;
 	}
 	
@@ -312,9 +312,9 @@ public class OrderAPIControllerTest {
 		ResultActions resultActions = mockMvc.perform(delete("/api/order/1/3"));
 		
 		resultActions.andDo(print())
-		.andExpect(status().isOk())
+		.andExpect(status().isBadRequest())
 		.andExpect(jsonPath("$.result", is("fail")))
-		.andExpect(jsonPath("$.data", is(false)))
+		.andExpect(jsonPath("$.data[0]").doesNotExist())
 		;
 	}
 }

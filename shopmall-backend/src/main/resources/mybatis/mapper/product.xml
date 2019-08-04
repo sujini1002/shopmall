@@ -81,15 +81,6 @@
 		]]>
 	</select>
 	
-	<select id="getDeleteList" resultMap="productResults" parameterType="Long">
-		<![CDATA[
-			select no, title, price, detail, issale, to_char(prod_date, 'YYYY-MM-DD HH24:MI:SS') as prod_date ,cate_no
-			from product
-			where issale = False and no = #{_parameter}
-			order by prod_date desc
-		]]>
-	</select>
-	
 	<select id="getProdImgList" resultType="prodimgvo">
 		select no,url, istitle from product_img where prd_no = #{no}  order by no 
 	</select>

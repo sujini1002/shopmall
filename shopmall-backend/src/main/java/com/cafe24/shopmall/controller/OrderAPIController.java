@@ -87,7 +87,7 @@ public class OrderAPIController {
 		List<Map<String,Object>>  result = orderService.getList(no);
 		
 		if(result.size()==0) {
-			return new ResponseEntity<JSONResult>(JSONResult.fail("회원의 주문내역이 존재하지 않습니다.", null), HttpStatus.OK);
+			return new ResponseEntity<JSONResult>(JSONResult.fail("회원의 주문내역이 존재하지 않습니다.", null), HttpStatus.BAD_REQUEST);
 		}
 		
 		return new ResponseEntity<JSONResult>(JSONResult.success(result), HttpStatus.OK);
@@ -105,7 +105,7 @@ public class OrderAPIController {
 		List<Map<String,Object>>  result = orderService.getList(params.get("password"),params.get("order_code"));
 		
 		if(result.size()==0) {
-			return new ResponseEntity<JSONResult>(JSONResult.fail("회원의 주문내역이 존재하지 않습니다.", null), HttpStatus.OK);
+			return new ResponseEntity<JSONResult>(JSONResult.fail("회원의 주문내역이 존재하지 않습니다.", null), HttpStatus.BAD_REQUEST);
 		}
 		
 		return new ResponseEntity<JSONResult>(JSONResult.success(result), HttpStatus.OK);
@@ -146,7 +146,7 @@ public class OrderAPIController {
 		
 		//결과확인
 		if(result == false) {
-			return new ResponseEntity<JSONResult>(JSONResult.fail("이미 배송처리 된 상품입니다. 자세한 사항은 고객센터에 문의해 주세요.", null), HttpStatus.OK);
+			return new ResponseEntity<JSONResult>(JSONResult.fail("이미 배송처리 된 상품입니다. 자세한 사항은 고객센터에 문의해 주세요.", null), HttpStatus.BAD_REQUEST);
 		}
 		
 		return new ResponseEntity<JSONResult>(JSONResult.success(result), HttpStatus.OK);
