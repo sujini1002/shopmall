@@ -262,7 +262,7 @@ public class OrderAPIControllerTest {
 		ResultActions resultActions = mockMvc.perform(get("/api/order/{no}",0L));
 		
 		resultActions.andDo(print())
-		.andExpect(status().isOk())
+		.andExpect(status().isBadRequest())
 		.andExpect(jsonPath("$.result", is("fail")))
 		.andExpect(jsonPath("$.data[0]").doesNotExist())
 		;
@@ -284,6 +284,18 @@ public class OrderAPIControllerTest {
 	
 	@Rollback(true)
 	@Test
+	public void 주문전체취소실패() throws Exception {
+		ResultActions resultActions = mockMvc.perform(delete("/api/order/{no}",2L));
+		
+		resultActions.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result", is("fail")))
+		.andExpect(jsonPath("$.data", is(false)))
+		;
+	}
+	
+	@Rollback(true)
+	@Test
 	public void 주문부분취소() throws Exception {
 		ResultActions resultActions = mockMvc.perform(delete("/api/order/1/2"));
 		
@@ -291,6 +303,18 @@ public class OrderAPIControllerTest {
 		.andExpect(status().isOk())
 		.andExpect(jsonPath("$.result", is("success")))
 		.andExpect(jsonPath("$.data", is(true)))
+		;
+	}
+	
+	@Rollback(true)
+	@Test
+	public void 주문부분취소실패() throws Exception {
+		ResultActions resultActions = mockMvc.perform(delete("/api/order/1/3"));
+		
+		resultActions.andDo(print())
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$.result", is("fail")))
+		.andExpect(jsonPath("$.data", is(false)))
 		;
 	}
 }

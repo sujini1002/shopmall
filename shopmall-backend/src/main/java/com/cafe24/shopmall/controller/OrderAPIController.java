@@ -122,7 +122,7 @@ public class OrderAPIController {
 		List<Map<String,Object>>  result = orderService.getOrder(no);
 		
 		if(result.size()==0) {
-			return new ResponseEntity<JSONResult>(JSONResult.fail("회원의 주문내역이 존재하지 않습니다.", null), HttpStatus.OK);
+			return new ResponseEntity<JSONResult>(JSONResult.fail("회원의 주문내역이 존재하지 않습니다.", null), HttpStatus.BAD_REQUEST);
 		}
 		
 		return new ResponseEntity<JSONResult>(JSONResult.success(result), HttpStatus.OK);
