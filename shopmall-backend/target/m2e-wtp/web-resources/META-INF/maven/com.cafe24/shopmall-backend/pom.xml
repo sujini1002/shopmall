@@ -116,6 +116,12 @@
 			<artifactId>gson</artifactId>
 			<scope>test</scope>
 		</dependency>
+		
+		<!-- Spring Security Test -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+		</dependency>
 
 		<!-- Logback -->
 		<dependency>
