@@ -1,7 +1,7 @@
 server:
    port: 8888
-   servlet:
-      context-path: /shopmall
+#   servlet:
+   context-path: /shopmall
    error:
       whitelabel:
          enabled: false

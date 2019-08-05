@@ -12,12 +12,12 @@ import com.cafe24.shopmall.dto.JSONResult;
 @Service
 public class GoodsService {
 	
-//	@Autowired
-	//private RestTemplate restTemplate;
+	@Autowired
+	private OAuth2RestTemplate restTemplate;
 
 	public Goods getList(Long no){
 		String endpoint = "http://localhost:8888/shopmall/api/admin/product/1";
-		JSONResultGoods jsonResult = new RestTemplate().getForObject(endpoint, JSONResultGoods.class);
+		JSONResultGoods jsonResult = restTemplate.getForObject(endpoint, JSONResultGoods.class);
 		return jsonResult.getData();
 	}
 
