@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cafe24.shopmall.dto.JSONResult;
-import com.cafe24.shopmall.service.ProductService;
+import com.cafe24.shopmall.service.AdminProductService;
 import com.cafe24.shopmall.vo.ProductVo;
 
 import io.swagger.annotations.Api;
@@ -60,7 +60,7 @@ import io.swagger.annotations.ApiOperation;
 public class AdminProductAPIController {
 	
 	@Autowired
-	private ProductService productService;
+	private AdminProductService productService;
 	
 	/**
 	 * 1. 상품등록

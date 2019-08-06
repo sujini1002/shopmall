@@ -25,30 +25,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-		
-		// password or authorization code
-//		clients.inMemory() 
-//			.withClient("pjmall")
-//			.authorizedGrantTypes("password", "authorization_code", "refresh_token", "implicit")
-//			.authorities("ROLE_CLIENT", "ROLE_TRUSTED_CLIENT")
-//			.scopes("read", "write", "trust")
-//			.resourceIds("sparklr")
-//			.accessTokenValiditySeconds(60);
-
-		// client credentials
-		clients.inMemory() 
-			.withClient("pjmall")
-			.authorizedGrantTypes("password", "client_credentials")
-			.authorities("ROLE_CLIENT")
-			.scopes("read", "write", "trust")
-			.resourceIds("pjmall_api")
-			.secret("1234");
-			//.accessTokenValiditySeconds(60);
-		
-		
-		
-//		clients
-//			.jdbc(dataSource());
+//		
+		clients
+			.jdbc(dataSource());
 	}
 	
     @Override

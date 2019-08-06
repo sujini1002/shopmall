@@ -53,19 +53,7 @@ public class HelloControllerTest {
         	return;
         }
         
-        MultiValueMap<String, String> params = new LinkedMultiValueMap();
-        
-//        authorization_code으로 변경예정
-//        params.add("grant_type", "password");
-//        params.add("username", "test");
-//        params.add("password", "5678");
-//        ResultActions result = mockMvc
-//        	.perform( post("/oauth/token")
-//        		.params(params)
-//        		.header("Authorization", "Basic " + new String(Base64.encode(("pjmall:").getBytes())))
-//        		.accept(MediaType.APPLICATION_JSON))
-//        	.andDo(print())
-//    		.andExpect(status().isOk());            	
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();          	
         
         params.add("grant_type", "client_credentials");
         params.add("scope", "read");
@@ -74,7 +62,7 @@ public class HelloControllerTest {
         ResultActions result = mockMvc
             	.perform( post("/oauth/token")
             				.params(params)
-                    		.header("Authorization", "Basic " + new String(Base64.encode(("pjmall:1234").getBytes())))
+                    		.header("Authorization", "Basic " + new String(Base64.encode(("shopmall:1234").getBytes())))
                             .accept("application/json; charset=UTF-8")
                             .contentType(MediaType.APPLICATION_JSON))
     			.andDo(print())

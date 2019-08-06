@@ -4,8 +4,6 @@ package com.cafe24.shopmall.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-
 import com.cafe24.shopmall.dto.Goods;
 import com.cafe24.shopmall.dto.JSONResult;
 
@@ -16,15 +14,15 @@ public class GoodsService {
 	private OAuth2RestTemplate restTemplate;
 
 	public Goods getList(Long no){
-		String endpoint = "http://localhost:8888/shopmall/api/admin/product/1";
+		String endpoint = "http://localhost:8888/shopmall/hello";
 		JSONResultGoods jsonResult = restTemplate.getForObject(endpoint, JSONResultGoods.class);
 		return jsonResult.getData();
 	}
 
 	
 	public String getList(){
-		String endpoint = "http://localhost:8888/shopmall/api/admin/product/1";
-		JSONResultGoodsList jsonResult = new RestTemplate().getForObject(endpoint, JSONResultGoodsList.class);
+		String endpoint = "http://localhost:8888/shopmall/hello";
+		JSONResultGoodsList jsonResult = restTemplate.getForObject(endpoint, JSONResultGoodsList.class);
 		System.out.println( jsonResult );
 		return jsonResult.getData();
 	}

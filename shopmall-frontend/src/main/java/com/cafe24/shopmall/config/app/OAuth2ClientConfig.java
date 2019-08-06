@@ -30,7 +30,7 @@ public class OAuth2ClientConfig {
         
         //토근을 어떻게 받을 것인가 설정
         resourceDetails.setAccessTokenUri("http://localhost:8888/shopmall/oauth/token");
-	    resourceDetails.setClientId("pjmall");
+	    resourceDetails.setClientId("shopmall");
 	    resourceDetails.setClientSecret("1234");
         resourceDetails.setGrantType("client_credentials");
         resourceDetails.setScope(Arrays.asList("write", "read"));

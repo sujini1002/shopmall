@@ -6,3 +6,13 @@
 body {
   padding-top: 56px;
 }
+
+.carousel-item img{
+	display: block; 
+	margin: 0px auto;
+	height: 350px; 
+}
+
+.card a img{
+	height: 200px;
+}

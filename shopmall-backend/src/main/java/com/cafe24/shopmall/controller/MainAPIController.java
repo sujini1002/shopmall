@@ -5,14 +5,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cafe24.shopmall.domain.User;
 import com.cafe24.shopmall.dto.JSONResult;
 
 @RestController
-@RequestMapping("/api")
+//@RequestMapping("/api")
 public class MainAPIController {
 	@GetMapping("/hello")
 	public ResponseEntity<com.cafe24.shopmall.dto.JSONResult> hello(){

@@ -69,11 +69,10 @@
 		<![CDATA[
 			select no, title, price, detail, issale, to_char(prod_date, 'YYYY-MM-DD HH24:MI:SS') as prod_date ,cate_no
 			from product
-			where issale = TRUE
 		]]>
 		<if test='value != -1'>
 			<![CDATA[
-				and no = #{value}
+				where no = #{value}
 			]]>
 		</if>
 		<![CDATA[
@@ -177,4 +176,31 @@
 		set issale = FALSE
 		where no = #{_parameter}
 	</update>
+	
+	
+	
+	
+	<!-- 사용자 부분  -->
+	<select id="getMainList" parameterType="string" resultType="hashmap">
+		<![CDATA[
+			select p.no as no, p.title as title,p.price as price, pim.url as url
+			from product p join product_img pim
+			on p.no = pim.prd_no
+			where pim.istitle = true 
+			and p.issale = true
+			
+		]]>
+		<if test="value != null">
+			<![CDATA[
+				and title like '%${keyword}%'
+			]]>
+		</if>
+		
+		
+		<![CDATA[
+			order by p.prod_date desc
+			limit 9
+			offset 0
+		]]>
+	</select>
 </mapper>

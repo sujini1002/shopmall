@@ -513,4 +513,16 @@ public class ProductAPIControllerTest {
 		;
 		
 	}
+	
+	
+	/**
+	 * 사용자 상품 조회
+	 */
+	@Test
+	public void 사용자상품조회() throws Exception {
+		ResultActions resultActions = mockMvc.perform(get("/api/product")).andDo(print());
+
+		resultActions.andExpect(status().isOk()).andExpect(jsonPath("$.result", is("success")))
+				.andExpect(jsonPath("$.data").exists());
+	}
 }
