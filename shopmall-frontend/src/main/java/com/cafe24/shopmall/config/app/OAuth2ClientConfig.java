@@ -39,6 +39,7 @@ public class OAuth2ClientConfig {
 	    return resourceDetails;
 	}
 	
+	//oauth의 토큰을 생성 해주는 곳
 	@Bean
 	public OAuth2RestTemplate oauth2RestTemplate() {
 		
