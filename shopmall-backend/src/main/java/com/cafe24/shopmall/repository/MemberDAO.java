@@ -1,6 +1,5 @@
 package com.cafe24.shopmall.repository;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -42,12 +41,8 @@ public class MemberDAO {
 	/**
 	 * 로그인 
 	 */
-	public String selectUserByIdPw(String id, String password) {
-		Map<String,String> param = new HashMap<String, String>();
-		param.put("id", id);
-		param.put("password", password);
-		
-		String result = sqlSession.selectOne("member.selectUserByIdPw", param);
+	public MemberVo selectUserById(String id) {
+		MemberVo result = sqlSession.selectOne("member.selectUserById", id);
 		return result;
 	}
 	

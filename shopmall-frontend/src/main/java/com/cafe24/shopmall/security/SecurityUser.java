@@ -14,13 +14,16 @@ public class SecurityUser implements UserDetails {
 
 	private String username;
 	private String password;
+	
+	private String phone;
+	private String email;
+	private String postid;
+	private String base_deliver;
+	private String detail_deliver;
+	private String role;
+	
 	private Collection<? extends GrantedAuthority> authorities;
 	
-	// protected String salt;
-//	private boolean enabled;
-//	private boolean accountNonExpired;
-//	private boolean credentialsNonExpired;
-//	private boolean accountNonLocked;
 	
 	public Long getNo() {
 		return no;
@@ -63,6 +66,54 @@ public class SecurityUser implements UserDetails {
 	@Override
 	public String getUsername() {
 		return username;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPostid() {
+		return postid;
+	}
+
+	public void setPostid(String postid) {
+		this.postid = postid;
+	}
+
+	public String getBase_deliver() {
+		return base_deliver;
+	}
+
+	public void setBase_deliver(String base_deliver) {
+		this.base_deliver = base_deliver;
+	}
+
+	public String getDetail_deliver() {
+		return detail_deliver;
+	}
+
+	public void setDetail_deliver(String detail_deliver) {
+		this.detail_deliver = detail_deliver;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 	@Override

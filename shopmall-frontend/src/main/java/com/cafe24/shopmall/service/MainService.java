@@ -12,7 +12,7 @@ import com.cafe24.shopmall.dto.JSONResult;
 import com.cafe24.shopmall.vo.CategoryVo;
 
 @Service
-public class ProductService {
+public class MainService {
 	
 	private final String endPoint = "http://localhost:8888/shopmall";
 	
@@ -39,10 +39,7 @@ public class ProductService {
 	}
 	
 	// DTO Class
-	private static class JSONResultGoodsList extends JSONResult<List<Map<String,Object>>> {
-	}
+	private static class JSONResultGoodsList extends JSONResult<List<Map<String,Object>>> {}
 	
-	private static class JSONResultCategoryList extends JSONResult<List<CategoryVo>>{
-		
-	}
+	private static class JSONResultCategoryList extends JSONResult<List<CategoryVo>>{}
 }

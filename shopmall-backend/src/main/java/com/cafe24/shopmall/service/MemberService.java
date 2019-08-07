@@ -34,8 +34,8 @@ public class MemberService {
 	/**
 	 *  회원 로그인
 	 */
-	public String login(String id, String password) {
-		return memberDao.selectUserByIdPw(id,password);
+	public MemberVo login(String id) {
+		return memberDao.selectUserById(id);
 	}
 	/**
 	 *  회원정보 수정시에 기존 회원정보를 가져오는 메서드 이다.

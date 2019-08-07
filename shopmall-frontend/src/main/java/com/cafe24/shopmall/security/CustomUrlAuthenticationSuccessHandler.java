@@ -46,8 +46,15 @@ public class CustomUrlAuthenticationSuccessHandler extends SimpleUrlAuthenticati
 		
 		
     	if( accept == null || accept.matches( ".*application/json.*" ) == false ) {
+
     		request.getSession(true).setAttribute("loginNow", true);
-            getRedirectStrategy().sendRedirect( request, response, "/" );
+    		
+    		//사용자(회원or관리자)인지 구별 
+    		if("ROLE_ADMIN".equals(securityUser.getRole())) {
+    			getRedirectStrategy().sendRedirect( request, response, "/admin/" );
+    		}else {
+    			getRedirectStrategy().sendRedirect( request, response, "/" );
+    		}
     		return;
     	}
     	

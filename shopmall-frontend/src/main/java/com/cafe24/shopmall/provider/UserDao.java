@@ -1,4 +1,4 @@
-package com.cafe24.shopmall.repository;
+package com.cafe24.shopmall.provider;
 
 import org.springframework.stereotype.Repository;
 

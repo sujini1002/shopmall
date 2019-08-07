@@ -32,11 +32,11 @@
 		]]>
 	</insert>
 	
-	<select id="selectUserByIdPw" parameterType="map" resultType="string">
+	<select id="selectUserById" parameterType="string" resultType="membervo">
 		<![CDATA[
-			select role
+			select code, id, name,password, phone, email, postid, base_deliver, detail_deliver, role
 			from member
-			where id = #{id} and password = #{password} and isdrop = FALSE
+			where id = #{_parameter} and isdrop = FALSE
 		]]>
 	</select>
 	
@@ -48,7 +48,7 @@
 	
 	<select id="selectMemberByCode" parameterType="Long" resultType="membervo">
 		<![CDATA[
-			select code, id, name, phone, email, postid, base_deliver, detail_deliver
+			select code, id, name,password, phone, email, postid, base_deliver, detail_deliver,role
 			from member
 			where code = #{_parameter};
 		]]>

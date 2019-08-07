@@ -5,13 +5,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.cafe24.shopmall.service.ProductService;
+import com.cafe24.shopmall.service.MainService;
 
 @Controller
 public class MainController {
 	
 	@Autowired
-	private ProductService productService;
+	private MainService productService;
 	
 	@RequestMapping( {"/", "/main"} )
 	public String main(Model model) {

@@ -10,7 +10,7 @@ import com.cafe24.shopmall.config.app.OAuth2ClientConfig;
 
 @Configuration
 @EnableAspectJAutoProxy
-@ComponentScan({"com.cafe24.shopmall.security", "com.cafe24.shopmall.service",  "com.cafe24.shopmall.repository", "com.cafe24.shopmall.aspect"})
+@ComponentScan({"com.cafe24.shopmall.security", "com.cafe24.shopmall.service",  "com.cafe24.shopmall.provider", "com.cafe24.shopmall.aspect"})
 @Import({ AppSecurityConfig.class, OAuth2ClientConfig.class})
 public class AppConfig {
 }

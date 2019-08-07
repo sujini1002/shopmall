@@ -39,11 +39,8 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
         http
         	.authorizeRequests()
         		// 인증이 되었을 경우
-        		.antMatchers("/user/update", "/user/logout").authenticated()
-        		.antMatchers("/board/write", "/board/modify", "/board/modify/**").authenticated()
+        		.antMatchers("/member/logout").authenticated()
         		// ADMIN 권한
-        		// .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
-        		// .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN");
         		.antMatchers("/admin", "/admin/**").hasRole("ADMIN")
         	
         		// 모두 허용
@@ -52,17 +49,17 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
         // FormLoginConfigurer
         .and()
         	.formLogin()
-        		.loginPage("/user/login")
-        		.loginProcessingUrl("/user/auth")
-        		.failureUrl("/user/login")
+        		.loginPage("/member/login")
+        		.loginProcessingUrl("/member/auth")
+        		.failureUrl("/member/login")
         		.successHandler(authenticationSuccessHandler())
-        		.usernameParameter("email")
+        		.usernameParameter("username")
         		.passwordParameter("password")
         
         // LogoutConfigurer
         .and()
         	.logout()
-        			.logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
+        			.logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
         			.logoutSuccessUrl("/")
         			.deleteCookies("JSESSIONID")
         			.invalidateHttpSession(true)
@@ -75,7 +72,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
         // RememberMeConfigurer
         .and()
         	.rememberMe()
-        		.key("mysite")
+        		.key("shopmall")
         		.rememberMeParameter("remember-me")
 
         // CSRFConfigurer(Temporary for Test)
@@ -83,8 +80,6 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
         	.csrf()
         		.disable();
         
-        //.and()
-        //.addFilterBefore(cafe24AuthenticationProcessingFilter(), BasicAuthenticationFilter.class);
 	}
 
 	// 사용자 세부 서비스를 설정
@@ -113,7 +108,8 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 	public DaoAuthenticationProvider authProvider() {
 	    DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
 	    authProvider.setUserDetailsService(userDetailsService);
-	    authProvider.setPasswordEncoder(passwordEncoder());
+	    //비밀번호 암호화
+	    //authProvider.setPasswordEncoder(passwordEncoder());
 	    
 	    return authProvider;
 	}	

@@ -33,6 +33,8 @@ public class MemberVo {
 	private String base_deliver;
 	private String detail_deliver;
 	
+	private String role;
+	
 	
 
 	public MemberVo() {
@@ -148,12 +150,25 @@ public class MemberVo {
 	public void setDetail_deliver(String detail_deliver) {
 		this.detail_deliver = detail_deliver;
 	}
+	
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public void setPostid(String postid) {
+		this.postid = postid;
+	}
 
 	@Override
 	public String toString() {
 		return "MemberVo [code=" + code + ", id=" + id + ", name=" + name + ", password=" + password + ", phone="
-				+ phone + ", email=" + email + ", postid=" + postid + ", base_deliver="
-				+ base_deliver + ", detail_deliver=" + detail_deliver + "]";
+				+ phone + ", email=" + email + ", postid=" + postid + ", base_deliver=" + base_deliver
+				+ ", detail_deliver=" + detail_deliver + ", role=" + role + "]";
 	}
+
 	
 }

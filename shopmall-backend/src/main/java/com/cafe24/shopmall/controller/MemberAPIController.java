@@ -88,13 +88,14 @@ public class MemberAPIController {
 		@ApiImplicitParam(name="password",value="비밀번호",required=true,dataType="query",defaultValue="")
 	})
 	@PostMapping(value="/login")
-	public ResponseEntity<JSONResult> userLogin(@RequestBody Map<String,Object> map) {
+	public ResponseEntity<JSONResult> userLogin(@RequestBody MemberVo memberVo) {
+		System.out.println(memberVo);
 		
-		if(((String)map.get("id")).equals("") || ((String)map.get("password")).equals("")) {
+		if(memberVo.getId()==null) {
 			return new ResponseEntity<JSONResult>(JSONResult.fail("아이디와 비밀번호를 입력하시오.", false), HttpStatus.BAD_REQUEST);
 		}
 		
-		String result = memberService.login((String)map.get("id"),(String)map.get("password"));
+		MemberVo result = memberService.login(memberVo.getId());
 		return new ResponseEntity<JSONResult>(JSONResult.success(result),HttpStatus.OK);
 	}
 	
