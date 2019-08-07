@@ -13,7 +13,7 @@
 	<!-- Bootstrap core CSS -->
 	<link href="${pageContext.servletContext.contextPath }/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	<!-- Custom styles for this template -->
-	<link href="${pageContext.servletContext.contextPath }/assets/css/shop-login.css" rel="stylesheet">
+	<link href="${pageContext.servletContext.contextPath }/assets/css/shop-joinsuccess.css" rel="stylesheet">
 </head>
 <body>
 	<!-- Navigation -->
@@ -24,6 +24,7 @@
 	<div class="container">
  		<div class="card card-container">
  			<img id="profile-img" class="profile-img-card" src="${pageContext.servletContext.contextPath }/assets/images/joinsuccess.png" />
+ 			<h4 class="my-title">회원가입을 축하드립니다 ^___^</h4>
  			<a href="${pageContext.servletContext.contextPath }/member/login">로그인하기</a>
  			<a href="${pageContext.servletContext.contextPath }/">메인화면가기</a>
  			
