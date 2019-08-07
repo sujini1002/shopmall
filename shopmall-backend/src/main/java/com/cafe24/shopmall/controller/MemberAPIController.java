@@ -47,7 +47,7 @@ public class MemberAPIController {
 	public ResponseEntity<JSONResult> usercheckId(@PathVariable(value="id") String id) {
 		
 		if(id == null || "".equals(id)) {
-			return new ResponseEntity<JSONResult>(JSONResult.fail("id가 없습니다.",null),HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<JSONResult>(JSONResult.fail("id가 없습니다.",null),HttpStatus.OK);
 		}
 		
 		Boolean result = memberService.existId(id);
@@ -74,7 +74,7 @@ public class MemberAPIController {
 				FieldError fe = (FieldError)index;
 				errorMessages.put(fe.getField(), fe.getDefaultMessage());
 			}
-			return new ResponseEntity<JSONResult>(JSONResult.fail("입력형식이 유효하지 않습니다.",errorMessages),HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<JSONResult>(JSONResult.fail("입력형식이 유효하지 않습니다.",errorMessages),HttpStatus.OK);
 		}
 		Long result = memberService.userAdd(memberVo);
 		return new ResponseEntity<JSONResult>(JSONResult.success(result), HttpStatus.OK);
@@ -89,10 +89,9 @@ public class MemberAPIController {
 	})
 	@PostMapping(value="/login")
 	public ResponseEntity<JSONResult> userLogin(@RequestBody MemberVo memberVo) {
-		System.out.println(memberVo);
 		
 		if(memberVo.getId()==null) {
-			return new ResponseEntity<JSONResult>(JSONResult.fail("아이디와 비밀번호를 입력하시오.", false), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<JSONResult>(JSONResult.fail("아이디와 비밀번호를 입력하시오.", false), HttpStatus.OK);
 		}
 		
 		MemberVo result = memberService.login(memberVo.getId());

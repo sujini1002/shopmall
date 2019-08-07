@@ -15,6 +15,13 @@ public class MemberProvider {
 	
 	private final String URL = "http://localhost:8888/shopmall/";
 	
+	// 아이디 중복 체크
+	public Boolean checkId(String id) {
+		System.out.println(id);
+		JSONResultObject jsonResult = restTemplate.getForObject(URL+"api/member/checkid/"+id,JSONResultObject.class);
+		System.out.println(jsonResult.getData().toString());
+		return Boolean.parseBoolean(jsonResult.getData().toString());
+	}
 	
 	//로그인
 	public MemberVo login(String id) {
@@ -27,5 +34,12 @@ public class MemberProvider {
 		return jsonResult.getData();
 	}
 	
+	public Long insert(MemberVo memberVo) {
+		JSONResultObject  jsonResult = restTemplate.postForObject(URL+"api/member",memberVo,JSONResultObject.class );
+		return Long.parseLong(jsonResult.getData().toString());
+	}
+	
 	public static class JSONResultMemberVo extends JSONResult<MemberVo>{}
+	public static class JSONResultObject extends JSONResult<Object>{}
+	
 }

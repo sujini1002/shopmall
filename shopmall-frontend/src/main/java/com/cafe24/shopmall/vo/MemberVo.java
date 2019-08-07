@@ -1,19 +1,31 @@
 package com.cafe24.shopmall.vo;
 
+import com.cafe24.shopmall.validator.constraints.ValidEmail;
+import com.cafe24.shopmall.validator.constraints.ValidID;
+import com.cafe24.shopmall.validator.constraints.ValidName;
+import com.cafe24.shopmall.validator.constraints.ValidPassword;
+import com.cafe24.shopmall.validator.constraints.ValidPhone;
+import com.cafe24.shopmall.validator.constraints.ValidPostId;
 
 public class MemberVo {
 	private Long code;
-
+	
+	@ValidID
 	private String id;
-
+	
+	@ValidName
 	private String name;
 
+	@ValidPassword
 	private String password;
 
+	@ValidPhone
 	private String phone;
 
+	@ValidEmail
 	private String email;
 	
+	@ValidPostId
 	private String postid;
 	
 	private String base_deliver;
