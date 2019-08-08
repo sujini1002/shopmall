@@ -1,3 +1,58 @@
 .shop-product-wrapper{
 	margin: 30px 20px 20px 20px;
 }
+
+.product-form-img{
+	height: 400px;
+	overflow: hidden;
+}
+
+#plusImgBtn{
+	background-color: white;
+	background-image: url('/shopmall-frontend/assets/images/plus.png');
+	background-repeat: no-repeat;
+	background-position: 2px 2px;
+	border: 1px dashed #eeeeee;
+	width: 30px;
+	height: 30px;
+	cursor: pointer;
+	margin-top: 20px;
+}
+
+#product-img-add-block{
+	display: block;
+}
+
+.btn-signin{
+	background-color: #f8b195;
+	border: none;
+}
+
+.btn-signin:hover{
+	background-color: #f8b195;
+	border: none;
+}
+.product-option-wrapper{
+	margin-bottom: 10px;
+}
+.product-option-wrapper h6{
+	text-align:center;
+}
+
+.product-option-wrapper div ul.myTags{
+	border-style: solid;
+	border-width: 0.5px;
+	border-color: #ced4da;
+	border-radius: 5px;
+}
+
+.inventroy-wrapper{
+	margin-bottom: 10px;
+}
+ul.tagit li.tagit-choice{
+	border-style:none;
+	background-color: #f8b195;
+}
+span {
+	font-size: 12px;
+}

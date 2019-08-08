@@ -92,10 +92,11 @@ public class CategoryAPIController {
 	@GetMapping(value= "/category")
 	public ResponseEntity<JSONResult> list(){
 		
+		
 		List<CategoryVo> results = categoryService.list();
 		
 		if(results.size()==0) {
-			return new ResponseEntity<JSONResult>(JSONResult.fail("카테고리가 존재하지 않습니다.",null),HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<JSONResult>(JSONResult.fail("카테고리가 존재하지 않습니다.",null),HttpStatus.OK);
 		}
 		
 		return new ResponseEntity<JSONResult>(JSONResult.success(results),HttpStatus.OK);
