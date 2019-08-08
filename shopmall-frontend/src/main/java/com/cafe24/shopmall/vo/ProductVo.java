@@ -17,6 +17,9 @@ public class ProductVo {
 	private String twoOption;
 	private List<String> oneDetail;
 	private List<String> twoDetail;
+	private List<String> opt_value;
+	private List<Integer> inventory;
+	private String issale;
 	
 	
 	public String getTitle() {
@@ -85,13 +88,30 @@ public class ProductVo {
 	public void setTwoDetail(List<String> twoDetail) {
 		this.twoDetail = twoDetail;
 	}
-	
+	public List<String> getOpt_value() {
+		return opt_value;
+	}
+	public void setOpt_value(List<String> opt_value) {
+		this.opt_value = opt_value;
+	}
+	public List<Integer> getInventory() {
+		return inventory;
+	}
+	public void setInventory(List<Integer> inventory) {
+		this.inventory = inventory;
+	}
+	public String getIssale() {
+		return issale;
+	}
+	public void setIssale(String issale) {
+		this.issale = issale;
+	}
 	@Override
 	public String toString() {
 		return "ProductVo [title=" + title + ", price=" + price + ", detail=" + detail + ", titleimage=" + titleimage
 				+ ", images=" + images + ", topCategoryNo=" + topCategoryNo + ", bottomCategoryNo=" + bottomCategoryNo
 				+ ", oneOption=" + oneOption + ", twoOption=" + twoOption + ", oneDetail=" + oneDetail + ", twoDetail="
-				+ twoDetail + "]";
+				+ twoDetail + ", opt_value=" + opt_value + ", inventory=" + inventory + ", issale=" + issale + "]";
 	}
 	
 }

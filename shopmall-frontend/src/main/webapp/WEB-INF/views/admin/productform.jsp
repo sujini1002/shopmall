@@ -268,6 +268,24 @@
 						</div>
 					</div>
 					<div class="row shop-product-wrapper">
+						<div class="col-lg-3">
+							<h5>판매 여부</h5>
+						</div>
+						<div class="col-lg-9">
+								<!-- Default unchecked -->
+								<div class="custom-control custom-radio">
+								  <input type="radio" class="custom-control-input" id="issaletrue" name="issale" value="true" checked>
+								  <label class="custom-control-label" for="issaletrue">판매함</label>
+								</div>
+								
+								<!-- Default checked -->
+								<div class="custom-control custom-radio">
+								  <input type="radio" class="custom-control-input" id="issalefalse" name="issale" value="false">
+								  <label class="custom-control-label" for="issalefalse">판매안함</label>
+								</div>
+						</div>
+					</div>
+					<div class="row shop-product-wrapper">
 						<div class="col-lg-12">
 							<button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">상품등록</button>
 						</div>

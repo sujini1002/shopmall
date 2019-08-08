@@ -17,9 +17,7 @@ public class MemberProvider {
 	
 	// 아이디 중복 체크
 	public Boolean checkId(String id) {
-		System.out.println(id);
 		JSONResultObject jsonResult = restTemplate.getForObject(URL+"api/member/checkid/"+id,JSONResultObject.class);
-		System.out.println(jsonResult.getData().toString());
 		return Boolean.parseBoolean(jsonResult.getData().toString());
 	}
 	

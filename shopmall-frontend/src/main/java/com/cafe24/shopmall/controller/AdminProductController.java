@@ -30,7 +30,11 @@ public class AdminProductController {
 	public String add(@ModelAttribute ProductVo productVo) {
 		
 		System.out.println(productVo);
-		adminProductService.add(productVo);
+		Boolean result = adminProductService.add(productVo);
+		
+		if(result) {
+			return "admin/index";
+		}
 		
 		return null;
 	}

@@ -20,7 +20,7 @@ public class AdminProductService {
 	private AdminProductDAO productDao;
 	
 	@Transactional
-	public Map<String,Object> add(ProductVo productVo) {
+	public Boolean add(ProductVo productVo) {
 		
 		Map<String,Object> results = new HashMap<String, Object>();
 		
@@ -54,7 +54,7 @@ public class AdminProductService {
 		Integer inventoryInsertCnt = productDao.insertProdInventory(productVo.getProdIventoryList(),productNo);
 		results.put("inventoryInsertCnt", inventoryInsertCnt);
 		
-		return results;
+		return true;
 	}
 
 	public List<ProductVo> list(Long prd_no) {

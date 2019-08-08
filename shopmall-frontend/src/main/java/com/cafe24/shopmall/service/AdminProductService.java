@@ -14,7 +14,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.cafe24.shopmall.provider.AdminProductProvider;
 import com.cafe24.shopmall.provider.CategoryProvider;
 import com.cafe24.shopmall.vo.CategoryVo;
+import com.cafe24.shopmall.vo.OptionDetailVo;
+import com.cafe24.shopmall.vo.OptionVo;
 import com.cafe24.shopmall.vo.ProdImgVo;
+import com.cafe24.shopmall.vo.ProdInventoryVo;
 import com.cafe24.shopmall.vo.ProductToVo;
 import com.cafe24.shopmall.vo.ProductVo;
 
@@ -27,7 +30,7 @@ public class AdminProductService {
 	@Autowired
 	private CategoryProvider categoryProvider;
 
-	public Long add(ProductVo productVo) {
+	public Boolean add(ProductVo productVo) {
 		//provider에게 전달할 객체 생성
 		ProductToVo productToVo = new ProductToVo();
 		
@@ -59,10 +62,52 @@ public class AdminProductService {
 			productToVo.setCate_no(productVo.getBottomCategoryNo());
 		}
 		
-		// 옵션 저장
+		// 옵션 저장 및 상품 재고 저장
+		List<OptionVo> optionList = new ArrayList<OptionVo>();
+		List<ProdInventoryVo> prodInvenList = new ArrayList<ProdInventoryVo>();
+		
+		//첫번째 옵션 저장
+		if(productVo.getOneOption()==null || "".equals(productVo.getOneOption())) {
+			optionList.add(new OptionVo(null, null, "default", null));
+			prodInvenList.add(new ProdInventoryVo(null, null, "default", -1, true));
+		}else {
+			//첫번째 옵션 저장
+			List<OptionDetailVo> optionDetailList = new ArrayList<OptionDetailVo>();
+			
+			for(String name : productVo.getOneDetail()) {
+				optionDetailList.add(new OptionDetailVo(null, null, name));
+			};
+			optionList.add(new OptionVo(null, null, productVo.getOneOption(), optionDetailList));
+			
+			//두번째 옵션 저장
+			if(productVo.getTwoDetail()!=null) {
+				System.out.println("들어옴");
+				//두번째 옵션 저장
+				optionDetailList = new ArrayList<OptionDetailVo>();
+				
+				for(String name : productVo.getTwoDetail()) {
+					optionDetailList.add(new OptionDetailVo(null, null, name));
+				};
+				optionList.add(new OptionVo(null, null, productVo.getTwoOption(), optionDetailList));
+			}
+			
+			// 상품 재고저장
+			for(int i=0;i<productVo.getInventory().size();i++) {
+				prodInvenList.add(new ProdInventoryVo(null, null, productVo.getOpt_value().get(i), productVo.getInventory().get(i), true));
+			}
+		}
+		
+		//옵션저장
+		productToVo.setOptionList(optionList);
+		//상품 재고 저장
+		productToVo.setProdIventoryList(prodInvenList);
+		
+		//판매여부
+		Boolean issale = "true".equals(productVo.getIssale())?true:false;
+		productToVo.setIssale(issale);
 		
 		System.out.println(productToVo);
-		return null;
+		return adminProductProvider.insert(productToVo);
 	}
 	
 	public List<CategoryVo> getCategory(){

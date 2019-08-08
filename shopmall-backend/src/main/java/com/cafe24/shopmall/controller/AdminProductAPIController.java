@@ -82,7 +82,7 @@ public class AdminProductAPIController {
 			}
 			return new ResponseEntity<JSONResult>(JSONResult.fail("입력형식이 유효하지 않습니다.",errorMessages),HttpStatus.BAD_REQUEST);
 		}
-		Map<String,Object> results = productService.add(productVo);
+		Boolean results = productService.add(productVo);
 		return new ResponseEntity<JSONResult>(JSONResult.success(results), HttpStatus.OK);
 	}
 	/**
