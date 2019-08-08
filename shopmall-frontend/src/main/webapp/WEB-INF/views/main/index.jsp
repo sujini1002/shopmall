@@ -51,12 +51,12 @@
 							<c:choose>
 								<c:when test="${status.index eq 0 }">
 									<div class="carousel-item active">
-										<img class="d-block img-fluid" src="${pageContext.servletContext.contextPath }/assets/images/${vo.url}.PNG">
+										<img class="d-block img-fluid" src="${pageContext.servletContext.contextPath }/assets/images/${vo.url}">
 									</div>
 								</c:when>
 								<c:otherwise>
 									<div class="carousel-item">
-										<img class="d-block img-fluid" src="${pageContext.servletContext.contextPath }/assets/images/${vo.url}.PNG">
+										<img class="d-block img-fluid" src="${pageContext.servletContext.contextPath }/assets/images/${vo.url}">
 									</div>
 								</c:otherwise>
 							</c:choose>
@@ -78,7 +78,7 @@
 						<div class="col-lg-4 col-md-6 mb-4">
 							<div class="card h-100">
 								<a href="${pageContext.servletContext.contextPath }/product/${vo.no}"><img class="card-img-top"
-									src="${pageContext.servletContext.contextPath }/assets/images/${vo.url}.PNG " alt=""></a>
+									src="${pageContext.servletContext.contextPath }/assets/images/${vo.url}" alt=""></a>
 								<div class="card-body">
 									<h4 class="card-title">
 										<a href="${pageContext.servletContext.contextPath }/product/${vo.no}">

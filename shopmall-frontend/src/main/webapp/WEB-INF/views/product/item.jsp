@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>  
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<% pageContext.setAttribute("newline", "\n");%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,10 +27,10 @@
 	<!-- Page Content -->
 	<div class="container">
 
-		<div class="row">
-
+		<div class="row content-wrapper">
+			<!-- 카테고리  -->
 			<div class="col-lg-3">
-				<h1 class="my-4">Shop Name</h1>
+				<h1 class="my-4">ShopMall</h1>
 				<div class="list-group">
 					<a href="#" class="list-group-item active">Category 1</a>
 					<a href="#" class="list-group-item">Category 2</a>
@@ -38,58 +39,96 @@
 			</div>
 			<!-- /.col-lg-3 -->
 
-			<div class="col-lg-9">
-
-				<div class="card mt-4">
-					<img class="card-img-top img-fluid"
-						src="http://placehold.it/900x400" alt="">
-					<div class="card-body">
-						<h3 class="card-title">Product Name</h3>
-						<h4>$24.99</h4>
-						<p class="card-text">
-							Lorem ipsum dolor sit amet, consectetur
-							adipisicing elit. Sapiente dicta fugit fugiat hic aliquam itaque
-							facere, soluta. Totam id dolores, sint aperiam sequi pariatur
-							praesentium animi perspiciatis molestias iure, ducimus!
-						</p>
-						<span class="text-warning">&#9733; &#9733; &#9733; &#9733;
-							&#9734;</span> 4.0 stars
+			<div class="col-lg-9 item-wrapper">
+				<div class="row">
+					<div class="col-lg-7">
+						<div class="img-title col-lg-12">
+							<c:forEach items="${product.prodImgList}" var="vo">
+								<c:if test="${vo.istitle eq true }">
+									<img src="${pageContext.servletContext.contextPath }/assets/images/${vo.url}"/>
+								</c:if>
+							</c:forEach>
+						</div>
+						<div class="img-list col-lg-12">
+							<div class="row">
+								<c:forEach items="${product.prodImgList}" var="vo">
+									<c:if test="${vo.istitle eq false }">
+										<div class="col-lg-4">
+											<img src="${pageContext.servletContext.contextPath }/assets/images/${vo.url}"/>
+										</div>
+									</c:if>
+								</c:forEach>
+							</div>
+						</div>
+						
+					</div>
+					<div class="col-lg-5 product-info">
+						<div class="col-lg-12">
+							<h2>${product.title }</h2>
+						</div>
+						<div class="col-lg-12">
+							<div class="row">
+								<div class="col-lg-3">
+									<h5> price</h5>
+								</div>
+								<div class="col-lg-9">
+									<h4>${product.price }</h4>
+								</div>
+							</div>
+						</div>
+						<c:forEach items="${product.optionList }" var="vo">
+							<div class="col-lg-12 product-option">
+								<div class="row">
+									<div class="col-lg-3">
+											<h5>${vo.name }</h5>
+									</div>
+									<div class="col-lg-9">
+											<select class="browser-default custom-select" id="option-top-select" name="option1">
+												<option value="null" disabled selected>${vo.name }을/를 선택하세요</option>
+												<c:forEach items="${vo.optionDetailList }" var="od">
+													<option value="${od.no }">${od.value }</option>
+												</c:forEach>
+											</select>
+									</div>
+								</div>
+							</div>
+						</c:forEach>
+						<div class="col-lg-12">
+							
+						</div>
+						<div class="col-lg-12">
+							<div class="row">
+								<div class="col-lg-4">
+									
+								</div>
+								<div class="col-lg-4"></div>
+								<div class="col-lg-4"></div>
+							</div>
+						</div>
+						<div class="col-lg-12">
+							<div class="row">
+								<div class="col-lg-6">
+									<button class="">구매하기</button>
+								</div>
+								<div class="col-lg-6">
+									<button class="">장바구니</button>
+								</div>
+							</div>
+						</div>
+						
 					</div>
 				</div>
-				<!-- /.card -->
-
-				<div class="card card-outline-secondary my-4">
-					<div class="card-header">Product Reviews</div>
-					<div class="card-body">
-						<p>
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-							Omnis et enim aperiam inventore, similique necessitatibus neque
-							non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum.
-							Sequi mollitia, necessitatibus quae sint natus.
-						</p>
-						<small class="text-muted">Posted by Anonymous on 3/1/17</small>
-						<hr>
-						<p>
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-							Omnis et enim aperiam inventore, similique necessitatibus neque
-							non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum.
-							Sequi mollitia, necessitatibus quae sint natus.
-						</p>
-						<small class="text-muted">Posted by Anonymous on 3/1/17</small>
-						<hr>
-						<p>
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-							Omnis et enim aperiam inventore, similique necessitatibus neque
-							non! Doloribus, modi sapiente laboriosam aperiam fugiat laborum.
-							Sequi mollitia, necessitatibus quae sint natus.
-						</p>
-						<small class="text-muted">Posted by Anonymous on 3/1/17</small>
-						<hr>
-						<a href="#" class="btn btn-success">Leave a Review</a>
+				<hr/>
+				<div class="row product-content">
+					<div class="col-lg-12 title">
+						<h4>상품 상세설명</h4>
 					</div>
+					<div class="col-lg-12 detail">
+						<p>
+							${fn:replace(product.detail,newline,"<br>") }
+						</p>
+					</div>				
 				</div>
-				<!-- /.card -->
-
 			</div>
 			<!-- /.col-lg-9 -->
 

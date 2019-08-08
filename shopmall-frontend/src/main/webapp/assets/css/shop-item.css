@@ -6,3 +6,54 @@
 body {
   padding-top: 56px;
 }
+.item-wrapper{
+	margin-top: 50px;
+}
+.img-title img{
+	display: block;
+	margin: 0px auto;
+	width: 100%;
+	height: 250px;
+}
+.img-list{
+	margin-top : 10px;
+}
+.img-list .row .col-lg-4 img{
+	display:block;
+	width:100%;
+	height: 100px;
+}
+.content-wrapper{
+	margin-bottom: 80px;
+}
+
+.product-info div{
+	margin-bottom: 20px;
+}
+.product-option div div h5{
+	display: block;
+	width: 100%;
+	margin: 0px;
+	font-size: 15px;
+	line-height: 40px;
+	font-style: bold;
+}
+.product-content{
+	margin-top : 20px;
+	
+}
+.product-content .title{
+	margin-top: 20px;
+}
+.product-content .title h4{
+	text-align:center;
+	margin-top: 20px;
+}
+
+.product-content div{
+	margin-top: 30px;
+}
+
+.product-content .detail p{
+	text-align: center;
+}

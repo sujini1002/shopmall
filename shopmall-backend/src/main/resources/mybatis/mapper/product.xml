@@ -199,8 +199,27 @@
 		
 		<![CDATA[
 			order by p.prod_date desc
-			limit 9
-			offset 0
 		]]>
 	</select>
+	
+	
+	<resultMap type="productvo" id="memberProductResults">
+		<result property="no" column="NO"/>
+		<result property="title" column="TITLE"/>
+		<result property="price" column="PRICE"/>
+		<result property="detail" column="DETAIL"/>
+		<collection property="prodImgList" column="NO" javaType="java.util.ArrayList" ofType="prodimgvo" select="getProdImgList"/>
+		<collection property="optionList" column="NO" javaType="java.util.ArrayList" ofType="optionvo" select="getOptionList"/>
+	</resultMap>
+	
+	<!-- 사용자 상품 상세보기  -->
+	<select id="memberProduct" parameterType="Long" resultMap="memberProductResults">
+		<![CDATA[
+			select no, title,price,detail
+			from product
+			where no = #{_parameter}
+		]]>
+	</select>
+	
+	
 </mapper>

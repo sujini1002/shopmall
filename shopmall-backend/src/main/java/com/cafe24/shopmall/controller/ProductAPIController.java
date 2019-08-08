@@ -7,11 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cafe24.shopmall.dto.JSONResult;
 import com.cafe24.shopmall.service.ProductService;
+import com.cafe24.shopmall.vo.ProductVo;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -28,8 +30,9 @@ public class ProductAPIController {
 	// 상품 상세 보기 
 	@ApiOperation(value = "상품 상세보기", notes = "상품 상세보기 API")
 	@GetMapping(value = "/view/{no}")
-	public ResponseEntity<JSONResult> getProduct() {
-		return null;
+	public ResponseEntity<JSONResult> getProduct(@PathVariable(value="no")Long no) {
+		ProductVo productVo = productService.getProduct(no);
+		return new ResponseEntity<JSONResult>(JSONResult.success(productVo),HttpStatus.OK);
 	}
 	
 	//상품 카테고리 검색
