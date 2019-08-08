@@ -94,15 +94,26 @@
 							</div>
 						</c:forEach>
 						<div class="col-lg-12">
-							
+							<div class="row">
+								<div class="col-lg-4">
+									<h5>총 가격</h5>
+								</div>
+								<div class="col-lg-8">
+								
+								</div>
+							</div>
 						</div>
 						<div class="col-lg-12">
 							<div class="row">
 								<div class="col-lg-4">
 									
 								</div>
-								<div class="col-lg-4"></div>
-								<div class="col-lg-4"></div>
+								<div class="col-lg-4">
+									<input type="text" class="form-control" name="count"/>
+								</div>
+								<div class="col-lg-4">
+									
+								</div>
 							</div>
 						</div>
 						<div class="col-lg-12">
