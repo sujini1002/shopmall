@@ -1,6 +1,7 @@
 package com.cafe24.shopmall.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,5 +28,9 @@ public class ProductService {
 	
 	public List<CategoryVo> getCategory(){
 		return categoryProvider.getCategory();
+	}
+
+	public List<Map<String,Object>> getList(Long no) {
+		return productProvider.getList(no);
 	}
 }

@@ -220,6 +220,22 @@
 			where no = #{_parameter}
 		]]>
 	</select>
-	
+
+	<!-- 사용자 카테고리 검색 -->
+	<select id="getCategoryList" parameterType="Long"
+		resultType="hashmap">
+		<![CDATA[
+			select p.no as no, p.title as title,p.price as price, pim.url as url
+			from product p join product_img pim
+			on p.no = pim.prd_no
+			where pim.istitle = true 
+			and p.issale = true
+			and p.cate_no in (
+				select no
+				from category
+				where no = #{_parameter} or catg_top_no = #{_parameter}
+			)
+		]]>
+	</select>
 	
 </mapper>

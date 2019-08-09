@@ -1,5 +1,8 @@
 package com.cafe24.shopmall.provider;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.stereotype.Repository;
@@ -20,5 +23,13 @@ public class ProductProvider {
 		return jsonResult.getData();
 	}
 	
-	private static class JSONResultProductVo extends JSONResult<ProductToVo>{}; 
+	public List<Map<String, Object>> getList(Long no) {
+		JSONResultGoodsList jsonResult = restTemplate.getForObject(URL+"api/product/category/"+no, JSONResultGoodsList.class);
+		return jsonResult.getData();
+	}
+	
+	private static class JSONResultProductVo extends JSONResult<ProductToVo>{};
+	// DTO Class
+	private static class JSONResultGoodsList extends JSONResult<List<Map<String,Object>>> {}
+	
 }

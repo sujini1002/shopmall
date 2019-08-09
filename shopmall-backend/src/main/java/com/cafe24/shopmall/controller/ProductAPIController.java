@@ -38,8 +38,10 @@ public class ProductAPIController {
 	//상품 카테고리 검색
 	@ApiOperation(value = "카테고리 검색", notes = "카테고리 검색 API")
 	@GetMapping(value = "/category/{no}")
-	public ResponseEntity<JSONResult> getCategoryList() {
-		return null;
+	public ResponseEntity<JSONResult> getCategoryList(@PathVariable(value="no")Long no) {
+		List<Map<String,Object>> allProduct = productService.getCategoryList(no);
+		
+		return new ResponseEntity<JSONResult>(JSONResult.success(allProduct), HttpStatus.OK);
 	}
 	
 	//상품 목록 조회

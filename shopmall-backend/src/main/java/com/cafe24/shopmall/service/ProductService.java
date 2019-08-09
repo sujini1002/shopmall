@@ -24,4 +24,9 @@ public class ProductService {
 	public ProductVo getProduct(Long no) {
 		return productDAO.getProduct(no);
 	}
+	
+	public List<Map<String,Object>> getCategoryList(Long no){
+		List<Map<String,Object>> result = productDAO.getCategoryList(no);
+		return result;
+	}
 }
