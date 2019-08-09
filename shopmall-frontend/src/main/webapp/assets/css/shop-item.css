@@ -57,3 +57,17 @@ body {
 .product-content .detail p{
 	text-align: center;
 }
+
+.option-title h5{
+	font-size: 15px;
+	font-style: bold;
+}
+
+.option-title h6{
+	font-size: 12px;
+	font-style: bold;
+}
+
+#inputCount{
+	width: 50px;
+}

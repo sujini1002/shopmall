@@ -215,7 +215,7 @@
 	<!-- 사용자 상품 상세보기  -->
 	<select id="memberProduct" parameterType="Long" resultMap="memberProductResults">
 		<![CDATA[
-			select no, title,price,detail
+			select no, title,price,detail,cate_no
 			from product
 			where no = #{_parameter}
 		]]>

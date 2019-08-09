@@ -20,6 +20,7 @@ public class ProductController {
 	@GetMapping("/{no}")
 	public String getProduct(@PathVariable(value="no")Long no,Model model) {
 		model.addAttribute("product", productService.getProduct(no));
+		model.addAttribute("category", productService.getCategory());
 		return "product/item";
 	}
 }

@@ -11,10 +11,31 @@
 	<meta name="description" content="">
 	<meta name="author" content="">
 	<title>Shop Homepage - Start Bootstrap Template</title>
+	<script   src="${pageContext.servletContext.contextPath }/assets/js/jquery/jquery.min.js"></script>
 	<!-- Bootstrap core CSS -->
 	<link href="${pageContext.servletContext.contextPath }/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	<!-- Custom styles for this template -->
 	<link href="${pageContext.servletContext.contextPath }/assets/css/shop-item.css" rel="stylesheet">
+	<script type="text/javascript">
+		$(function () {
+			
+			$('#countMius').on('click',function(){
+				var price = parseInt('${product.price}');
+				var total = parseInt($('#totalPrice').html());
+				var count = parseInt($('#inputCount').val()) -1 ;
+				if(count >0){
+					$('#inputCount').val(count);
+					$('#totalPrice').html(total - (price * count));
+				}
+			});
+			$('#countPlus').on('click',function(){
+				var price = parseInt('${product.price}');
+				var count = parseInt($('#inputCount').val()) + 1 ;
+				$('#inputCount').val(count);
+				$('#totalPrice').html(price * count);
+			});
+		});
+	</script>
 </head>
 
 <body>
@@ -32,9 +53,11 @@
 			<div class="col-lg-3">
 				<h1 class="my-4">ShopMall</h1>
 				<div class="list-group">
-					<a href="#" class="list-group-item active">Category 1</a>
-					<a href="#" class="list-group-item">Category 2</a>
-					<a href="#" class="list-group-item">Category 3</a>
+					<c:forEach items="${category}" var="vo" varStatus="status">
+							<c:if test="${vo.catg_top_no eq null }">
+								<a href="${pageContext.servletContext.contextPath }/product/category/${vo.no}" class="list-group-item">${vo.name }</a>
+							</c:if>
+					</c:forEach>
 				</div>
 			</div>
 			<!-- /.col-lg-3 -->
@@ -83,7 +106,7 @@
 											<h5>${vo.name }</h5>
 									</div>
 									<div class="col-lg-9">
-											<select class="browser-default custom-select" id="option-top-select" name="option1">
+											<select class="browser-default custom-select" id="option-top-select" name="option">
 												<option value="null" disabled selected>${vo.name }을/를 선택하세요</option>
 												<c:forEach items="${vo.optionDetailList }" var="od">
 													<option value="${od.no }">${od.value }</option>
@@ -95,34 +118,41 @@
 						</c:forEach>
 						<div class="col-lg-12">
 							<div class="row">
+								<div class="col-lg-6 option-title" >
+									<h5>${product.title }</h5>
+								</div>
+								<div class="col-lg-6 ">
+									<div class="row option-count">
+										<div class="col-lg-3">
+											<button id="countMius" class="btn">-</button>
+										</div>
+										<div class="col-lg-6">
+											<input type="text" name="count" value="1" class="form-control" id="inputCount" readonly/>
+										</div>
+										<div class="col-lg-3">
+											<button id="countPlus" class="btn">+</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-12">
+							<div class="row">
 								<div class="col-lg-4">
 									<h5>총 가격</h5>
 								</div>
 								<div class="col-lg-8">
-								
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-12">
-							<div class="row">
-								<div class="col-lg-4">
-									
-								</div>
-								<div class="col-lg-4">
-									<input type="text" class="form-control" name="count"/>
-								</div>
-								<div class="col-lg-4">
-									
+									<h4 id="totalPrice">${product.price }</h4>
 								</div>
 							</div>
 						</div>
 						<div class="col-lg-12">
 							<div class="row">
 								<div class="col-lg-6">
-									<button class="">구매하기</button>
+									<button class="btn btn-primary btn-block">구매하기</button>
 								</div>
 								<div class="col-lg-6">
-									<button class="">장바구니</button>
+									<button class="btn btn-info btn-block">장바구니</button>
 								</div>
 							</div>
 						</div>

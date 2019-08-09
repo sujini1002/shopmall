@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Implementation-Title: shopmall-backend
 Implementation-Version: 0.0.1-SNAPSHOT
-Built-By: bit
+Built-By: ￬ﾈﾘ￬ﾧﾄ
 Implementation-Vendor-Id: com.cafe24
-Build-Jdk: 1.8.0_171
+Build-Jdk: 1.8.0_201
 Implementation-URL: http://projects.spring.io/spring-boot/shopmall-bac
  kend/
 Created-By: Maven Integration for Eclipse
