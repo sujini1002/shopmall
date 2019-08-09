@@ -31,6 +31,8 @@ public class MemberVo {
 	private String base_deliver;
 	private String detail_deliver;
 	
+	private Boolean isdrop;
+	
 	private String role;
 	
 	
@@ -117,11 +119,18 @@ public class MemberVo {
 	public void setDetail_deliver(String detail_deliver) {
 		this.detail_deliver = detail_deliver;
 	}
+	public Boolean getIsdrop() {
+		return isdrop;
+	}
+
+	public void setIsdrop(Boolean isdrop) {
+		this.isdrop = isdrop;
+	}
 
 	@Override
 	public String toString() {
 		return "MemberVo [code=" + code + ", id=" + id + ", name=" + name + ", password=" + password + ", phone="
 				+ phone + ", email=" + email + ", postid=" + postid + ", base_deliver=" + base_deliver
-				+ ", detail_deliver=" + detail_deliver + ", role=" + role + "]";
+				+ ", detail_deliver=" + detail_deliver + ", isdrop=" + isdrop + ", role=" + role + "]";
 	}
 }

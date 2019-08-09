@@ -67,4 +67,11 @@ public class MemberService {
 		return memberDao.deleteMember(param);
 	}
 	
+	
+	/**
+	 * 관리자 회원 리스트
+	 */
+	public List<MemberVo> getmemberList(){
+		return memberDao.getMemberList();
+	}
 }

@@ -54,6 +54,14 @@
 		]]>
 	</select>
 	
+	<select id="selectMemberList" parameterType="Long" resultType="membervo">
+		<![CDATA[
+			select code, id, name,password, phone, email, postid, base_deliver, detail_deliver,isdrop
+			from member
+			where role = 'ROLE_USER'
+		]]>
+	</select>
+	
 	<update id="updateMember" parameterType="membervo">
 		<![CDATA[
 			update member

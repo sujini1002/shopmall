@@ -1,5 +1,6 @@
 package com.cafe24.shopmall.repository;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
@@ -51,6 +52,13 @@ public class MemberDAO {
 	 */
 	public MemberVo getMemberInfo(Long no) {
 		return sqlSession.selectOne("member.selectMemberByCode", no);
+	}
+	
+	/**
+	 * 관리자 회원 목록 가져오기
+	 */
+	public List<MemberVo> getMemberList(){
+		return sqlSession.selectList("member.selectMemberList");
 	}
 
 	public Boolean updateMember(MemberVo memberVo) {

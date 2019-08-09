@@ -14,7 +14,7 @@
 	<link href="${pageContext.servletContext.contextPath }/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 	<!-- Custom styles for this template -->
 	<link href="${pageContext.servletContext.contextPath }/assets/css/shop-admin.css" rel="stylesheet">
-	<link href="${pageContext.servletContext.contextPath }/assets/css/shop-admin-product-list.css" rel="stylesheet">
+	<link href="${pageContext.servletContext.contextPath }/assets/css/shop-admin-member.css" rel="stylesheet">
 </head>
 <body>
 	<!-- Navigation -->
@@ -30,55 +30,42 @@
 			</c:import>
 			<!-- /.sidebar -->
 			<div class="col-lg-9 list-content">
-					<h2>Product List</h2>
-					<table class="table">
+					<h2>Member List</h2>
+					<table class="table list-tr">
 						  <thead class="thead-dark">
 							    <tr>
 							      <th scope="col">#</th>
-							      <th scope="col">상품명</th>
-							      <th scope="col">판매가</th>
-							      <th scope="col">판매여부</th>
-							      <th scope="col">상품분류</th>
-							      <th scope="col">상품등록일</th>
+							      <th scope="col">이름</th>
+							      <th scope="col">아이디</th>
+							      <th scope="col">휴대전화</th>
+							      <th scope="col">배송지</th>
+							      <th scope="col">메일주소</th>
+							      <th scope="col">탈퇴여부</th>
 							    </tr>
 						  </thead>
 						  <tbody>
-						  		<c:forEach items="${productList}" var="vo" varStatus="i">
+						  		<c:forEach items="${memberList}" var="vo" varStatus="i">
 						  			<tr>
 									      <th scope="row">${i.index + 1 }</th>
+									      <td>${vo.name }</td>
+									      <td>${vo.id }</td>
+									      <td>${vo.phone }</td>
 									      <td>
-									      		<c:forEach items="${vo.prodImgList }" var="img">
-									      			<c:if test="${img.istitle eq true }">
-									      				<img class="product-img" src="${pageContext.servletContext.contextPath }/assets/images/${img.url}"/>	
-									      			</c:if>
-									      		</c:forEach>
-									      		<a href="#">${vo.title }</a>
+									      		<c:if test="${vo.postid ne '' and vo.base_deliver ne '' and vo.detail_deliver ne '' }">
+									      			(${vo.postid }) ${vo.base_deliver } ${vo.detail_deliver }
+									      		</c:if>
+									      		
 									      </td>
-									      <td>${vo.price }</td>
-									      <td>
+									      <td>${vo.email }</td>
+									      <td >
 									      		<c:choose>
-									      			<c:when test="${vo.issale eq true }">
-									      				 판매함
+									      			<c:when test="${vo.isdrop eq true }">
+									      				탈퇴
 									      			</c:when>
 									      			<c:otherwise>
-									      				판매안함
+									      				회원
 									      			</c:otherwise>
 									      		</c:choose>
-									      </td>
-									      <td>
-									      	<c:forEach items="${vo.category}" var="category">
-									      		<c:choose>
-									      			<c:when test="${category.top_category eq null }">
-									      				${category.bottom_category }
-									      			</c:when>
-									      			<c:otherwise>
-									      				${category.top_category } > ${category.bottom_category }
-									      			</c:otherwise>
-									      		</c:choose>
-									      	</c:forEach>
-									      </td>
-									      <td>
-									      	${vo.prod_date }
 									      </td>
 							    	</tr>
 						  		</c:forEach>
@@ -86,9 +73,8 @@
 					</table>
 			</div>
 		</div>
-	
 	</div>
-	
+
 </body>
 
 </html>

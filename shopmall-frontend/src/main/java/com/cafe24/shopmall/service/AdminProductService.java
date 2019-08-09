@@ -117,7 +117,6 @@ public class AdminProductService {
 	//상품 전체 리스트
 	public List<ProductToVo> getList() {
 		List<ProductToVo> result = adminProductProvider.getList();
-		System.out.println(result);
 		return result;
 	}
 

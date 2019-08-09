@@ -1,0 +1,29 @@
+/*!
+ * Start Bootstrap - Simple Sidebar (https://startbootstrap.com/template-overviews/simple-sidebar)
+ * Copyright 2013-2019 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-simple-sidebar/blob/master/LICENSE)
+ */
+body {
+  padding-top: 56px;
+}
+.list-content{
+	margin-top: 20px;
+}
+
+.list-content h2{
+	margin-bottom: 20px;
+}
+.product-img{
+	width:50px;
+	height: 50px;
+}
+
+.table .thead-dark th {
+    color: #343a40;
+    background-color: #F8B195;
+}
+
+.list-tr{
+	width:1200px;
+	overflow: scroll;
+}
