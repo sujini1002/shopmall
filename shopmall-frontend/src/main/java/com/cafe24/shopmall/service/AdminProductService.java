@@ -110,8 +110,15 @@ public class AdminProductService {
 		return adminProductProvider.insert(productToVo);
 	}
 	
+	//카테고리 리스트
 	public List<CategoryVo> getCategory(){
 		return categoryProvider.getCategory();
+	}
+	//상품 전체 리스트
+	public List<ProductToVo> getList() {
+		List<ProductToVo> result = adminProductProvider.getList();
+		System.out.println(result);
+		return result;
 	}
 
 	// 이미지의 물리적 저장
@@ -154,4 +161,6 @@ public class AdminProductService {
 
 		return filename;
 	}
+
+	
 }

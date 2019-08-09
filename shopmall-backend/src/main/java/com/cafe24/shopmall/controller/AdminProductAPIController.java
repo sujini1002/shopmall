@@ -102,7 +102,7 @@ public class AdminProductAPIController {
 		List<ProductVo> allProduct = productService.list(prd_no);
 		
 		if(allProduct == null) {
-			return new ResponseEntity<JSONResult>(JSONResult.fail("리스트가 존재하지 않습니다.",null),HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<JSONResult>(JSONResult.fail("리스트가 존재하지 않습니다.",null),HttpStatus.OK);
 		}
 		
 		return new ResponseEntity<JSONResult>(JSONResult.success(allProduct), HttpStatus.OK);

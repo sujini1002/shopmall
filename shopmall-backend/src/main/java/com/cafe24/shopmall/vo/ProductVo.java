@@ -1,10 +1,12 @@
 package com.cafe24.shopmall.vo;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+
 import com.cafe24.shopmall.validator.constraints.ValidCheckCategoryNo;
 import com.cafe24.shopmall.validator.constraints.ValidList;
 
@@ -53,6 +55,8 @@ public class ProductVo {
 	
 	@NotNull
 	private Boolean issale;
+	
+	private List<Map<String,String>> category;
 	
 	public ProductVo() {}
 	
@@ -131,12 +135,19 @@ public class ProductVo {
 	public void setIssale(Boolean issale) {
 		this.issale = issale;
 	}
+	public List<Map<String,String>> getCategory() {
+		return category;
+	}
+
+	public void setCategory(List<Map<String,String>> category) {
+		this.category = category;
+	}
 
 	@Override
 	public String toString() {
 		return "ProductVo [no=" + no + ", title=" + title + ", price=" + price + ", detail=" + detail + ", prod_date="
 				+ prod_date + ", cate_no=" + cate_no + ", prodImgList=" + prodImgList + ", optionList=" + optionList
-				+ ", prodIventoryList=" + prodIventoryList + ", issale=" + issale + "]";
+				+ ", prodIventoryList=" + prodIventoryList + ", issale=" + issale + ", category=" + category + "]";
 	}
 	
 	

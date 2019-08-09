@@ -57,6 +57,7 @@
 		<collection property="prodImgList" column="NO" javaType="java.util.ArrayList" ofType="prodimgvo" select="getProdImgList"/>
 		<collection property="optionList" column="NO" javaType="java.util.ArrayList" ofType="optionvo" select="getOptionList"/>
 		<collection property="prodIventoryList" column="NO" javaType="java.util.ArrayList" ofType="prodinventoryvo" select="getProdInventoryList"/>
+		<collection property="category" column="NO" javaType="java.util.ArrayList" ofType="hashmap" select="prodCategory"/>
 	</resultMap>
 	
 	<resultMap type="optionvo" id="optionResults">
@@ -64,6 +65,15 @@
 		<result property="name" column="NAME"/>
 		<collection property="optionDetailList" column="NO" javaType="java.util.ArrayList" ofType="optiondetailvo" select="getOptionDetailList"/>
 	</resultMap>
+	
+	<select id="prodCategory" resultType="hashmap">
+		<![CDATA[
+			select c1.name as top_category , c2.name as bottom_category
+			from category c1 right outer join category c2 
+			on c1.no = c2.catg_top_no 
+			where c2.no = (select cate_no from product where no = #{no})
+		]]>
+	</select>
 	
 	<select id="getList" resultMap="productResults" parameterType="Long">
 		<![CDATA[
@@ -81,7 +91,7 @@
 	</select>
 	
 	<select id="getProdImgList" resultType="prodimgvo">
-		select no,url, istitle from product_img where prd_no = #{no}  order by no 
+		select no,url, istitle from product_img where prd_no = #{no} order by no 
 	</select>
 	
 	<select id="getOptionList" resultMap="optionResults">

@@ -39,4 +39,11 @@ public class AdminProductController {
 		return null;
 	}
 	
+	//상품 리스트 페이지
+	@GetMapping("/list")
+	public String list(Model model) {
+		model.addAttribute("productList", adminProductService.getList());
+		return "admin/productlist";
+	}
+	
 }

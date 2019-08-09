@@ -1,6 +1,7 @@
 package com.cafe24.shopmall.vo;
 
 import java.util.List;
+import java.util.Map;
 
 public class ProductToVo {
 	/**
@@ -20,7 +21,6 @@ public class ProductToVo {
 	private String title;
 	
 	private Integer price;
-	
 	private String detail;
 	
 	private String prod_date;
@@ -35,6 +35,24 @@ public class ProductToVo {
 	
 	private Boolean issale;
 	
+	private List<Map<String,String>> category;
+	
+	public ProductToVo() {}
+	
+	public ProductToVo(Long no, String title, Integer price, String detail, String prod_date, Integer cate_no,
+			List<ProdImgVo> prodImgList, List<OptionVo> optionList,
+			List<ProdInventoryVo> prodIventoryList,Boolean issale) {
+		this.no = no;
+		this.title = title;
+		this.price = price;
+		this.detail = detail;
+		this.prod_date = prod_date;
+		this.cate_no = cate_no;
+		this.prodImgList = prodImgList;
+		this.optionList = optionList;
+		this.prodIventoryList = prodIventoryList;
+		this.issale = issale;
+	}
 	
 	public Long getNo() {
 		return no;
@@ -96,11 +114,20 @@ public class ProductToVo {
 	public void setIssale(Boolean issale) {
 		this.issale = issale;
 	}
+	public List<Map<String, String>> getCategory() {
+		return category;
+	}
+
+	public void setCategory(List<Map<String, String>> category) {
+		this.category = category;
+	}
 
 	@Override
 	public String toString() {
 		return "ProductVo [no=" + no + ", title=" + title + ", price=" + price + ", detail=" + detail + ", prod_date="
 				+ prod_date + ", cate_no=" + cate_no + ", prodImgList=" + prodImgList + ", optionList=" + optionList
-				+ ", prodIventoryList=" + prodIventoryList + ", issale=" + issale + "]";
+				+ ", prodIventoryList=" + prodIventoryList + ", issale=" + issale + ", category=" + category + "]";
 	}
+	
+	
 }
