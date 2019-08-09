@@ -27,13 +27,32 @@
 	<link href="${pageContext.servletContext.contextPath }/assets/css/shop-product-form.css" rel="stylesheet">
 	
 	<script type="text/javascript">
-		$(function () {
-			//추가 이미지 버튼
-			$("#plusImgBtn").on("click",function(){
-				var tags = $('#product-add-img').clone();
-				$('#product-img-add-block').append(tags);
+		//이미지 미리보기
+		function readFile(input) {
+	        if (input.files && input.files[0]) {
+	            var reader = new FileReader();
+	            reader.onload = function(e) {
+	            	var tmp = input.id;
+	            	console.log(tmp);
+	            	$('#'+tmp).siblings('input[type="image"]').attr('src',e.target.result);
+	                $('#preview-img').attr('src', e.target.result);
+	            }
+	            reader.readAsDataURL(input.files[0]);
+	        }
+	    }
+		
+		$(document).ready(function () {
+			// 이미지 미리보기
+			$('input[type="file"]').on('change',function(){
+				readFile(this);
 			});
 			
+			// file 이미지 버튼
+			$("input[class='img']").click(function(e) {
+        	    e.preventDefault();
+        	    $(this).next().click();
+           	});
+	         
 			//셀렉트 박스 
 			$('#category-top-select').on('change',function(){
 				// 기존 하위 카테고리 목록 제거
@@ -175,18 +194,32 @@
 							<h5>상품 이미지</h5>
 						</div>
 						<div class="col-lg-9">
-							<div class="row product-form-img">
-								<div class="col-lg-5">
+							<div class="row product-form-img img-layout">
+								<div class="col-lg-5 title-img">
 									<h5>대표이미지</h5>
-									<input type="file" name="titleimage"/>
+										<input type="image" class = "img" id="img0" src="${pageContext.servletContext.contextPath}/assets/picture/imgbtn128.png" />
+										<input type="file" name="titleimage" id="file0" class="images"/>
 								</div>
 								<div class="col-lg-7">
 									<h5>추가 이미지</h5>
-									<div id="product-img-add-block">
-										<input type="file" name="images" id="product-add-img" />
+									<div class="row ">
+										<div class="col-lg-4">
+											<input type="image" class = "img" id="img1" src="${pageContext.servletContext.contextPath}/assets/picture/imgbtn128.png" />
+											<input type="file" class="images" name="images" id="file1" class="prod-img"/>
+										</div>
+										<div class="col-lg-4">
+											<input type="image" class = "img" id="img2" src="${pageContext.servletContext.contextPath}/assets/picture/imgbtn128.png" />
+											<input type="file" class="images" name="images"  id="file2" class="prod-img"/>
+										</div>
+										<div class="col-lg-4">
+											<input type="image" class = "img" id="img3" src="${pageContext.servletContext.contextPath}/assets/picture/imgbtn128.png" />
+											<input type="file" class="images" name="images"  id="file3" class="prod-img"/>
+										</div>
 									</div>
-									<input type="button" id="plusImgBtn"/>
 								</div>
+							</div>
+							<div>
+								
 							</div>
 						</div>
 					</div>
