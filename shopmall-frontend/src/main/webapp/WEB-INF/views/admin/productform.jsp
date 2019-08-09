@@ -42,6 +42,7 @@
 	    }
 		
 		$(document).ready(function () {
+			
 			// 이미지 미리보기
 			$('input[type="file"]').on('change',function(){
 				readFile(this);
@@ -186,7 +187,7 @@
 							<h5>상품 상세 설명</h5>
 						</div>
 						<div class="col-lg-9">
-							<textarea rows="20" cols="100" name="detail" class="form-control"></textarea>
+							 <textarea rows="20" cols="100" name="detail" class="form-control"></textarea>
 						</div>
 					</div>
 					<div class="row shop-product-wrapper">

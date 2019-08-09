@@ -38,12 +38,7 @@
 	text-align:center;
 }
 
-.product-option-wrapper div ul.myTags{
-	border-style: solid;
-	border-width: 0.5px;
-	border-color: #ced4da;
-	border-radius: 5px;
-}
+
 
 .inventroy-wrapper{
 	margin-bottom: 10px;
@@ -52,6 +47,7 @@ ul.tagit li.tagit-choice{
 	border-style:none;
 	background-color: #f8b195;
 }
+
 span {
 	font-size: 12px;
 }
