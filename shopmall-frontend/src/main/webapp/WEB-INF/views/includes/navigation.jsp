@@ -13,21 +13,36 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<ul class="navbar-nav ml-auto">
+					
 					<sec:authorize access="isAuthenticated()">
-						<li class="nav-item">
-							<a class="nav-link" href="${pageContext.servletContext.contextPath }">홈</a>
-						</li>
-						<li class="nav-item active">
-							<a class="nav-link" href="${pageContext.servletContext.contextPath }/member/logout">로그아웃<span class="sr-only">(current)</span></a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="${pageContext.servletContext.contextPath }/member/info">My</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="${pageContext.servletContext.contextPath }/cart">장바구니</a>
-						</li>
+							<sec:authorize access="hasRole('ADMIN')">
+								<li class="nav-item">
+									<a class="nav-link" href="${pageContext.servletContext.contextPath }">메인 홈</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="${pageContext.servletContext.contextPath }/admin">관리자 홈</a>
+								</li>
+								<li class="nav-item active">
+									<a class="nav-link" href="${pageContext.servletContext.contextPath }/member/logout">로그아웃<span class="sr-only">(current)</span></a>
+								</li>
+							</sec:authorize>
+							<sec:authorize access="!hasRole('ADMIN')">
+								<li class="nav-item">
+									<a class="nav-link" href="${pageContext.servletContext.contextPath }">홈</a>
+								</li>
+								<li class="nav-item active">
+									<a class="nav-link" href="${pageContext.servletContext.contextPath }/member/logout">로그아웃<span class="sr-only">(current)</span></a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="${pageContext.servletContext.contextPath }/member/info">My</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="${pageContext.servletContext.contextPath }/cart">장바구니</a>
+								</li>
+							</sec:authorize>
 					</sec:authorize>
 					<sec:authorize access="!isAuthenticated()">
+						
 						<li class="nav-item">
 							<a class="nav-link" href="${pageContext.servletContext.contextPath }">홈</a>
 						</li>

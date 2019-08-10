@@ -18,7 +18,6 @@
 <body>
 	<!-- Navigation -->
 	<c:import url='/WEB-INF/views/includes/navigation.jsp'>
-		<c:param name="active" value="login" />
 	</c:import>
 	<!-- /.Navigation -->
 

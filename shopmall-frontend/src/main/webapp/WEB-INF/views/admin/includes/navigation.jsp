@@ -12,7 +12,10 @@
 		<div class="collapse navbar-collapse" id="navbarResponsive">
 			<ul class="navbar-nav ml-auto">
 						<li class="nav-item">
-							<a class="nav-link" href="${pageContext.servletContext.contextPath }">홈<span class="sr-only">(current)</span></a>
+							<a class="nav-link" href="${pageContext.servletContext.contextPath }">메인 홈<span class="sr-only">(current)</span></a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="${pageContext.servletContext.contextPath }/admin">관리자 홈<span class="sr-only">(current)</span></a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="${pageContext.servletContext.contextPath }/member/logout">로그아웃</a>

@@ -22,3 +22,8 @@ body {
 .nav-link{
 	color : black;
 }
+
+.navbar-dark .navbar-nav .nav-link {
+	 font-weight:bold;
+     color: #343a40; 
+}
