@@ -23,7 +23,7 @@
 	<!-- /.Navigation -->
 	<div class="container">
  		<div class="card card-container">
- 			<img id="profile-img" class="profile-img-card" src="${pageContext.servletContext.contextPath }/assets/images/joinsuccess.png" />
+ 			<img id="profile-img" class="profile-img-card" src="${pageContext.servletContext.contextPath }/assets/picture/joinsuccess.png" />
  			<h4 class="my-title">회원가입을 축하드립니다 ^___^</h4>
  			<a href="${pageContext.servletContext.contextPath }/member/login">로그인하기</a>
  			<a href="${pageContext.servletContext.contextPath }/">메인화면가기</a>

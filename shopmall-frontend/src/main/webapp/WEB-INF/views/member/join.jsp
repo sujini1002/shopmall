@@ -71,7 +71,7 @@
  					<input type="text" id="inputDetailDeliver" class="form-control" placeholder="상세주소" name="detail_deliver">
  				</div>
  				
- 				<button class="btn btn-lg btn-primary btn-block btn-signup" type="submit">로그인</button>
+ 				<button class="btn btn-lg btn-primary btn-block btn-signup" type="submit">회원가입</button>
  			</form:form>
  		</div>
  	</div>
