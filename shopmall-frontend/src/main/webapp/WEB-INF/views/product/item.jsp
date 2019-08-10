@@ -18,7 +18,23 @@
 	<link href="${pageContext.servletContext.contextPath }/assets/css/shop-item.css" rel="stylesheet">
 	<script type="text/javascript">
 		$(function () {
+			// 옵션 선택
+			$('.option-select').on('change',function(){
+				// 옵션 모든 것을 선택했는지 확인
+				var first = $('select option:selected').first().val();
+				
+				var last = $('select option:selected').last().val();
+				if(first != 'null' && last != 'null'){
+					if(first == last){
+						$('#option-choice').text($('select option:selected').first().text());
+					}else{
+						var result = $('select option:selected').first().text() +'/' +$('select option:selected').last().text();
+						$('#option-choice').text(result);
+					}
+				}
+			});
 			
+			// 수량 체크 함수
 			$('#countMius').on('click',function(){
 				var price = parseInt('${product.price}');
 				var count = parseInt($('#inputCount').val()) -1 ;
@@ -33,7 +49,7 @@
 				$('#inputCount').val(count);
 				$('#totalPrice').html(price * count);
 			});
-			
+			// 이미지 미리보기
 			var main_src = '';
 			
 			<c:forEach items="${product.prodImgList}" var="vo">
@@ -126,7 +142,7 @@
 											<h5>${vo.name }</h5>
 									</div>
 									<div class="col-lg-9">
-											<select class="browser-default custom-select" id="option-top-select" name="option">
+											<select class="browser-default custom-select option-select" name="option">
 												<option value="null" disabled selected>${vo.name }을/를 선택하세요</option>
 												<c:forEach items="${vo.optionDetailList }" var="od">
 													<option value="${od.no }">${od.value }</option>
@@ -140,6 +156,7 @@
 							<div class="row">
 								<div class="col-lg-6 option-title" >
 									<h5>${product.title }</h5>
+									<h5 id="option-choice"></h6>
 								</div>
 								<div class="col-lg-6 ">
 									<div class="row option-count">
