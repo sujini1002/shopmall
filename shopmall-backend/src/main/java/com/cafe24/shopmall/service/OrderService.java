@@ -139,7 +139,6 @@ public class OrderService {
 		
 		//주문 상품 취소
 		result = orderDao.deleteOrderProduct(no,prdIven_no);
-		System.out.println(result);
 		
 		if(!result) return false;
 		

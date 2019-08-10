@@ -22,7 +22,6 @@ public class ProductService {
 	
 	public ProductToVo getProduct(Long no) {
 		ProductToVo productVo = productProvider.getProduct(no);
-		System.out.println(productVo);
 		return productVo;
 	}
 	

@@ -32,7 +32,6 @@ public class AdminMemberAPIController {
 	@GetMapping(value= {""})
 	public ResponseEntity<JSONResult> getList(){
 		List<MemberVo> result = memberService.getmemberList();
-		System.out.println(result);
 		return new ResponseEntity<JSONResult>(JSONResult.success(result),HttpStatus.OK);
 	}
 	//고객 상세보기

@@ -47,7 +47,7 @@ public class OAuth2ClientConfig {
 	    OAuth2RestTemplate restTemplate = new OAuth2RestTemplate( resourceDetails(), new DefaultOAuth2ClientContext() );
 	    
         restTemplate.setMessageConverters(Arrays.asList(new MappingJackson2HttpMessageConverter()));
-        System.out.println("access token: " + restTemplate.getAccessToken());
+        //System.out.println("access token: " + restTemplate.getAccessToken());
         
 	    
 	    return restTemplate;		

@@ -81,7 +81,6 @@ public class AdminProductService {
 			
 			//두번째 옵션 저장
 			if(productVo.getTwoDetail()!=null) {
-				System.out.println("들어옴");
 				//두번째 옵션 저장
 				optionDetailList = new ArrayList<OptionDetailVo>();
 				
@@ -106,7 +105,6 @@ public class AdminProductService {
 		Boolean issale = "true".equals(productVo.getIssale())?true:false;
 		productToVo.setIssale(issale);
 		
-		System.out.println(productToVo);
 		return adminProductProvider.insert(productToVo);
 	}
 	

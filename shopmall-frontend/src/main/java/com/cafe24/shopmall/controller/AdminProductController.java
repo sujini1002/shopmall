@@ -29,7 +29,6 @@ public class AdminProductController {
 	@PostMapping("")
 	public String add(@ModelAttribute ProductVo productVo) {
 		
-		System.out.println(productVo);
 		Boolean result = adminProductService.add(productVo);
 		
 		if(result) {

@@ -45,7 +45,6 @@ public class CategoryDAO {
 
 	public Boolean delete(Integer no) {
 		int cnt = sqlSession.delete("category.delete", no);
-		System.out.println(cnt);
 		return cnt > 0;
 	}
 

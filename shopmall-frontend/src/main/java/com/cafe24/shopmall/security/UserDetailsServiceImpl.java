@@ -25,7 +25,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
 		MemberVo memberVo = memberProvider.login(id);
 		
-		System.out.println(memberVo);
 		
 		SecurityUser securityUser = new SecurityUser();
 		

@@ -19,7 +19,6 @@ public class CategoryService {
 	public Integer add(CategoryVo categoryVo) {
 		// 최상위 카테고리 이면
 		if(categoryVo.getCatg_top_no()== null) {
-			System.out.println("들어옴");
 			categoryVo.setCatg_top_no(null);
 			categoryVo.setLevel(0);
 		}
@@ -40,7 +39,6 @@ public class CategoryService {
 		if(categoryVo.getCatg_top_no()==null) {
 			categoryVo.setLevel(0);
 		}
-		System.out.println(categoryVo);
 		
 		categoryDao.update(categoryVo);
 		

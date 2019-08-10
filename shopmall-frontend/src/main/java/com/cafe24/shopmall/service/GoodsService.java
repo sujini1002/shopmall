@@ -23,7 +23,6 @@ public class GoodsService {
 	public String getList(){
 		String endpoint = "http://localhost:8888/shopmall/hello";
 		JSONResultGoodsList jsonResult = restTemplate.getForObject(endpoint, JSONResultGoodsList.class);
-		System.out.println( jsonResult );
 		return jsonResult.getData();
 	}
 	

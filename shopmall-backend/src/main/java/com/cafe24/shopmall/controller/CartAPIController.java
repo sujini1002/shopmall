@@ -93,7 +93,6 @@ public class CartAPIController {
 		
 		//상품 재고 번호 가져오기
 		Long productInventoryNo = cartService.findInventoryNo(params.get("opt_value").toString(),((Integer)params.get("prd_no")).longValue());
-		System.out.println(params.get("opt_value").toString());
 		
 		if(productInventoryNo==null) {
 			return new ResponseEntity<JSONResult>(JSONResult.fail("해당 상품이 존재하지 않습니다.",null),HttpStatus.BAD_REQUEST);
