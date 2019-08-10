@@ -34,6 +34,27 @@
 				$('#inputCount').val(count);
 				$('#totalPrice').html(price * count);
 			});
+			
+			var main_src = '';
+			
+			<c:forEach items="${product.prodImgList}" var="vo">
+				<c:if test="${vo.istitle eq true }">
+					main_src = '${vo.url}';
+				</c:if>
+			</c:forEach>
+			
+			
+			$('.images').on('mouseenter',function(){
+				var src = this.src;
+				$('#main-img').attr('src',src);
+			});
+			
+			$('.images').on('mouseleave',function(){
+				$('#main-img').remove();
+				var tags = '<img id="main-img" src="${pageContext.servletContext.contextPath }/assets/images/'+main_src+'"/>'
+				$('#main-img-div').append(tags);
+			});
+			
 		});
 	</script>
 </head>
@@ -65,10 +86,10 @@
 			<div class="col-lg-9 item-wrapper">
 				<div class="row">
 					<div class="col-lg-7">
-						<div class="img-title col-lg-12">
+						<div class="img-title col-lg-12" id="main-img-div">
 							<c:forEach items="${product.prodImgList}" var="vo">
 								<c:if test="${vo.istitle eq true }">
-									<img src="${pageContext.servletContext.contextPath }/assets/images/${vo.url}"/>
+									<img id="main-img" src="${pageContext.servletContext.contextPath }/assets/images/${vo.url}"/>
 								</c:if>
 							</c:forEach>
 						</div>
@@ -77,7 +98,7 @@
 								<c:forEach items="${product.prodImgList}" var="vo">
 									<c:if test="${vo.istitle eq false }">
 										<div class="col-lg-4">
-											<img src="${pageContext.servletContext.contextPath }/assets/images/${vo.url}"/>
+											<img class="images" src="${pageContext.servletContext.contextPath }/assets/images/${vo.url}"/>
 										</div>
 									</c:if>
 								</c:forEach>
