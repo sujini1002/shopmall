@@ -21,11 +21,10 @@
 			
 			$('#countMius').on('click',function(){
 				var price = parseInt('${product.price}');
-				var total = parseInt($('#totalPrice').html());
 				var count = parseInt($('#inputCount').val()) -1 ;
 				if(count >0){
 					$('#inputCount').val(count);
-					$('#totalPrice').html(total - (price * count));
+					$('#totalPrice').html(price * count);
 				}
 			});
 			$('#countPlus').on('click',function(){
