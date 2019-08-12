@@ -66,13 +66,13 @@ public class CartService {
 	}
 	
 	//회원
-	public List<CartVo> get(Long member_code) {
-		List<CartVo> cartList = cartDao.getList(member_code,"member");
+	public List<Map<String,Object>> get(Long member_code) {
+		List<Map<String,Object>> cartList = cartDao.getList(member_code,"member");
 		return cartList;
 	}
 	//비회원
-	public List<CartVo> get(String session_id) {
-		List<CartVo> cartList = cartDao.getList(session_id,"none");
+	public List<Map<String, Object>> get(String session_id) {
+		List<Map<String, Object>> cartList = cartDao.getList(session_id,"none");
 		return cartList;
 	}
 	
@@ -96,25 +96,25 @@ public class CartService {
 		return result;
 	}
 
-	public List<CartVo> addLogin(long member_code, String session_id) {
+	public List<Map<String,Object>> addLogin(long member_code, String session_id) {
 		
 		//비회원 장바구니 List<CartVo> 가져오기
-		List<CartVo> noneCartList = cartDao.getList(session_id, "none");
+		List<Map<String, Object>> noneCartList = cartDao.getList(session_id, "none");
 		
 		if(noneCartList != null && noneCartList.size() > 0) {
 			//비회원 장바구니에서 삭제
 			cartDao.deleteCartList(session_id,"none");
 			
-			// 회원 장바구니에 insert
-			for(CartVo vo : noneCartList) {
-				vo.setMember_code(member_code);
-				// 있으면 update
-				if(cartDao.get(vo,"member")!= null) {
-					cartDao.update(vo, "member");
-				}else {
-					cartDao.insert(vo, "member");
-				}
-			}
+//			// 회원 장바구니에 insert
+//			for(CartVo vo : noneCartList) {
+//				vo.setMember_code(member_code);
+//				// 있으면 update
+//				if(cartDao.get(vo,"member")!= null) {
+//					cartDao.update(vo, "member");
+//				}else {
+//					cartDao.insert(vo, "member");
+//				}
+//			}
 		}
 		
 		

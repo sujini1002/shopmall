@@ -1,6 +1,7 @@
 package com.cafe24.shopmall.provider;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,9 +39,17 @@ public class CartProvider {
 		restTemplate.put(URL+"api/cart", cartToVo);
 	}
 	
+	//장바구니 리스트
+	public List<Map<String, Object>> getList(Long no) {
+		JSONResultListMap jsonResult = restTemplate.getForObject(URL+"api/cart/"+no, JSONResultListMap.class);
+		return jsonResult.getData();
+	}
+	
 	//DTO Class
 	private static class JSONResultCartMap extends JSONResult<Map<String,Object>>{}
 	private static class JSONResultObject extends JSONResult<Object>{}
+	private static class JSONResultListMap extends JSONResult<List<Map<String,Object>>>{}
+	
 	
 
 	

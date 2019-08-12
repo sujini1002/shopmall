@@ -45,7 +45,7 @@ public class CartDAO {
 		
 	}
 
-	public List<CartVo> getList(Long member_code, String status) {
+	public List<Map<String,Object>> getList(Long member_code, String status) {
 		Map<String,Object> params = new HashMap<String, Object>();
 		params.put("status", status);
 		params.put("member_code", member_code);
@@ -53,7 +53,7 @@ public class CartDAO {
 		return sqlSession.selectList("cart.getList", params);
 	}
 
-	public List<CartVo> getList(String session_id, String status) {
+	public List<Map<String, Object>> getList(String session_id, String status) {
 		Map<String,Object> params = new HashMap<String, Object>();
 		params.put("status", status);
 		params.put("session_id", session_id);

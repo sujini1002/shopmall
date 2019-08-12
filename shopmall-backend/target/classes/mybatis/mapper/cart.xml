@@ -50,19 +50,31 @@
 		</if>
 	</insert>
 	
-	<select id="getList" parameterType="map" resultType="cartvo">
+	<select id="getList" parameterType="map" resultType="map">
 		<if test="status eq 'none'.toString()">
 			<![CDATA[
-				select session_id,inventory_no,count
-				from none_cart
-				where session_id = #{session_id}
+				select p.title as title, pim.url as url, piv.opt_value as opt_value , c.count as count , piv."no" as inventory_no, p.price as price 
+				from product_img pim join product p
+				on pim.prd_no = p."no"
+				join product_inventory piv 
+				on p."no" = piv.prd_no
+				join cart c
+				on piv."no" = c.inventory_no
+				where c.member_code = #{session_id}
+				and pim.istitle = true
 			]]>
 		</if>
 		<if test="status eq 'member'.toString()">
 			<![CDATA[
-				select member_code,inventory_no,count
-				from cart
-				where member_code = #{member_code}
+				select p.title as title, pim.url as url, piv.opt_value as opt_value , c.count as count , piv."no" as inventory_no, p.price as price 
+				from product_img pim join product p
+				on pim.prd_no = p."no"
+				join product_inventory piv 
+				on p."no" = piv.prd_no
+				join cart c
+				on piv."no" = c.inventory_no
+				where c.member_code = #{member_code}
+				and pim.istitle = true
 			]]>
 		</if>
 	</select>

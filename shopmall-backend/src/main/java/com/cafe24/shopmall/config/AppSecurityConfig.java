@@ -55,9 +55,11 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
 		        	jsonConverter.write( jsonResult, MediaType.APPLICATION_JSON, new ServletServerHttpResponse( response ) );
 		    	}
 			}
-    	});
+    	})
+    	.and()
+    	.csrf().disable();
         
         // csrf 체크 제외
-        http.csrf().disable();
+        //http.csrf().disable();
  	}
 }

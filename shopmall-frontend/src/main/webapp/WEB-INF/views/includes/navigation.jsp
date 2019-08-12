@@ -37,7 +37,8 @@
 									<a class="nav-link" href="${pageContext.servletContext.contextPath }/member/info">My</a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link" href="${pageContext.servletContext.contextPath }/cart">장바구니</a>
+									<sec:authentication property = "principal.no" var = "no"/>
+									<a class="nav-link" href="${pageContext.servletContext.contextPath }/cart/${no}">장바구니</a>
 								</li>
 							</sec:authorize>
 					</sec:authorize>
@@ -51,9 +52,6 @@
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="${pageContext.servletContext.contextPath }/member/join">회원가입</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="${pageContext.servletContext.contextPath }/cs">장바구니</a>
 						</li>
 					</sec:authorize>
 			</ul>

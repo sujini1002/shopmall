@@ -145,7 +145,7 @@ public class CartAPIController {
 			return new ResponseEntity<JSONResult>(JSONResult.fail("입력형식이 유효하지 않습니다.",null),HttpStatus.BAD_REQUEST);
 		}
 		
-		List<CartVo> result = cartService.addLogin(Long.parseLong(map.get("member_code").toString()),map.get("session_id").toString());
+		List<Map<String,Object>> result = cartService.addLogin(Long.parseLong(map.get("member_code").toString()),map.get("session_id").toString());
 		
 		return new ResponseEntity<JSONResult>(JSONResult.success(result), HttpStatus.OK);
 	}
@@ -156,10 +156,10 @@ public class CartAPIController {
 	@ApiImplicitParams({
 		@ApiImplicitParam(name="code",value="회원 코드 or 비회원 세션 id",required=true,dataType="query",defaultValue=""),
 	})
-	@GetMapping(value="{code}")
+	@GetMapping(value="/{code}")
 	public ResponseEntity<JSONResult> list(@PathVariable(value="code") Optional<?> code){
 		
-		List<CartVo> cartList = new ArrayList<CartVo>();
+		List<Map<String,Object>> cartList = new ArrayList<Map<String,Object>>();
 		
 		
 		if( code.get().toString().matches("-?\\d+(\\.\\d+)?")) {

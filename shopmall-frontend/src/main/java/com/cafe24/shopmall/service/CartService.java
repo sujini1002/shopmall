@@ -1,5 +1,6 @@
 package com.cafe24.shopmall.service;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ public class CartService {
 	
 	@Autowired
 	private CartProvider cartProvider;
+	
 
 	public Boolean add(CartVo cartVo, Long member_code) {
 		
@@ -37,6 +39,11 @@ public class CartService {
 		}
 		
 		return true;
+	}
+
+	public List<Map<String,Object>> getList(Long no) {
+		List<Map<String,Object>> result = cartProvider.getList(no);
+		return result;
 	}
 
 }

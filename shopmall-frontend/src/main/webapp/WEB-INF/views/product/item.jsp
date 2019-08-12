@@ -1,6 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>  
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <% pageContext.setAttribute("newline", "\n");%>
 <!DOCTYPE html>
@@ -18,6 +19,7 @@
 	<link href="${pageContext.servletContext.contextPath }/assets/css/shop-item.css" rel="stylesheet">
 	<script type="text/javascript">
 		$(function () {
+			
 			// 옵션 선택
 			$('.option-select').on('change',function(){
 				// 옵션 모든 것을 선택했는지 확인
@@ -26,8 +28,9 @@
 				var last = $('select option:selected').last().val();
 				if(first != 'null' && last != 'null'){
 					if(first == last){
-						$('#option-choice').text($('select option:selected').first().text());
-						$('#input-option-value').val($('select option:selected').first().text());
+						var result = $('select option:selected').first().text();
+						$('#option-choice').text(result);
+						$('#input-option-value').val(result);
 					}else{
 						var result = $('select option:selected').first().text() +'/' +$('select option:selected').last().text();
 						$('#option-choice').text(result);
@@ -103,6 +106,7 @@
 			<!-- /.col-lg-3 -->
 
 			<div class="col-lg-9 item-wrapper">
+				<form action="${pageContext.servletContext.contextPath }/cart" method="post">
 				<div class="row">
 					<div class="col-lg-7">
 						<div class="img-title col-lg-12" id="main-img-div">
@@ -126,10 +130,14 @@
 						
 					</div>
 					<div class="col-lg-5 product-info">
-						<form action="${pageContext.servletContext.contextPath }/cart" method="post">
+						<%-- <form action="${pageContext.servletContext.contextPath }/cart" method="post"> --%>
 						<div class="col-lg-12">
 							<h2>${product.title }</h2>
-							<input type="hidden" name="no" id="input-prd-no" value="${product.no }"/>
+							<input type="hidden" name="no" value="${product.no }"/>
+							<%-- <sec:authorize access="isAuthenticated()">
+								<sec:authentication property = "principal.no" var = "no"/>
+								<input type="hidden" name="no" id="input-member-no" value="${no}"/>
+							</sec:authorize> --%>
 						</div>
 						<div class="col-lg-12">
 							<div class="row">
@@ -196,11 +204,10 @@
 									<button class="btn btn-primary btn-block">구매하기</button>
 								</div>
 								<div class="col-lg-6">
-									<button class="btn btn-info btn-block" type="submit">장바구니</button>
+									<button class="btn btn-info btn-block" id="insert-cart" type="submit">장바구니</button>
 								</div>
 							</div>
 						</div>
-						</form>
 					</div>
 				</div>
 				<hr/>
@@ -214,9 +221,9 @@
 						</p>
 					</div>				
 				</div>
+			</form>
 			</div>
 			<!-- /.col-lg-9 -->
-
 		</div>
 
 	</div>
