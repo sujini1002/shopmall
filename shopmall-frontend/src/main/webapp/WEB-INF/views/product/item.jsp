@@ -27,9 +27,11 @@
 				if(first != 'null' && last != 'null'){
 					if(first == last){
 						$('#option-choice').text($('select option:selected').first().text());
+						$('#input-option-value').val($('select option:selected').first().text());
 					}else{
 						var result = $('select option:selected').first().text() +'/' +$('select option:selected').last().text();
 						$('#option-choice').text(result);
+						$('#input-option-value').val(result);
 					}
 				}
 			});
@@ -41,6 +43,7 @@
 				if(count >0){
 					$('#inputCount').val(count);
 					$('#totalPrice').html(price * count);
+					$('#input-price').val(price * count);
 				}
 			});
 			$('#countPlus').on('click',function(){
@@ -48,6 +51,7 @@
 				var count = parseInt($('#inputCount').val()) + 1 ;
 				$('#inputCount').val(count);
 				$('#totalPrice').html(price * count);
+				$('#input-price').val(price * count);
 			});
 			// 이미지 미리보기
 			var main_src = '';
@@ -122,8 +126,10 @@
 						
 					</div>
 					<div class="col-lg-5 product-info">
+						<form action="${pageContext.servletContext.contextPath }/cart" method="post">
 						<div class="col-lg-12">
 							<h2>${product.title }</h2>
+							<input type="hidden" name="no" id="input-prd-no" value="${product.no }"/>
 						</div>
 						<div class="col-lg-12">
 							<div class="row">
@@ -156,7 +162,8 @@
 							<div class="row">
 								<div class="col-lg-6 option-title" >
 									<h5>${product.title }</h5>
-									<h5 id="option-choice"></h6>
+									<h5 id="option-choice" ></h5>
+									<input type="hidden" name="opt_value" id="input-option-value" value=""/>
 								</div>
 								<div class="col-lg-6 ">
 									<div class="row option-count">
@@ -189,11 +196,11 @@
 									<button class="btn btn-primary btn-block">구매하기</button>
 								</div>
 								<div class="col-lg-6">
-									<button class="btn btn-info btn-block">장바구니</button>
+									<button class="btn btn-info btn-block" type="submit">장바구니</button>
 								</div>
 							</div>
 						</div>
-						
+						</form>
 					</div>
 				</div>
 				<hr/>

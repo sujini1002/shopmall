@@ -24,9 +24,9 @@
 	<div class="container">
  		<div class="card card-container">
  			<img id="profile-img" class="profile-img-card" src="${pageContext.servletContext.contextPath }/assets/picture/warning.png" />
- 			<h4 class="my-title" style="text-align: center;">요청하신 페이지는 존재하지 않습니다.</h4>
+ 			<h4 class="my-title" style="text-align: center;">권한이 없으므로 <br>사용하실 수 없는 페이지 입니다.</h4>
  			<a href="${pageContext.servletContext.contextPath }/">메인화면가기</a>
- 			
+ 			<a href="${pageContext.servletContext.contextPath }/member/login">로그인하기</a>
  		</div>
  	</div>
 	

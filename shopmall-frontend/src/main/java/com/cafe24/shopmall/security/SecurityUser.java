@@ -136,4 +136,11 @@ public class SecurityUser implements UserDetails {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return "SecurityUser [no=" + no + ", name=" + name + ", username=" + username + ", password=" + password
+				+ ", phone=" + phone + ", email=" + email + ", postid=" + postid + ", base_deliver=" + base_deliver
+				+ ", detail_deliver=" + detail_deliver + ", role=" + role + ", authorities=" + authorities + "]";
+	}
+	
 }

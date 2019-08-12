@@ -38,23 +38,25 @@ public class CartService {
 		Boolean result = null;
 		//비회원
 		if(cartVo.getMember_code() == null) {
-			Long pk = cartDao.get(cartVo,"none");
-			result = pk == null?cartDao.insert(cartVo, "none"):false;
+			Integer count = cartDao.get(cartVo,"none");
+			result = count == null?cartDao.insert(cartVo, "none"):false;
 			
 			if(!result) {
 				map.put("session_id",cartVo.getSession_id());
 				map.put("inventory_no",cartVo.getInventory_no());
+				map.put("count", count);
 			}
 			
 		}
 		//회원
 		else {
-			Long pk = cartDao.get(cartVo, "member");
-			result = pk == null?cartDao.insert(cartVo, "member"):false;
+			Integer count = cartDao.get(cartVo, "member");
+			result = count == null?cartDao.insert(cartVo, "member"):false;
 			
 			if(!result) {
 				map.put("member_code",cartVo.getMember_code());
 				map.put("inventory_no",cartVo.getInventory_no());
+				map.put("count", count);
 			}
 		}
 		

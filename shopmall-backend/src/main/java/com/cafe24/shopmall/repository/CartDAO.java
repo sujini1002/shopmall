@@ -30,11 +30,11 @@ public class CartDAO {
 		return result == 1;
 	}
 
-	public Long get(CartVo cartVo, String status) {
+	public Integer get(CartVo cartVo, String status) {
 		Map<String,Object> params = new HashMap<String, Object>();
 		params.put("cartVo", cartVo);
 		params.put("status", status);
-		return sqlSession.selectOne("cart.getInventoryNo", params);
+		return sqlSession.selectOne("cart.getCountNo", params);
 	}
 
 	public Boolean insert(CartVo cartVo, String string) {

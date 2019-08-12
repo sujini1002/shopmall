@@ -19,17 +19,17 @@
 	]]>
 	</select>
 	
-	<select id="getInventoryNo" parameterType="map" resultType="Long">
+	<select id="getCountNo" parameterType="map" resultType="Integer">
 	<if test="status eq 'none'.toString()">
 		<![CDATA[
-			select inventory_no
+			select count
 			from none_cart
 			where session_id = #{cartVo.session_id} and inventory_no = #{cartVo.inventory_no}
 		]]>
 	</if>
 	<if test="status eq 'member'.toString()">
 		<![CDATA[
-			select inventory_no
+			select count
 			from cart
 			where member_code = #{cartVo.member_code} and inventory_no = #{cartVo.inventory_no}
 		]]>
@@ -70,12 +70,12 @@
 	<update id="update" parameterType="map">
 		<if test="status eq 'none'.toString()">
 			<![CDATA[
-				update none_cart set count = count + #{cartVo.count} where session_id = #{cartVo.session_id} and inventory_no = #{cartVo.inventory_no}
+				update none_cart set count = #{cartVo.count} where session_id = #{cartVo.session_id} and inventory_no = #{cartVo.inventory_no}
 			]]>
 		</if>
 		<if test="status eq 'member'.toString()">
 			<![CDATA[
-				update cart set count = count + #{cartVo.count} where member_code = #{cartVo.member_code} and inventory_no = #{cartVo.inventory_no}
+				update cart set count = #{cartVo.count} where member_code = #{cartVo.member_code} and inventory_no = #{cartVo.inventory_no}
 			]]>
 		</if>
 	</update>

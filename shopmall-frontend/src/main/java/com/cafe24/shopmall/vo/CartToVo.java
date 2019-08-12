@@ -1,31 +1,19 @@
 package com.cafe24.shopmall.vo;
 
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 
-import com.cafe24.shopmall.validator.constraints.ValidCheckInventoryNO;
-import com.cafe24.shopmall.validator.constraints.ValidCheckMemberNo;
-
-
-//import com.cafe24.shopmall.validator.constraints.ValidCheckInventroyNo;
-
-public class CartVo {
+public class CartToVo {
 	
-	@ValidCheckMemberNo
 	private Long member_code;
 	
-	@ValidCheckInventoryNO
 	private Long inventory_no;
 	
 	private String session_id;
 	
-	@NotNull
-	@Min(1)
 	private Integer count;
 	
-	public CartVo() {}
+	public CartToVo() {}
 	
-	public CartVo(Long member_code, Long inventory_no, String session_id, Integer count) {
+	public CartToVo(Long member_code, Long inventory_no, String session_id, Integer count) {
 		this.member_code = member_code;
 		this.inventory_no = inventory_no;
 		this.session_id = session_id;
