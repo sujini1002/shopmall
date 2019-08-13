@@ -131,7 +131,7 @@
 				   o.pay_way as pay_way, 
 				   o.status  as status,
 				   (
-				   		select distinct(concat(p.title,'외',(select count(*) from orders_product where order_no = o.no),'건'))
+				   		select distinct(concat(p.title,'외',(select count(*)-1 from orders_product where order_no = o.no),'건'))
 						from product_inventory piv join product p
 						on piv.prd_no = p.no
 						where piv.no = (

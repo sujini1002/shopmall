@@ -176,13 +176,13 @@
 								<div class="col-lg-6 ">
 									<div class="row option-count">
 										<div class="col-lg-3">
-											<button id="countMius" class="btn">-</button>
+											<button id="countMius" class="btn" type="button">-</button>
 										</div>
 										<div class="col-lg-6">
 											<input type="text" name="count" value="1" class="form-control" id="inputCount" readonly/>
 										</div>
 										<div class="col-lg-3">
-											<button id="countPlus" class="btn">+</button>
+											<button id="countPlus" class="btn" type="button">+</button>
 										</div>
 									</div>
 								</div>

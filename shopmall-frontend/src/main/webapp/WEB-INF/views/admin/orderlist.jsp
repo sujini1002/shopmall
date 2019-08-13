@@ -49,7 +49,16 @@
 						  			<tr>
 						  				<td scope="col" class="o-index">${i.index + 1 }</td>
 						  				<td class="o-code">${vo.order_code }</td>
-						  				<td class="o-title">${vo.order_title }</td>
+						  				<td class="o-title">
+						  					<c:choose>
+						  						<c:when test="${fn:substring(vo.order_title,fn:length(vo.order_title)-2,fn:length(vo.order_title)) eq '0건' }">
+						  							${fn:substring(vo.order_title,0,fn:length(vo.order_title)-3) }
+						  						</c:when>
+						  						<c:otherwise>
+						  							${vo.order_title }
+						  						</c:otherwise>
+						  					</c:choose>
+						  				</td>
 						  				<td class="o-id">${vo.id }</td>
 						  				<td class="o-date">${vo.order_date }</td>
 						  				<td class="o-status">${vo.status }</td>
