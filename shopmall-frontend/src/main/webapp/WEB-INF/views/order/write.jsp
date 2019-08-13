@@ -39,7 +39,11 @@
 			});
 			
 			$('input[name="pay_way"]').on('change',function(){
-				
+				if($('#deposit').is(":checked")){
+					$('#deposit-content').css("display","block");
+				}else{
+					$('#deposit-content').css("display","none");
+				}
 			});
 		});
 	</script>
@@ -226,13 +230,13 @@
 								</div>
 								<div class="col-lg-9">
 									<label class="radio-inline">
-								      <input type="radio" name="pay_way"  value="신용카드" checked>신용카드
+								      <input type="radio" name="pay_way"  value="신용카드" id="credit"checked>신용카드
 								    </label>
 								    &nbsp;	
 								    <label class="radio-inline">
-								      <input type="radio" name="pay_way" value="무통장입금">무통장입금
+								      <input type="radio" name="pay_way" value="무통장입금" id="deposit">무통장입금
 								    </label>
-								    <div class="deposit-content">
+								    <div class="deposit-content" id="deposit-content">
 									    <div class="row">
 									    	<div class="col-lg-3 order-statement-field">
 									    		<h5>입금은행</h5>

@@ -62,6 +62,10 @@ public class OrderVo {
 	@NotNull
 	private Integer deliver_price;
 	
+	private String bank;
+	private String deposit_name;
+	private String refund_account;
+	
 	
 	public List<Long> getInventory_no() {
 		return inventory_no;
@@ -171,7 +175,24 @@ public class OrderVo {
 	public void setDeliver_price(Integer deliver_price) {
 		this.deliver_price = deliver_price;
 	}
-	
+	public String getBank() {
+		return bank;
+	}
+	public void setBank(String bank) {
+		this.bank = bank;
+	}
+	public String getDeposit_name() {
+		return deposit_name;
+	}
+	public void setDeposit_name(String deposit_name) {
+		this.deposit_name = deposit_name;
+	}
+	public String getRefund_account() {
+		return refund_account;
+	}
+	public void setRefund_account(String refund_account) {
+		this.refund_account = refund_account;
+	}
 	@Override
 	public String toString() {
 		return "OrderVo [inventory_no=" + inventory_no + ", count=" + count + ", price=" + price + ", payment="
@@ -179,7 +200,8 @@ public class OrderVo {
 				+ base_deliver + ", detail_deliver=" + detail_deliver + ", phone=" + phone + ", email=" + email
 				+ ", rev_name=" + rev_name + ", rev_postid=" + rev_postid + ", rev_base_deliver=" + rev_base_deliver
 				+ ", rev_detail_deliver=" + rev_detail_deliver + ", rev_phone=" + rev_phone + ", pay_way=" + pay_way
-				+ ", deliver_price=" + deliver_price + "]";
+				+ ", deliver_price=" + deliver_price + ", bank=" + bank + ", deposit_name=" + deposit_name
+				+ ", refund_account=" + refund_account + "]";
 	}
 	
 }

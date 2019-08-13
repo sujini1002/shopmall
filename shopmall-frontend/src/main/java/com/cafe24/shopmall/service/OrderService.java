@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.cafe24.shopmall.provider.CartProvider;
 import com.cafe24.shopmall.provider.OrderProvider;
+import com.cafe24.shopmall.vo.DepositVo;
 import com.cafe24.shopmall.vo.OrderProductVo;
 import com.cafe24.shopmall.vo.OrderToVo;
 import com.cafe24.shopmall.vo.OrderVo;
@@ -54,6 +55,7 @@ public class OrderService {
 			orderToVo.setStatus("입금전");
 			
 			//무통장 입금
+			orderToVo.setDepositVo(new DepositVo(null, orderVo.getBank(), orderVo.getDeposit_name(), orderVo.getRefund_account()));
 		}
 		
 		//주문 상품
