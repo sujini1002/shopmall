@@ -1,0 +1,55 @@
+body {
+  padding-top: 56px;
+}
+
+.list-content{
+	margin-top: 20px;
+}
+
+.list-content h2{
+	margin-bottom: 20px;
+}
+.table .thead-dark th {
+    color: #343a40;
+    background-color: #F8B195;
+}
+
+tr{
+	overflow: scroll;
+}
+
+th, td{
+	text-align : center;
+	width : 100px;
+}
+th{
+	font-size: 13px;
+	font-weight: bold;
+}
+
+td{
+	font-size: 13px;
+}
+
+.o-index{
+	width: 20px;
+}
+.o-code{
+	font-size :13px;
+	width : 180px;
+}
+.o-title{
+	font-size :13px;
+	width: 200px;
+}
+.o-date{
+	font-size :12px;
+	width: 130px;
+}
+.o-status{
+	font-size: 13px;
+}
+.o-payway{
+	font-size: 13px;
+	width: 120px;
+}

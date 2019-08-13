@@ -18,5 +18,6 @@
 	       <a href="${pageContext.servletContext.contextPath }/admin/product" class="list-group-item list-group-item-action bg-light">상품 등록</a>
 		   <a href="${pageContext.servletContext.contextPath }/admin/product/list" class="list-group-item list-group-item-action bg-light">상품 조회</a>
 		   <a href="${pageContext.servletContext.contextPath }/admin/member" class="list-group-item list-group-item-action bg-light">회원 관리</a>
+		   <a href="${pageContext.servletContext.contextPath }/admin/order" class="list-group-item list-group-item-action bg-light">주문 관리</a>
       </div>
     </div>

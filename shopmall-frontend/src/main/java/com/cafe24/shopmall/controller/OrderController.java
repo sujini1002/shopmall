@@ -38,9 +38,10 @@ public class OrderController {
 		return "order/write";
 	}
 	
+	//주문완료
 	@PostMapping(value="")
 	public String orderAdd(@ModelAttribute OrderVo orderVo) {
 		orderService.insert(orderVo);
-		return "order/list";
+		return "redirect:/";
 	}
 }

@@ -94,10 +94,10 @@
 				   o.pay_way as pay_way, 
 				   o.status  as status,
 				   (
-				   		select distinct(concat(p.title,'외',(select count(*) from orders_product where order_no = o.no),'건'))
+				   		select distinct(concat(p.title,' 외 ',(select count(*) from orders_product where order_no = o.no),'건'))
 						from product_inventory piv join product p
 						on piv.prd_no = p.no
-						where piv.prd_no = (
+						where piv.no = (
 												select prd_no 
 												from orders_product 
 												where order_no = o.no 
@@ -119,6 +119,33 @@
 			]]>
 		</if>
 		<![CDATA[
+			order by o.order_date desc
+		]]>
+	</select>
+	
+	<select id="getAllList" resultType="map">
+		<![CDATA[
+			select o.no as order_no,
+				   o.order_code as order_code,
+				   o.payment as payment,
+				   o.pay_way as pay_way, 
+				   o.status  as status,
+				   (
+				   		select distinct(concat(p.title,'외',(select count(*) from orders_product where order_no = o.no),'건'))
+						from product_inventory piv join product p
+						on piv.prd_no = p.no
+						where piv.no = (
+												select prd_no 
+												from orders_product 
+												where order_no = o.no 
+												order by prd_no asc 
+												limit 1 offset 0 
+				                            )
+				   )as order_title,
+				   m.id as id,
+				   to_char(o.order_date,'YYYY-MM-dd HH:ss') as order_date
+			from orders o join member m
+			on o.member_code = m.code
 			order by o.order_date desc
 		]]>
 	</select>
