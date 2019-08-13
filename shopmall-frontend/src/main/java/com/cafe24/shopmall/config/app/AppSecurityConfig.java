@@ -39,7 +39,8 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
         http
         	.authorizeRequests()
         		// 인증이 되었을 경우
-        		.antMatchers("/cart**").authenticated()
+        		.antMatchers("/cart/**").authenticated()
+        		.antMatchers("/order/**").authenticated()
         		.antMatchers("/member/logout").authenticated()
         		// ADMIN 권한
         		.antMatchers("/admin", "/admin/**").hasRole("ADMIN")

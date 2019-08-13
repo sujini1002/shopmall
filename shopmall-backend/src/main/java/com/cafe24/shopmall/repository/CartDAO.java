@@ -93,4 +93,13 @@ public class CartDAO {
 		
 		return 1 <= sqlSession.delete("cart.deleteCartList",params);
 	}
+	
+	public Integer deleteCartList(Long no, String string) {
+		Map<String,Object> params = new HashMap<String, Object>();
+		params.put("status", string);
+		params.put("member_code", no);
+		
+		
+		return sqlSession.delete("cart.deleteCartList",params);
+	}
 }

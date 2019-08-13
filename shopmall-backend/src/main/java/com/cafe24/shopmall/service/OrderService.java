@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cafe24.shopmall.repository.CartDAO;
 import com.cafe24.shopmall.repository.OrderDAO;
 import com.cafe24.shopmall.vo.OrderProductVo;
 import com.cafe24.shopmall.vo.OrderVo;
@@ -16,6 +17,9 @@ public class OrderService {
 
 	@Autowired
 	private OrderDAO orderDao;
+	
+	@Autowired
+	private CartDAO cartDao;
 
 	/**
 	 * @param orderVo 
@@ -39,7 +43,7 @@ public class OrderService {
 			for (OrderProductVo odVo : orderVo.getOrderProductList()) {
 				if(Long.parseLong(piVo.get("no").toString())== odVo.getPrd_no().longValue()) {
 					
-					if(Integer.parseInt(piVo.get("inventory").toString())==-1) {
+					if(Integer.parseInt(piVo.get("inventory").toString())<=-1) {
 						odVo.setPrice(Integer.parseInt(piVo.get("price").toString())*odVo.getCount());
 						continue;
 					}
@@ -58,21 +62,21 @@ public class OrderService {
 		}
 		
 		//1.1 orderVo에 있는 가격과 같은지 비교
-		Integer totalPrice = 0;
-		for(OrderProductVo vo : orderVo.getOrderProductList()) {
-			totalPrice += vo.getPrice();
-		}
-		
-		if(totalPrice.intValue() != orderVo.getPayment().intValue()) {
-			return false;
-		}
+//		Integer totalPrice = 0;
+//		for(OrderProductVo vo : orderVo.getOrderProductList()) {
+//			totalPrice += vo.getPrice();
+//		}
+//		
+//		if(totalPrice.intValue() != orderVo.getPayment().intValue()) {
+//			return false;
+//		}
 		
 		//1.2 orders에 insert
 		Long order_no = orderDao.insertOrder(orderVo);
 		
 		//1.3 order_product에 insert 
 		Integer resultOrderProduct = orderDao.insertOrderProduct(orderVo.getOrderProductList(),order_no);
-		
+		System.out.println(resultOrderProduct + " : " + orderVo.getOrderProductList().size());
 		if(resultOrderProduct!=orderVo.getOrderProductList().size())return false;
 		
 		//1.4 무통장입금일 경우 deposit에 insert
@@ -84,8 +88,11 @@ public class OrderService {
 		
 		//1.5 재고 업데이트 
 		Boolean resultInventory = orderDao.updateInventory(orderVo.getOrderProductList());
-		
 		if(!resultInventory)return false;
+		
+		//1.6 장바구니 삭제
+		cartDao.deleteCartList(orderVo.getMember_code(), "member");
+		
 		
 		return true;
 	}

@@ -1,0 +1,125 @@
+/*!
+ * Start Bootstrap - Shop Homepage (https://startbootstrap.com/template-overviews/shop-homepage)
+ * Copyright 2013-2019 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-shop-homepage/blob/master/LICENSE)
+ */
+body {
+  padding-top: 56px;
+}
+.order-content{
+	margin-top: 20px;
+}
+.order-wrapper{
+	margin-bottom: 100px;
+}
+.order-hr{
+	color : black;
+}
+
+.order-img img{
+	display : block;
+	margin : auto;
+	height: 80px;
+	width: 50px;
+}
+.order-title{
+	font-size: 15px;
+	font-weight: bold;
+}
+.order-value{
+	font-size: 13px;
+}
+
+tbody tr td,
+tbody tr th {
+	text-align: center;
+}
+
+td h3{
+	text-align : right;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+thead tr th{
+	text-align: center;
+}
+
+table{
+	margin-top: 20px;
+}
+.order-input .row{
+	margin-top: 20px;
+}
+
+.order-input .row .col-lg-12,
+.order-input .row .col-lg-3,
+.order-input .row .col-lg-9{
+}
+
+.order-statement-field h5{
+	font-size : 15px;
+	text-align: right;
+}
+.order-statement-title{
+	font-size: 20px;
+	font-weight: bold;
+}
+.order-deliver div{
+	margin-top: 10px;
+}
+
+.postid{
+	width: 100px;
+	display: inline;
+}
+
+.base_deliver,
+.detail_deliver{
+	width: 400px;
+}
+
+.order-submit{
+	margin: auto;
+}
+
+.order-submit-btn{
+	display: block;
+	margin: 40px auto;
+	width: 100%;
+}
+.order-payment{
+	margin-top: 50px;
+}
+
+.deposit-content{
+	display : none;
+	border : 1px dashed #ced4da;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.deposit-content div div input[type='text']{
+	width: 200px;
+}
+
+.deposit-content div .col-lg-3 h5{
+	line-height: 40px;
+}
+
+.deposit-content div .col-lg-9,
+.deposit-content div .col-lg-3
+{
+	margin-top: 10px;
+}
+
+.total-price{
+	line-height: 40px;
+}
+
+.deliver-price{
+	margin: 20px 0px;
+}
+.deliver-price-title{
+	line-height: 60px;
+}

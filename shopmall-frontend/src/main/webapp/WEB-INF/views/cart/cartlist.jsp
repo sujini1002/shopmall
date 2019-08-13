@@ -50,6 +50,7 @@
 								    </tr>
 							  </thead>
 							  <tbody>
+							  		<c:set var="total" value="0"/>
 							  		<c:forEach items="${cartList }" var="vo" varStatus="i">
 							  			<tr>
 								  			<th scope="row">${i.index+1 }</th>
@@ -68,12 +69,18 @@
 								  			</td>
 								  			<td>
 								  					${vo.price * vo.count }
+								  					<c:set var="total" value="${total + vo.price * vo.count }"/>
 								  			</td>
 							  			</tr>
 							  		</c:forEach>
-							  		
+							  			<tr>
+							  				<td colspan="6">
+							  					<h3>총 주문 금액  : ${total } 원</h3>
+							  				</td>
+							  			</tr>
 							  </tbody>
 						 </table>
+						 
 					</div>
 					<hr class="cart-hr"/>
 					<div class="col-lg-12">
@@ -81,7 +88,7 @@
 							<div class="col-lg-4"></div>
 							<div class="col-lg-4"></div>
 							<div class="col-lg-4 div-order-btn">
-								<button class="btn btn-info">주문하기</button>
+								<input type="button" class="btn cart-btn" value="주문하기" onclick="location.href='${pageContext.servletContext.contextPath }/order/write'">
 							</div>
 						</div>
 					</div>

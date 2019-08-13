@@ -122,7 +122,7 @@
 		</if>
 	</delete>
 	
-	<delete id="deleteCartList">
+	<delete id="deleteCartList" parameterType="map">
 		<if test="status eq 'none'.toString()">
 			<![CDATA[
 				delete from none_cart where session_id = #{session_id} 
@@ -130,7 +130,7 @@
 		</if>
 		<if test="status eq 'member'.toString()">
 			<![CDATA[
-				delete from cart where member_code = #{cartVo.member_code}
+				delete from cart where member_code = #{member_code}
 			]]>
 		</if>
 	</delete>

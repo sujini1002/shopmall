@@ -14,7 +14,6 @@
 		<typeAlias alias="cartvo" type="com.cafe24.shopmall.vo.CartVo"/>
 		<typeAlias alias="ordervo" type="com.cafe24.shopmall.vo.OrderVo"/>
 		<typeAlias alias="orderproductvo" type="com.cafe24.shopmall.vo.OrderProductVo"/>
-		<typeAlias alias="orderpayvo" type="com.cafe24.shopmall.vo.OrderPayVo"/>
 		<typeAlias alias="depositvo" type="com.cafe24.shopmall.vo.DepositVo"/>
 		
 	</typeAliases>

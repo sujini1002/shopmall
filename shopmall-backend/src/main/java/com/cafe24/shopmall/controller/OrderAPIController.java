@@ -70,7 +70,7 @@ public class OrderAPIController {
 		Boolean result = orderService.add(orderVo);
 		
 		if(result==false) {
-			return new ResponseEntity<JSONResult>(JSONResult.fail("재고가 없습니다.", null),HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<JSONResult>(JSONResult.fail("재고가 없습니다.", null),HttpStatus.OK);
 		}
 		
 		return new ResponseEntity<JSONResult>(JSONResult.success(result), HttpStatus.OK);
