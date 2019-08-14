@@ -30,7 +30,7 @@ public class ProductAPIController {
 	// 상품 상세 보기 
 	@ApiOperation(value = "상품 상세보기", notes = "상품 상세보기 API")
 	@GetMapping(value = "/view/{no}")
-	public ResponseEntity<JSONResult> getProduct(@PathVariable(value="no")Long no) {
+	public ResponseEntity<JSONResult> getProduct(@PathVariable(value="no")Long no){
 		ProductVo productVo = productService.getProduct(no);
 		return new ResponseEntity<JSONResult>(JSONResult.success(productVo),HttpStatus.OK);
 	}

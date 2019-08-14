@@ -16,6 +16,7 @@ public class ProductController {
 	@Autowired
 	private ProductService productService;
 	
+	
 	//상품 상세보기
 	@GetMapping("/{no}")
 	public String getProduct(@PathVariable(value="no")Long no,Model model) {

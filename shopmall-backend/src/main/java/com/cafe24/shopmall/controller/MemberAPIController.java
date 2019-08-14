@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -44,7 +45,7 @@ public class MemberAPIController {
 		@ApiImplicitParam(name="id",value="입력한 아이디",required=true,dataType="query",defaultValue="")
 	})
 	@GetMapping(value="/checkid/{id}")
-	public ResponseEntity<JSONResult> usercheckId(@PathVariable(value="id") String id) {
+	public ResponseEntity<JSONResult> usercheckId(@PathVariable(value="id") String id,@RequestHeader(value="X-B3-TraceId")String traceId) {
 		
 		if(id == null || "".equals(id)) {
 			return new ResponseEntity<JSONResult>(JSONResult.fail("id가 없습니다.",null),HttpStatus.OK);
